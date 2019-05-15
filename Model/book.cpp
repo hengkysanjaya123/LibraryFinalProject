@@ -9,14 +9,16 @@ Book::Book()
 
 }
 
+int Book::counter;
+
 Book::Book(string name, string author, int stock)
 {
-//    counter++;
+    counter++;
     this->name = name;
     this->author = author;
     this->stock = stock;
     this->rating = 0;
-//    this->id = counter;
+    this->id = counter;
 }
 
 void Book::setName(string name)

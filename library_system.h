@@ -39,13 +39,16 @@ public:
     void addBook(Book b);
     void removeBook(int position);
     void updateBook(int position,Book b);
-    void searchBook();
+    bool searchBook();
     int searchBook(int id);
     void displayBooks();
 
     // -- Category operations --
     void addCategory(Category c);
     void removeCategory(int position);
+    void updateCategory(int position, Category c);
+    bool searchCategory();
+    int searchCategory(int id);
     void displayCategories();
 
     // -- Transaction operations --

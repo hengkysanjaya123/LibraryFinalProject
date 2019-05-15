@@ -16,8 +16,12 @@ public:
     void setName(string name);
     string getName();
 
+    int getId();
+
 private:
+    int id;
     string name;
+    static int counter;
 };
 
 #endif //FINAL_PROJECT_CATEGORY_H

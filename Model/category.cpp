@@ -8,9 +8,13 @@ Category::Category()
 {
 }
 
+int Category::counter;
+
 Category::Category(string name)
 {
+    counter++;
     this->name = name;
+    this->id = counter;
 }
 
 void Category::setName(string name)
@@ -23,6 +27,9 @@ string Category::getName()
     return this->name;
 }
 
+int Category::getId(){
+    return this->id;
+}
 
 
 

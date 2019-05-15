@@ -4,51 +4,56 @@
 
 #include "library_system_ui.h"
 
-void LibrarySystemUI::run(){
+void LibrarySystemUI::run() {
     ls.addUser(User("test", "test", "test", "A"));
 
     int option;
 
-    cout << "Welcome to Library System" << endl
-         << "1. Login" << endl
-         << "2. Register" << endl
-         << "3. Exit" << endl;
+    while (true) {
+        cout << "Welcome to Library System" << endl
+             << "1. Login" << endl
+             << "2. Register" << endl
+             << "3. Exit" << endl;
 
-    cin >> option;
-    // login
-    if(option == 1){
-        string username, password;
-        cout << "username >>";
-        cin >> username;
-        cout << "password >>";
-        cin >> password;
+        cin >> option;
+        // login
+        if (option == 1) {
+            string username, password;
+            cout << "username >>";
+            cin >> username;
+            cout << "password >>";
+            cin >> password;
 
-        User u;
-        bool login = ls.doLogin(username, password, u);
-        if(login){
-            if(u.getRole() == "A"){
-                adminPage(u);
-            }
-            else if(u.getRole() == "L"){
+            User u;
+            bool login = ls.doLogin(username, password, u);
+            if (login) {
+                if (u.getRole() == "A") {
+                    adminPage(u);
+                } else if (u.getRole() == "L") {
 
+                }
+            } else {
+                cout << "Username and password incorrect" << endl;
             }
         }
-        else{
-            cout << "Username and password incorrect" << endl;
-        }
-    }
-        // exit
-    else if(option == 2){
+            // register
+        else if (option == 2) {
 
-    }
-    else{
-        cout << "Wrong Input" << endl;
+        }
+            // exit
+        else if (option == 3) {
+            break;
+        } else {
+            cout << "Wrong Input" << endl;
+        }
+        cout << endl;
     }
 }
-void LibrarySystemUI::adminPage(User currentUser){
+
+void LibrarySystemUI::adminPage(User currentUser) {
     int option;
-    while(true){
-        cout << "Welcome " << currentUser.getName() <<" (admin)" << endl
+    while (true) {
+        cout << "Welcome " << currentUser.getName() << " (admin)" << endl
              << "1. Master Data" << endl
              << "2. View Transaction" << endl
              << "3. View Borrowed Books" << endl
@@ -57,7 +62,7 @@ void LibrarySystemUI::adminPage(User currentUser){
 
         cin >> option;
         // master data
-        if(option == 1){
+        if (option == 1) {
             int suboption_master_data;
             cout << "1. Book" << endl
                  << "2. Category" << endl
@@ -66,8 +71,8 @@ void LibrarySystemUI::adminPage(User currentUser){
             cin >> suboption_master_data;
 
             // book
-            if(suboption_master_data == 1){
-                while(true){
+            if (suboption_master_data == 1) {
+                while (true) {
                     int suboption_book;
                     cout << "Book CRUD" << endl
                          << "1. Insert" << endl
@@ -79,72 +84,209 @@ void LibrarySystemUI::adminPage(User currentUser){
 
                     cin >> suboption_book;
                     // insert book
-                    if(suboption_book == 1){
+                    if (suboption_book == 1) {
                         cout << "-- Insert book --" << endl;
                         string b_name, b_author;
                         int b_stock;
 
                         cout << "book's name >>";
-                        cin.ignore();
-                        getline(cin, b_name);
+                        cin >> b_name;
 
                         cout << "book's author >>";
-                        cin.ignore();
-                        getline(cin, b_author);
+                        cin >> b_author;
 
                         cout << "book's stock >>";
                         cin >> b_stock;
 
+
+                        cout << b_author << endl;
                         ls.addBook(Book(b_name, b_author, b_stock));
 
                         cout << "~ Book added successfully ~" << endl;
                     }
                         // update book
-                    else if(suboption_book == 2){
+                    else if (suboption_book == 2) {
                         cout << "-- Update book --" << endl;
-                        ls.searchBook();
+                        bool re = ls.searchBook();
+
+                        if (re == false) {
+                            cout << "There is no data found" << endl;
+                            continue;
+                        }
 
                         cout << "Please input book's Id >>";
                         int bookId;
                         cin >> bookId;
 
                         int pos = ls.searchBook(bookId);
-                        if(pos != -1){
-//                            ls.updateBook()
-                        }else{
-                            cout << "Book not found";
+                        if (pos != -1) {
+
+                            string b_name, b_author;
+                            int b_stock;
+
+                            cout << "book's name >>";
+                            cin >> b_name;
+
+                            cout << "book's author >>";
+                            cin >> b_author;
+
+                            cout << "book's stock >>";
+                            cin >> b_stock;
+
+                            ls.updateBook(pos, Book(b_name, b_author, b_stock));
+
+                            cout << "~ Data updated successfully ~" << endl;
+                        } else {
+                            cout << "~ Book not found ~";
+                        }
+                    }
+                        // delete book
+                    else if (suboption_book == 3) {
+                        cout << "-- Delete book --" << endl;
+                        bool re = ls.searchBook();
+
+                        if (re == false) {
+                            cout << "There is no data found" << endl;
+                            continue;
+                        }
+
+                        cout << "Please input book's Id >>";
+                        int bookId;
+                        cin >> bookId;
+
+                        int pos = ls.searchBook(bookId);
+
+                        if (pos != -1) {
+                            ls.removeBook(pos);
+
+                            cout << "~ Data deleted successfully ~" << endl;
+                        } else {
+                            cout << "~ Book not found ~";
                         }
 
                     }
-                        // delete book
-                    else if(suboption_book == 3){
-
-                    }
                         // search book
-                    else if(suboption_book == 4){
+                    else if (suboption_book == 4) {
                         cout << "-- Search books --" << endl;
-                        ls.searchBook();
+                        bool re = ls.searchBook();
+                        if (re == false) {
+                            cout << "There is no data found" << endl;
+                        }
                     }
                         // view all book
-                    else if(suboption_book == 5){
+                    else if (suboption_book == 5) {
                         cout << "-- View all books --" << endl;
                         ls.displayBooks();
                     }
                         // back to menu
-                    else if(suboption_book == 6){
+                    else if (suboption_book == 6) {
                         break;
-                    }
-                    else{
+                    } else {
                         cout << "Wrong Input" << endl;
                     }
                 }
             }
                 // category
-            else if(suboption_master_data == 2){
+            else if (suboption_master_data == 2) {
+                while (true) {
+                    int suboption_category;
+                    cout << "Category CRUD" << endl
+                         << "1. Insert" << endl
+                         << "2. Update" << endl
+                         << "3. Delete" << endl
+                         << "4. Search" << endl
+                         << "5. View all" << endl
+                         << "6. Back to menu" << endl;
 
+                    cin >> suboption_category;
+                    // insert category
+                    if (suboption_category == 1) {
+                        cout << "-- Insert category --" << endl;
+
+                        string c_name;
+                        cout << "category's name >>";
+                        cin >> c_name;
+
+                        ls.addCategory(Category(c_name));
+
+                        cout << "~ Category added successfully ~" << endl;
+                    }
+                        // update category
+                    else if (suboption_category == 2) {
+                        cout << "-- Update category --" << endl;
+                        bool re = ls.searchCategory();
+
+                        if (re == false) {
+                            cout << "There is no data found" << endl;
+                            continue;
+                        }
+
+                        cout << "Please input category's Id >>";
+                        int categoryId;
+                        cin >> categoryId;
+
+                        int pos = ls.searchCategory(categoryId);
+                        if (pos != -1) {
+                            string c_name;
+
+                            cout << "category's name >>";
+                            cin >> c_name;
+
+                            ls.updateCategory(pos, Category(c_name));
+
+                            cout << "~ Data updated successfully ~" << endl;
+                        } else {
+                            cout << "~ Category not found ~";
+                        }
+                    }
+                        // delete category
+                    else if (suboption_category == 3) {
+                        cout << "-- Delete category --" << endl;
+                        bool re = ls.searchCategory();
+
+                        if (re == false) {
+                            cout << "There is no data found" << endl;
+                            continue;
+                        }
+
+                        cout << "Please input category's Id >>";
+                        int categoryId;
+                        cin >> categoryId;
+
+                        int pos = ls.searchCategory(categoryId);
+
+                        if (pos != -1) {
+                            ls.removeCategory(pos);
+
+                            cout << "~ Data deleted successfully ~" << endl;
+                        } else {
+                            cout << "~ Category not found ~";
+                        }
+
+                    }
+                        // search category
+                    else if (suboption_category == 4) {
+                        cout << "-- Search categories --" << endl;
+                        bool re = ls.searchCategory();
+                        if (re == false) {
+                            cout << "There is no data found" << endl;
+                        }
+                    }
+                        // view all categories
+                    else if (suboption_category == 5) {
+                        cout << "-- View all categories --" << endl;
+                        ls.displayCategories();
+                    }
+                        // back to menu
+                    else if (suboption_category == 6) {
+                        break;
+                    } else {
+                        cout << "Wrong Input" << endl;
+                    }
+                }
             }
                 // user
-            else if(suboption_master_data == 3){
+            else if (suboption_master_data == 3) {
                 int suboption_user;
                 cout << "User CRUD" << endl
                      << "1. Insert" << endl
@@ -155,8 +297,8 @@ void LibrarySystemUI::adminPage(User currentUser){
 
                 cin >> option;
                 // insert user
-                if(suboption_user == 1){
-                    string name ,username, password, confirm_password, role;
+                if (suboption_user == 1) {
+                    string name, username, password, confirm_password, role;
 
                     cout << "-- Add New User --" << endl;
 
@@ -184,38 +326,38 @@ void LibrarySystemUI::adminPage(User currentUser){
                     ls.addUser(User(name, username, password, role));
                 }
                     // update user
-                else if(suboption_user == 2){
+                else if (suboption_user == 2) {
 
                 }
                     // delete user
-                else if(suboption_user == 3){
+                else if (suboption_user == 3) {
 
                 }
                     // search user
-                else if(suboption_user == 4){
+                else if (suboption_user == 4) {
 
                 }
                     // view all users
-                else if(suboption_user == 5){
+                else if (suboption_user == 5) {
 
                 }
             }
                 // logout
-            else if(suboption_master_data == 4){
+            else if (suboption_master_data == 4) {
                 break;
             }
                 // wrong input
-            else{
+            else {
                 cout << "Wrong Input" << endl;
             }
             cout << endl;
         }
             // view transaction
-        else if(option == 2){
+        else if (option == 2) {
 
         }
             // view borrowed books
-        else if(option == 3){
+        else if (option == 3) {
 
         }
     }

@@ -34,6 +34,6 @@ private:
     string author;
     int stock;
     float rating;
-//    static int counter;
+    static int counter;
 };
 #endif //FINAL_PROJECT_BOOK_H
