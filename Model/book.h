@@ -6,13 +6,17 @@
 #define FINAL_PROJECT_BOOK_H
 #include <string>
 
+#include "category.h"
+
 using namespace std;
 
 class Book
 {
 public:
     Book();
-    Book(string name, string author, int stock);
+    Book(string name, string author, int stock, Category c);
+
+    int getId();
 
     void setName(string name);
     string getName();
@@ -26,7 +30,8 @@ public:
     void setRating(float rating);
     float getRating();
 
-    int getId();
+    void setCategory(Category c);
+    Category getCategory();
 
 private:
     int id;
@@ -34,6 +39,7 @@ private:
     string author;
     int stock;
     float rating;
+    Category category;
     static int counter;
 };
 #endif //FINAL_PROJECT_BOOK_H

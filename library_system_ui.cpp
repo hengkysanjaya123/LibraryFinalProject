@@ -4,6 +4,19 @@
 
 #include "library_system_ui.h"
 
+int LibrarySystemUI::addCategoryUI() {
+    cout << "-- Insert category --" << endl;
+
+    string c_name;
+    cout << "category's name >>";
+    cin >> c_name;
+
+    int index = ls.addCategory(Category(c_name));
+
+    cout << "~ Category added successfully ~" << endl;
+    return index;
+}
+
 void LibrarySystemUI::run() {
     ls.addUser(User("test", "test", "test", "A"));
 
@@ -86,7 +99,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                     // insert book
                     if (suboption_book == 1) {
                         cout << "-- Insert book --" << endl;
-                        string b_name, b_author;
+                        string b_name, b_author, category_option;
                         int b_stock;
 
                         cout << "book's name >>";
@@ -98,9 +111,46 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         cout << "book's stock >>";
                         cin >> b_stock;
 
+                        int pos;
+                        while(true){
+                            cout << "Browse category or insert new [B,I]?" << endl;
+                            cin >> category_option;
 
-                        cout << b_author << endl;
-                        ls.addBook(Book(b_name, b_author, b_stock));
+
+                            if(category_option == "b" || category_option == "B"){
+                                bool re = ls.searchCategory();
+
+                                if (re == false) {
+                                    cout << "There is no data found in category list" << endl;
+                                }
+                                else{
+                                    cout << "Please input category's Id >>";
+                                    int categoryId;
+                                    cin >> categoryId;
+
+                                    pos = ls.searchCategory(categoryId);
+
+                                    if (pos != -1) {
+                                        break;
+                                    }
+                                    else{
+                                        cout << "CategoryId not found" << endl;
+                                    }
+                                }
+                            }
+                            else if(category_option == "i" || category_option == "I"){
+                                pos = addCategoryUI();
+                                break;
+                            }
+                        }
+
+                        cout << "position" << pos << endl;
+                        Category c = ls.getCategory(pos);
+                        cout << "category name" << c.getName() << endl;
+
+                        Book b = Book(b_name, b_author, b_stock, c);
+                        cout << "category name2 " << b.getCategory().getName() << endl;
+                        ls.addBook(b);
 
                         cout << "~ Book added successfully ~" << endl;
                     }
@@ -121,7 +171,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         int pos = ls.searchBook(bookId);
                         if (pos != -1) {
 
-                            string b_name, b_author;
+                            string b_name, b_author, category_option;
                             int b_stock;
 
                             cout << "book's name >>";
@@ -133,7 +183,41 @@ void LibrarySystemUI::adminPage(User currentUser) {
                             cout << "book's stock >>";
                             cin >> b_stock;
 
-                            ls.updateBook(pos, Book(b_name, b_author, b_stock));
+                            int pos;
+                            while(true){
+                                cout << "Browse category or insert new [B,I]?" << endl;
+                                cin >> category_option;
+
+
+                                if(category_option == "b" || category_option == "B"){
+                                    bool re = ls.searchCategory();
+
+                                    if (re == false) {
+                                        cout << "There is no data found in category list" << endl;
+                                    }
+                                    else{
+                                        cout << "Please input category's Id >>";
+                                        int categoryId;
+                                        cin >> categoryId;
+
+                                        pos = ls.searchCategory(categoryId);
+
+                                        if (pos != -1) {
+                                            break;
+                                        }
+                                        else{
+                                            cout << "CategoryId not found" << endl;
+                                        }
+                                    }
+                                }
+                                else if(category_option == "i" || category_option == "I"){
+                                    pos = addCategoryUI();
+                                    break;
+                                }
+                            }
+
+                            Category c = ls.getCategory(pos);
+                            ls.updateBook(pos, Book(b_name, b_author, b_stock, c));
 
                             cout << "~ Data updated successfully ~" << endl;
                         } else {
@@ -201,15 +285,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                     cin >> suboption_category;
                     // insert category
                     if (suboption_category == 1) {
-                        cout << "-- Insert category --" << endl;
-
-                        string c_name;
-                        cout << "category's name >>";
-                        cin >> c_name;
-
-                        ls.addCategory(Category(c_name));
-
-                        cout << "~ Category added successfully ~" << endl;
+                        addCategoryUI();
                     }
                         // update category
                     else if (suboption_category == 2) {

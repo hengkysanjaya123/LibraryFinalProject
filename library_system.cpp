@@ -101,11 +101,11 @@ bool LibrarySystem::searchBook() {
     }
 
     if (found) {
-        printf("%-20s | %-20s | %-20s | %-20s | %-20s |\n", "ID", "Name", "Author", "Stock", "Rating");
+        printf("%-20s | %-20s | %-20s | %-20s | %-20s | %-20s |\n", "ID", "Name", "Author", "Stock", "Rating", "Category");
         for (int j = 0; j < listFound.size(); ++j) {
             int i = listFound[j];
-            printf("%-20d | %-20s | %-20s | %-20d | %-20d |\n", listBook[i].getId(), listBook[i].getName().c_str(),
-                   listBook[i].getAuthor().c_str(), listBook[i].getStock(), listBook[i].getRating());
+            printf("%-20d | %-20s | %-20s | %-20d | %-20d | %-20s |\n", listBook[i].getId(), listBook[i].getName().c_str(),
+                   listBook[i].getAuthor().c_str(), listBook[i].getStock(), listBook[i].getRating(), listBook[i].getCategory().getName().c_str());
         }
         cout << endl;
         return true;
@@ -119,18 +119,25 @@ void LibrarySystem::displayBooks() {
     if (listBook.size() == 0) {
         cout << "There is no data in the list" << endl;
     } else {
-        printf("%-20s | %-20s | %-20s | %-20s | %-20s |\n", "ID", "Name", "Author", "Stock", "Rating");
+        printf("%-10s | %-10s | %-10s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Author", "Stock", "Rating", "Category");
         for (int i = 0; i < listBook.size(); i++) {
-            printf("%-20d | %-20s | %-20s | %-20d | %-20d |\n", listBook[i].getId(), listBook[i].getName().c_str(),
-                   listBook[i].getAuthor().c_str(), listBook[i].getStock(), listBook[i].getRating());
+            Category c = listBook[i].getCategory();
+            printf("%-10d | %-10s | %-10s | %-10d | %-10d | %-10s |\n", listBook[i].getId(), listBook[i].getName().c_str(),
+                   listBook[i].getAuthor().c_str(), listBook[i].getStock(), listBook[i].getRating(), c.getName().c_str());
         }
     }
 }
 
 // -- Category operations --
 
-void LibrarySystem::addCategory(Category c) {
+int LibrarySystem::addCategory(Category c) {
     listCategory.push_back(c);
+    int size = listCategory.size();
+    return size-1;
+}
+
+Category LibrarySystem::getCategory(int position) {
+    return listCategory[position];
 }
 
 void LibrarySystem::removeCategory(int position) {
@@ -155,8 +162,12 @@ void LibrarySystem::updateCategory(int position, Category c) {
 
 bool LibrarySystem::searchCategory() {
     string key;
+
     bool found = false;
     vector<int> listFound;
+
+    cout << "Input category name >>";
+    cin >> key;
 
     for (int i = 0; i < listCategory.size(); ++i) {
         if (listCategory[i].getName() == key) {

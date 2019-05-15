@@ -6,21 +6,15 @@
 
 #IncludeRegexTransform: 
 
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/book.cpp
-book.h
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/book.h
-
 D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/book.h
 string
 -
+category.h
+D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/category.h
 
 D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/category.h
 string
 -
-
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/transaction.cpp
-transaction.h
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/transaction.h
 
 D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/transaction.h
 string
@@ -51,22 +45,4 @@ Model/category.h
 D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/category.h
 Model/transaction.h
 D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/transaction.h
-
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/library_system_ui.cpp
-library_system_ui.h
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/library_system_ui.h
-
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/library_system_ui.h
-iostream
--
-library_system.h
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/library_system.h
-
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/main.cpp
-iostream
--
-Model/user.h
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/Model/user.h
-library_system_ui.h
-D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/library_system_ui.h
 

@@ -44,7 +44,8 @@ public:
     void displayBooks();
 
     // -- Category operations --
-    void addCategory(Category c);
+    int addCategory(Category c);
+    Category getCategory(int position);
     void removeCategory(int position);
     void updateCategory(int position, Category c);
     bool searchCategory();

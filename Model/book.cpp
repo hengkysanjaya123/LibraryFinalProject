@@ -11,13 +11,14 @@ Book::Book()
 
 int Book::counter;
 
-Book::Book(string name, string author, int stock)
+Book::Book(string name, string author, int stock, Category c)
 {
     counter++;
     this->name = name;
     this->author = author;
     this->stock = stock;
     this->rating = 0;
+    this->category = c;
     this->id = counter;
 }
 
@@ -65,4 +66,10 @@ int Book::getId() {
     return this->id;
 }
 
+void Book::setCategory(Category c){
+    this->category = c;
+}
 
+Category Book::getCategory(){
+    return this->category;
+}
