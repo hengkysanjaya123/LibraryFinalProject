@@ -45,7 +45,8 @@ public:
     int searchBook(int id);
     void displayBooks();
     void displayBorrowedBooks();
-    void displayTopMonthlyBooks(string date);
+    void displayTopBorrowedMonthlyBooks(string date);
+    void displayTopRatedMonthlyBooks(string date);
 
     // -- Category operations --
     int addCategory(Category c);
