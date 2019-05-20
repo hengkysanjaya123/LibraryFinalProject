@@ -1,0 +1,24 @@
+Detecting C [-std=c11] compiler features failed to compile with the following output:
+Change Dir: D:/Hengky_Sanjaya/#_Kuliah/Sems_2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):D:/Program Files/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/bin/mingw32-make.exe cmTC_1ff4a/fast 
+D:/Program Files/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/bin/mingw32-make.exe -f CMakeFiles\cmTC_1ff4a.dir\build.make CMakeFiles/cmTC_1ff4a.dir/build
+mingw32-make.exe[1]: Entering directory 'D:/Hengky_Sanjaya/#_Kuliah/Sems_2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe[1]: *** No rule to make target 'D:/Hengky_Sanjaya/', needed by 'CMakeFiles/cmTC_1ff4a.dir/feature_tests.c.obj'.  Stop.
+mingw32-make.exe[1]: Leaving directory 'D:/Hengky_Sanjaya/#_Kuliah/Sems_2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:120: cmTC_1ff4a/fast] Error 2
+
+
+
+Detecting CXX [-std=c++1z] compiler features failed to compile with the following output:
+Change Dir: D:/Hengky_Sanjaya/#_Kuliah/Sems_2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):D:/Program Files/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/bin/mingw32-make.exe cmTC_5d673/fast 
+D:/Program Files/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/bin/mingw32-make.exe -f CMakeFiles\cmTC_5d673.dir\build.make CMakeFiles/cmTC_5d673.dir/build
+mingw32-make.exe[1]: Entering directory 'D:/Hengky_Sanjaya/#_Kuliah/Sems_2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe[1]: *** No rule to make target 'D:/Hengky_Sanjaya/', needed by 'CMakeFiles/cmTC_5d673.dir/feature_tests.cxx.obj'.  Stop.
+mingw32-make.exe[1]: Leaving directory 'D:/Hengky_Sanjaya/#_Kuliah/Sems_2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:120: cmTC_5d673/fast] Error 2
+
+
+

@@ -16,6 +16,7 @@ private:
 public:
     void run();
     void adminPage(User currentUser);
+    void userPage(User currentUser);
     int addCategoryUI();
 
 };

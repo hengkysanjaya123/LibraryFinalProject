@@ -1,10 +1,19 @@
 //
 // Created by Hengky Sanjaya on 5/15/2019.
 //
-
+#include <chrono>
+#include <ctime>
 #include "library_system.h"
 
 LibrarySystem::LibrarySystem() = default;
+
+User LibrarySystem::getCurrentUser(){
+    return currentUser;
+}
+
+void LibrarySystem::setCurrentUser(User u){
+    this->currentUser = u;
+}
 
 // -- User operations --
 void LibrarySystem::addUser(User u) {
@@ -69,6 +78,7 @@ bool LibrarySystem::searchBook() {
     cout << "Search book by : " << endl
          << "1. Name" << endl
          << "2. Author" << endl
+         << "3. Category" << endl
          << ">>";
     cin >> suboption_book_search;
 
@@ -77,6 +87,9 @@ bool LibrarySystem::searchBook() {
         cin >> key;
     } else if (suboption_book_search == 2) {
         cout << "Input Author name >>";
+        cin >> key;
+    }else if(suboption_book_search == 3){
+        cout << "Input Category name >>";
         cin >> key;
     }
 
@@ -91,6 +104,12 @@ bool LibrarySystem::searchBook() {
             }
         } else if (suboption_book_search == 2) {
             if (listBook[i].getAuthor() == key) {
+                found = true;
+                listFound.push_back(i);
+            }
+        }
+        else if(suboption_book_search == 3){
+            if(listBook[i].getCategory().getName() == key){
                 found = true;
                 listFound.push_back(i);
             }
@@ -305,7 +324,11 @@ int LibrarySystem::searchCategory(int id) {
 }
 
 // -- Transaction operations --
-void LibrarySystem::addTransaction(Transaction t) {
+void LibrarySystem::addTransaction(int bookPosition) {
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+    Transaction t(currentUser, listBook[bookPosition], "borrowed", std::ctime(&now_time), "");
     listTransaction.push_back(t);
 }
 
@@ -355,6 +378,8 @@ void LibrarySystem::viewAllTransactions() {
     }
 
 }
+
+
 
 //		list<User>* getListUser(){
 //			return &(this->listUser);

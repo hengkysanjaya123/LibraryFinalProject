@@ -19,6 +19,7 @@ int LibrarySystemUI::addCategoryUI() {
 
 void LibrarySystemUI::run() {
     ls.addUser(User("test", "test", "test", "A"));
+    ls.addUser(User("coba", "coba", "coba", "U"));
 
     int option;
 
@@ -40,10 +41,12 @@ void LibrarySystemUI::run() {
             User u;
             bool login = ls.doLogin(username, password, u);
             if (login) {
+                ls.setCurrentUser(u);
+
                 if (u.getRole() == "A") {
                     adminPage(u);
-                } else if (u.getRole() == "L") {
-
+                } else if (u.getRole() == "U") {
+                    userPage(u);
                 }
             } else {
                 cout << "Username and password incorrect" << endl;
@@ -60,6 +63,45 @@ void LibrarySystemUI::run() {
             cout << "Wrong Input" << endl;
         }
         cout << endl;
+    }
+}
+
+void LibrarySystemUI::userPage(User currentUser) {
+    int option;
+    while (true) {
+        cout << "Welcome " << currentUser.getName() << " (User)" << endl
+             << "1. Borrow book" << endl
+             <<  "2. "
+             << "2. View Recommendation Books" << endl
+             << "4. Logout" << endl
+             << ">>";
+
+        cin >> option;
+
+        if (option == 1) {
+            int bookid;
+            bool found = ls.searchBook();
+            if (found == false) {
+                cout << "There is no data in the list" << endl;
+            } else {
+                cout << "-- Borrow book --" << endl
+                     << "Input book's id >>";
+                cin >> bookid;
+
+                int pos = ls.searchBook(bookid);
+                if (pos == -1) {
+                    cout << "Sorry, book id not found" << endl;
+                } else {
+                    ls.addTransaction(pos);
+
+                    cout << "~ Transaction success ~" << endl;
+                }
+            }
+        } else if (option == 4) {
+            break;
+        } else {
+            cout << "Wrong Input" << endl;
+        }
     }
 }
 
@@ -112,18 +154,17 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         cin >> b_stock;
 
                         int pos;
-                        while(true){
+                        while (true) {
                             cout << "Browse category or insert new [B,I]?" << endl;
                             cin >> category_option;
 
 
-                            if(category_option == "b" || category_option == "B"){
+                            if (category_option == "b" || category_option == "B") {
                                 bool re = ls.searchCategory();
 
                                 if (re == false) {
                                     cout << "There is no data found in category list" << endl;
-                                }
-                                else{
+                                } else {
                                     cout << "Please input category's Id >>";
                                     int categoryId;
                                     cin >> categoryId;
@@ -132,13 +173,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
 
                                     if (pos != -1) {
                                         break;
-                                    }
-                                    else{
+                                    } else {
                                         cout << "CategoryId not found" << endl;
                                     }
                                 }
-                            }
-                            else if(category_option == "i" || category_option == "I"){
+                            } else if (category_option == "i" || category_option == "I") {
                                 pos = addCategoryUI();
                                 break;
                             }
@@ -184,18 +223,17 @@ void LibrarySystemUI::adminPage(User currentUser) {
                             cin >> b_stock;
 
                             int pos;
-                            while(true){
+                            while (true) {
                                 cout << "Browse category or insert new [B,I]?" << endl;
                                 cin >> category_option;
 
 
-                                if(category_option == "b" || category_option == "B"){
+                                if (category_option == "b" || category_option == "B") {
                                     bool re = ls.searchCategory();
 
                                     if (re == false) {
                                         cout << "There is no data found in category list" << endl;
-                                    }
-                                    else{
+                                    } else {
                                         cout << "Please input category's Id >>";
                                         int categoryId;
                                         cin >> categoryId;
@@ -204,13 +242,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
 
                                         if (pos != -1) {
                                             break;
-                                        }
-                                        else{
+                                        } else {
                                             cout << "CategoryId not found" << endl;
                                         }
                                     }
-                                }
-                                else if(category_option == "i" || category_option == "I"){
+                                } else if (category_option == "i" || category_option == "I") {
                                     pos = addCategoryUI();
                                     break;
                                 }
@@ -418,15 +454,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
 
                 }
             }
-                // logout
-            else if (suboption_master_data == 4) {
-                break;
-            }
-                // wrong input
-            else {
-                cout << "Wrong Input" << endl;
-            }
-            cout << endl;
+
         }
             // view transaction
         else if (option == 2) {
@@ -436,5 +464,14 @@ void LibrarySystemUI::adminPage(User currentUser) {
         else if (option == 3) {
 
         }
+            // logout
+        else if (option == 4) {
+            break;
+        }
+            // wrong input
+        else {
+            cout << "Wrong Input" << endl;
+        }
+        cout << endl;
     }
 }
