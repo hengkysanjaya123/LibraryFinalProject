@@ -128,6 +128,69 @@ void LibrarySystem::displayBooks() {
     }
 }
 
+void LibrarySystem::displayBorrowedBooks() {
+
+    bool borrowed = false;
+    cout << "List of Borrowed Books\n"
+            "=======================\n";
+
+    printf("%-30s | %-10s |\n","Book Name", "Book ID");
+    for (int i = 0; i < listTransaction.size(); i++) {
+        Transaction t = listTransaction[i];
+
+        //if book has not been returned
+        if (t.getStatus() == "borrowed") {
+            printf("-%30s | %-10d |\n", t.getBook().getName().c_str(), t.getBook().getId());
+            borrowed = true;
+        }
+    }
+
+    if (borrowed == false){
+        cout << "\nNULL" << endl;
+    }
+}
+
+void LibrarySystem::displayTopMonthlyBooks(string date) {
+    vector<pair<int,string> >  topBooksList;
+    Transaction t = listTransaction.back();
+    bool contains = false;
+    string bookName;
+    int index,counter = 2;
+    printf("%-30s | %-15s |\n","Book Name","Amount Borrowed");
+
+    while(t.getDate() == date.substr(0,7)){
+
+        bookName = t.getBook().getName();
+        for (int i = 0;i < topBooksList.size(); i++){
+
+            if (topBooksList[i].second == bookName) {
+                index = i;
+                contains = true;
+            }
+        }
+
+        if (contains == false){
+            topBooksList.push_back(make_pair(1,bookName));
+        }
+
+        else{
+            topBooksList[index].first += 1;
+
+        }
+
+        t = listTransaction[listTransaction.size()-counter];
+        counter++;
+    }
+
+    sort(topBooksList.begin(),topBooksList.end());
+
+    for (int j = 0; j < 10;j++){
+
+        printf("%-30s | %-10d", topBooksList[j].second.c_str(), topBooksList[j].first);
+    }
+
+}
+
 // -- Category operations --
 
 int LibrarySystem::addCategory(Category c) {
@@ -204,6 +267,53 @@ void LibrarySystem::addTransaction(Transaction t) {
     listTransaction.push_back(t);
 }
 
+void LibrarySystem::viewTodaysTransactions(string date) {
+
+    int counter = 2;
+    Transaction t = listTransaction.back();
+
+    printf("%-10s | %-30s | %-10s | %-10s | %-50s |\n", "Username", "Book", "Status", "Date", "Review");
+    while (t.getDate() == date){
+        printf("%-10s | %-30s | %-10s | %-10d | %-50s |\n", t.getUser().getUsername().c_str(),
+               t.getBook().getName().c_str(), t.getStatus().c_str(), t.getDate().c_str(), t.getReview().c_str());
+
+        t = listTransaction[listTransaction.size()-counter];
+        counter++;
+    }
+}
+
+void LibrarySystem::viewMonthlyTransactions(string date) {
+
+    int counter = 2;
+    Transaction t = listTransaction.back();
+
+    printf("%-10s | %-30s | %-10s | %-10s | %-50s |\n", "Username", "Book", "Status", "Date", "Review");
+    //takes only the year and the month
+    while (t.getDate() == date.substr(0,7)){
+        printf("%-10s | %-30s | %-10s | %-10d | %-50s |\n", t.getUser().getUsername().c_str(),
+               t.getBook().getName().c_str(), t.getStatus().c_str(), t.getDate().c_str(), t.getReview().c_str());
+
+        t = listTransaction[listTransaction.size()-counter];
+        counter++;
+    }
+}
+void LibrarySystem::viewAllTransactions() {
+    if(listTransaction.size() == 0){
+        cout << "There are no transactions in the list." << endl;
+    }
+
+    else{
+        printf("%-10s | %-10s | %-10s | %-10s | %-50s |\n", "Username", "Book", "Status", "Date", "Review");
+        for (int i = 0; i < listTransaction.size(); i++) {
+            Transaction t = listTransaction[i];
+            printf("%-10s | %-10s | %-10s | %-10d | %-50s |\n", t.getUser().getUsername().c_str(),
+                    t.getBook().getName().c_str(), t.getStatus().c_str(), t.getDate().c_str(), t.getReview().c_str());
+
+        }
+
+    }
+
+}
 
 void LibrarySystem::testing(int a) {
     cout << "testing something" << endl;

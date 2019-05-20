@@ -3,11 +3,13 @@
 
 CMakeFiles/Final_Project.dir/Model/book.cpp.obj: ../Model/book.cpp
 CMakeFiles/Final_Project.dir/Model/book.cpp.obj: ../Model/book.h
+CMakeFiles/Final_Project.dir/Model/book.cpp.obj: ../Model/category.h
 
 CMakeFiles/Final_Project.dir/Model/category.cpp.obj: ../Model/category.cpp
 CMakeFiles/Final_Project.dir/Model/category.cpp.obj: ../Model/category.h
 
 CMakeFiles/Final_Project.dir/Model/transaction.cpp.obj: ../Model/book.h
+CMakeFiles/Final_Project.dir/Model/transaction.cpp.obj: ../Model/category.h
 CMakeFiles/Final_Project.dir/Model/transaction.cpp.obj: ../Model/transaction.cpp
 CMakeFiles/Final_Project.dir/Model/transaction.cpp.obj: ../Model/transaction.h
 CMakeFiles/Final_Project.dir/Model/transaction.cpp.obj: ../Model/user.h

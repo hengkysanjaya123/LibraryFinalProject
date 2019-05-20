@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include <vector>
+#include <utility>
+#include <algorithm>
 
 #include "Model/book.h"
 #include "Model/user.h"
@@ -42,6 +44,8 @@ public:
     bool searchBook();
     int searchBook(int id);
     void displayBooks();
+    void displayBorrowedBooks();
+    void displayTopMonthlyBooks(string date);
 
     // -- Category operations --
     int addCategory(Category c);
@@ -55,6 +59,9 @@ public:
     // -- Transaction operations --
     void addTransaction(Transaction t);
     void updateTransactionStatus(int position, string s);
+    void viewTodaysTransactions(string date);
+    void viewMonthlyTransactions(string date);
+    void viewAllTransactions();
 
     void testing(int a);
 

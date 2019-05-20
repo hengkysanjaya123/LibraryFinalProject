@@ -1,4 +1,4 @@
-# Install script for directory: D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project
+# Install script for directory: C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/Hengky Sanjaya/# Kuliah/Sems 2/Data Structures & Algorithm/Data Structures Projects/Lecture Session/Final_Project/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
