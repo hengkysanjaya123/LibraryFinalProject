@@ -163,16 +163,43 @@ void LibrarySystem::displayBorrowedBooks() {
     }
 }
 
-void LibrarySystem::displayTopBorrowedMonthlyBooks(string date) {
+void LibrarySystem::displayTopBorrowedBooks(string date, int option) {
+
+    cout << "Display by: " << endl;
+    cout << "1. Monthly\n"
+            "2. Yearly\n"
+            "3. All time\n"
+            ">> ";
+
+    string condition;
     vector<pair<int,string> >  topBooksList;
     Transaction t = listTransaction.back();
     bool contains = false;
     string bookName;
-    int index,counter = 2;
-    cout << "                       Top 10 Most Borrowed Books This Month" << endl << endl;
+    int index,counter = 2,startSubStr,endSubStr;
+    if (option == 1) {
+        condition = date.substr(0,7);
+        startSubStr = 0;
+        endSubStr = 7;
+        cout << "                       Top 10 Most Borrowed Books This Month" << endl << endl;
+    }
+
+    else if (option == 2){
+        condition = date.substr(0,3);
+        startSubStr = 0;
+        endSubStr = 3;
+        cout << "                       Top 10 Most Borrowed Books This Year" << endl << endl;
+    }
+
+    else if (option == 3){
+        condition = date.substr(4,0);
+        startSubStr = 4;
+        endSubStr = 0;
+        cout << "                       Top 10 Most Borrowed Books Of All Time" << endl << endl;
+    }
     printf("%-30s | %-15s |\n","Book Name","Amount Borrowed");
 
-    while(t.getDate() == date.substr(0,7)){
+    while(t.getDate().substr(startSubStr,endSubStr) == condition){
 
         bookName = t.getBook().getName();
         for (int i = 0;i < topBooksList.size(); i++){
@@ -206,7 +233,7 @@ void LibrarySystem::displayTopBorrowedMonthlyBooks(string date) {
 }
 
 // only displays books with more than 10 reads(?)
-void LibrarySystem::displayTopRatedMonthlyBooks(string date) {
+void LibrarySystem::displayTopRatedBooks(string date, int option) {
 
     vector<pair<float,string> > ratedBookslist;
     vector<pair<int, Book> > topBooksList;
@@ -214,11 +241,31 @@ void LibrarySystem::displayTopRatedMonthlyBooks(string date) {
     Transaction t = listTransaction.back();
     bool contains = false;
     Book book;
-    int index,counter = 2;
-    cout << "                       Top 10 Rated Books This Month" << endl << endl;
+    int index,counter = 2,startSubStr,endSubStr;
+    string condition;
+    if (option == 1) {
+        condition = date.substr(0,7);
+        startSubStr = 0;
+        endSubStr = 7;
+        cout << "                       Top 10 Highest Rated Books This Month" << endl << endl;
+    }
+
+    else if (option == 2){
+        condition = date.substr(0,3);
+        startSubStr = 0;
+        endSubStr = 3;
+        cout << "                       Top 10 Highest Rated Books This Year" << endl << endl;
+    }
+
+    else if (option == 3){
+        condition = date.substr(4,0);
+        startSubStr = 4;
+        endSubStr = 0;
+        cout << "                       Top 10 Highest Rated Books Of All Time" << endl << endl;
+    }
     printf("%-30s | %-10s |\n","Book Name","Rating");
 
-    while(t.getDate() == date.substr(0,7)){
+    while(t.getDate().substr(startSubStr,endSubStr) == condition){
 
         book = t.getBook();
         for (int i = 0;i < topBooksList.size(); i++){

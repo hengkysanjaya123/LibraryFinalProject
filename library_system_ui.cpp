@@ -67,12 +67,15 @@ void LibrarySystemUI::run() {
 }
 
 void LibrarySystemUI::userPage(User currentUser) {
-    int option;
+
+    int option,topBookoption,timeSpan;
+    string year,month,day,date;
     while (true) {
         cout << "Welcome " << currentUser.getName() << " (User)" << endl
              << "1. Borrow book" << endl
              <<  "2. "
              << "2. View Recommendation Books" << endl
+             << "3. View Top Books" << endl
              << "4. Logout" << endl
              << ">>";
 
@@ -97,6 +100,41 @@ void LibrarySystemUI::userPage(User currentUser) {
                     cout << "~ Transaction success ~" << endl;
                 }
             }
+        } else if (option == 3){
+
+            time_t theTime = time(NULL);
+            struct tm *currTime = localtime(&theTime);
+
+            day = to_string(currTime->tm_mday);
+            month = to_string(currTime->tm_mon + 1);
+            year = to_string(currTime->tm_year + 1900);
+
+            date = year + "-" + month + "-" + day;
+
+            cout << "View By: " << endl
+                 << "1. Rating" << endl
+                 << "2. Amount Borrowed" << endl
+                 << ">>";
+
+            cin >> topBookoption;
+
+            cout << "Time Span: " << endl
+                 << "1. This Month" << endl
+                 << "2. This Year" << endl
+                 << "3. All Time" << endl
+                 << ">>";
+
+            cin >> timeSpan;
+
+            if (topBookoption == 1){
+                ls.displayTopRatedBooks(date, timeSpan);
+            }
+
+            else if (topBookoption == 2){
+                ls.displayTopBorrowedBooks(date, timeSpan);
+            }
+
+
         } else if (option == 4) {
             break;
         } else {

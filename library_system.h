@@ -56,8 +56,9 @@ public:
 
     void displayBooks();
     void displayBorrowedBooks();
-    void displayTopBorrowedMonthlyBooks(string date);
-    void displayTopRatedMonthlyBooks(string date);
+    void displayTopBorrowedBooks(string date, int option);
+    void displayTopRatedBooks(string date,int option);
+
 
     // -- Category operations --
     int addCategory(Category c);
