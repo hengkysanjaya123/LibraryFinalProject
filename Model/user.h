@@ -6,7 +6,7 @@
 #define FINAL_PROJECT_USER_H
 
 
-#include <string>
+#include <iostream>
 using namespace std;
 
 class User
@@ -16,7 +16,11 @@ private:
     string username;
     string password;
     string role;
-    string level;
+
+    int level;
+    int booklim;
+    int exp;
+    int reqExp;
 
 public:
     User();
@@ -29,8 +33,13 @@ public:
     string getPassword();
     void setRole(string role);
     string getRole();
-    void setLevel(string level);
-    string getLevel();
+    void setLevel(int level);
+    int getLevel();
+
+    void addExp();
+    void levelCheck();
+
+
 };
 
 #endif //FINAL_PROJECT_USER_H

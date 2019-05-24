@@ -76,7 +76,8 @@ void LibrarySystemUI::userPage(User currentUser) {
              <<  "2. "
              << "2. View Recommendation Books" << endl
              << "3. View Top Books" << endl
-             << "4. Logout" << endl
+             << "4. Return Book"
+             << "0. Logout" << endl
              << ">>";
 
         cin >> option;
@@ -135,7 +136,7 @@ void LibrarySystemUI::userPage(User currentUser) {
             }
 
 
-        } else if (option == 4) {
+        } else if (option == 0) {
             break;
         } else {
             cout << "Wrong Input" << endl;

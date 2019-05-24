@@ -165,11 +165,10 @@ void LibrarySystem::displayBorrowedBooks() {
 
 void LibrarySystem::displayTopBorrowedBooks(string date, int option) {
 
-    cout << "Display by: " << endl;
-    cout << "1. Monthly\n"
-            "2. Yearly\n"
-            "3. All time\n"
-            ">> ";
+    if (listTransaction.empty()){
+        cout << "There are no existing transactions" << endl;
+        return;
+    }
 
     string condition;
     vector<pair<int,string> >  topBooksList;
@@ -223,10 +222,13 @@ void LibrarySystem::displayTopBorrowedBooks(string date, int option) {
         counter++;
     }
 
+    if (topBooksList.empty()){
+        cout << "No books have been borrowed. " << endl;
+        return;
+    }
     sort(topBooksList.begin(),topBooksList.end());
 
     for (int j = 0; j < 10;j++){
-
         printf("%-30s | %-10d |\n", topBooksList[j].second.c_str(), topBooksList[j].first);
     }
 
@@ -234,6 +236,11 @@ void LibrarySystem::displayTopBorrowedBooks(string date, int option) {
 
 // only displays books with more than 10 reads(?)
 void LibrarySystem::displayTopRatedBooks(string date, int option) {
+
+    if (listTransaction.empty()){
+        cout << "There are no existing transactions" << endl;
+        return;
+    }
 
     vector<pair<float,string> > ratedBookslist;
     vector<pair<int, Book> > topBooksList;
@@ -291,7 +298,10 @@ void LibrarySystem::displayTopRatedBooks(string date, int option) {
         t = listTransaction[listTransaction.size()-counter];
         counter++;
     }
-
+    if (ratedBookslist.empty()){
+        cout << "No books have been borrowed or has not been rated 10 times. " << endl;
+        return;
+    }
     sort(ratedBookslist.begin(),ratedBookslist.end());
     for (int j = 0; j < 10; j++) {
         printf("%-30s | %10f",ratedBookslist[j].second.c_str(), ratedBookslist[j].first);
@@ -379,6 +389,19 @@ void LibrarySystem::addTransaction(int bookPosition) {
     listTransaction.push_back(t);
 }
 
+void LibrarySystem::updateTransactionStatus(int bookposition) {
+
+    for (int i = 0 ; i <listTransaction.size(); i++){
+
+        if (listTransaction[i].getBook().getName() == listBook[bookposition].getName() && currentUser.getUsername() == listTransaction[i].getUser().getUsername()){
+
+            listTransaction[i].setStatus("returned");
+            listTransaction[i].getUser().addExp();
+            l
+        }
+    }
+
+}
 void LibrarySystem::viewTodaysTransactions(string date) {
 
     int counter = 2;

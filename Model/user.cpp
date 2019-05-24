@@ -9,10 +9,13 @@ User::User(){
 }
 
 User::User(string n, string u, string p, string r){
-    name = n;
-    username = u;
-    password = p;
-    role = r;
+    this->name = n;
+    this->username = u;
+    this->password = p;
+    this->role = r;
+    this->level = 1;
+    this->booklim = 2;
+    this->reqExp = level * 3;
 }
 
 void User::setName(string name) {
@@ -47,10 +50,27 @@ string User::getRole() {
     return this->role;
 }
 
-void User::setLevel(string level){
+void User::setLevel(int level){
     this->level = level;
 }
 
-string User::getLevel(){
+int User::getLevel(){
     return this->level;
+}
+
+void User::addExp() {
+    this->exp++;
+
+}
+void User::levelCheck() {
+
+    if (this->exp >= this->reqExp){
+        this->level++;
+        this->booklim++;
+        this->exp = 0;
+        this->reqExp = level * 3;
+
+        cout << "You are now level " << this->level << " and your borrow limit has been increased to " << this->booklim << " books." << endl;
+    }
+
 }

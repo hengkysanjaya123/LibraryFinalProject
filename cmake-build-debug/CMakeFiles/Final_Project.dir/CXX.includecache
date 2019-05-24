@@ -6,17 +6,9 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/Model/book.cpp
-book.h
-C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/Model/book.h
-
 C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/Model/book.h
 string
 -
-category.h
-C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/Model/category.h
-
-C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/Model/category.cpp
 category.h
 C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/Model/category.h
 
@@ -76,6 +68,8 @@ C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProje
 
 C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/library_system_ui.h
 iostream
+-
+ctime
 -
 library_system.h
 C:/Users/Ryan/Desktop/Ryan's Folder/Coding/C++/Final Project 2/LibraryFinalProject/library_system.h

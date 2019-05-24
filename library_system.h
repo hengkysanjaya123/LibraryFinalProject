@@ -78,7 +78,7 @@ public:
     // -- Transaction operations --
     void addTransaction(int bookPosition);
 
-    void updateTransactionStatus(int position, string s);
+    void updateTransactionStatus(int bookposition);
     void viewTodaysTransactions(string date);
     void viewMonthlyTransactions(string date);
     void viewAllTransactions();
