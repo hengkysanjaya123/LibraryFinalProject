@@ -27,6 +27,7 @@ private:
     vector<Transaction> listTransaction;
 
 public:
+    string toLower(string text);
     User getCurrentUser();
     void setCurrentUser(User u);
     // -- User operations --
@@ -74,6 +75,7 @@ public:
     int searchCategory(int id);
 
     void displayCategories();
+    vector<Category> getListCategory();
 
     // -- Transaction operations --
     void addTransaction(int bookPosition);

@@ -18,21 +18,39 @@ int LibrarySystemUI::addCategoryUI() {
 }
 
 void LibrarySystemUI::run() {
+    ls.addCategory(Category("Business"));
+    ls.addCategory(Category("Music"));
+    ls.addCategory(Category("Biography"));
+    ls.addCategory(Category("Children"));
+    ls.addCategory(Category("Cooking"));
+    ls.addCategory(Category("Education"));
+    ls.addCategory(Category("Economics"));
+
+    ls.addBook(Book("The Visual MBA", "Jason Barron", 10, ls.getListCategory()[0]));
+    ls.addBook(Book("How to be Invisible: Lyrics", "Kate Bush", 10, ls.getListCategory()[1]));
+    ls.addBook(Book("The Only Business", "Laura Brown", 100, ls.getListCategory()[0]));
+    ls.addBook(Book("10 Steps to Successful Budgeting", "Lianabel Oliver", 200, ls.getListCategory()[0]));
+    ls.addBook(Book("Education and the Commercial Mindset", "Samuel E. Abrams", 350, ls.getListCategory()[5]));
+
     ls.addUser(User("test", "test", "test", "A"));
     ls.addUser(User("coba", "coba", "coba", "U"));
 
-    int option;
+    string option;
 
     while (true) {
-        cout << "Welcome to Library System" << endl
+        cout << "=========================================" << endl
+             << "=       Welcome to Library System       =" << endl
+             << "=========================================" << endl
              << "1. Login" << endl
              << "2. Register" << endl
-             << "3. Exit" << endl;
+             << "3. Exit" << endl
+             << ">>";
 
         cin >> option;
         // login
-        if (option == 1) {
+        if (option == "1") {
             string username, password;
+            cout << "please enter your :" << endl;
             cout << "username >>";
             cin >> username;
             cout << "password >>";
@@ -53,11 +71,11 @@ void LibrarySystemUI::run() {
             }
         }
             // register
-        else if (option == 2) {
+        else if (option == "2") {
 
         }
             // exit
-        else if (option == 3) {
+        else if (option == "3") {
             break;
         } else {
             cout << "Wrong Input" << endl;
@@ -71,12 +89,12 @@ void LibrarySystemUI::userPage(User currentUser) {
     int option,topBookoption,timeSpan;
     string year,month,day,date;
     while (true) {
+        cout << endl;
         cout << "Welcome " << currentUser.getName() << " (User)" << endl
              << "1. Borrow book" << endl
-             <<  "2. "
              << "2. View Recommendation Books" << endl
              << "3. View Top Books" << endl
-             << "4. Return Book"
+             << "4. Return Book" << endl
              << "0. Logout" << endl
              << ">>";
 
@@ -101,7 +119,11 @@ void LibrarySystemUI::userPage(User currentUser) {
                     cout << "~ Transaction success ~" << endl;
                 }
             }
-        } else if (option == 3){
+        }
+        else if(option == 2){
+
+        }
+        else if (option == 3){
 
             time_t theTime = time(NULL);
             struct tm *currTime = localtime(&theTime);
@@ -136,7 +158,11 @@ void LibrarySystemUI::userPage(User currentUser) {
             }
 
 
-        } else if (option == 0) {
+        }
+        else if(option == 4){
+
+        }
+        else if (option == 0) {
             break;
         } else {
             cout << "Wrong Input" << endl;
@@ -147,6 +173,7 @@ void LibrarySystemUI::userPage(User currentUser) {
 void LibrarySystemUI::adminPage(User currentUser) {
     int option;
     while (true) {
+        cout << endl;
         cout << "Welcome " << currentUser.getName() << " (admin)" << endl
              << "1. Master Data" << endl
              << "2. View Transaction" << endl
@@ -497,11 +524,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
         }
             // view transaction
         else if (option == 2) {
-
+            ls.viewAllTransactions();
         }
             // view borrowed books
         else if (option == 3) {
-
+            ls.displayBorrowedBooks();
         }
             // logout
         else if (option == 4) {
