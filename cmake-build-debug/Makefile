@@ -38,19 +38,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2019.1.3\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = "D:\Program Files\JetBrains\CLion 2019.1.3\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2019.1.3\bin\cmake\win\bin\cmake.exe" -E remove -f
+RM = "D:\Program Files\JetBrains\CLion 2019.1.3\bin\cmake\win\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Ryan\Desktop\Ryan's Folder\Coding\C++\Final Project 2\LibraryFinalProject"
+CMAKE_SOURCE_DIR = "D:\Hengky_Sanjaya\#_Kuliah\Sems_2\Data Structures & Algorithm\Data Structures Projects\Lecture Session\Final_Project"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Ryan\Desktop\Ryan's Folder\Coding\C++\Final Project 2\LibraryFinalProject\cmake-build-debug"
+CMAKE_BINARY_DIR = "D:\Hengky_Sanjaya\#_Kuliah\Sems_2\Data Structures & Algorithm\Data Structures Projects\Lecture Session\Final_Project\cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -58,7 +58,7 @@ CMAKE_BINARY_DIR = "C:\Users\Ryan\Desktop\Ryan's Folder\Coding\C++\Final Project
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	"C:\Program Files\JetBrains\CLion 2019.1.3\bin\cmake\win\bin\cmake.exe" -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	"D:\Program Files\JetBrains\CLion 2019.1.3\bin\cmake\win\bin\cmake.exe" -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,7 +69,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	"C:\Program Files\JetBrains\CLion 2019.1.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
+	"D:\Program Files\JetBrains\CLion 2019.1.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -79,9 +79,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Ryan\Desktop\Ryan's Folder\Coding\C++\Final Project 2\LibraryFinalProject\cmake-build-debug\CMakeFiles" "C:\Users\Ryan\Desktop\Ryan's Folder\Coding\C++\Final Project 2\LibraryFinalProject\cmake-build-debug\CMakeFiles\progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Hengky_Sanjaya\#_Kuliah\Sems_2\Data Structures & Algorithm\Data Structures Projects\Lecture Session\Final_Project\cmake-build-debug\CMakeFiles" "D:\Hengky_Sanjaya\#_Kuliah\Sems_2\Data Structures & Algorithm\Data Structures Projects\Lecture Session\Final_Project\cmake-build-debug\CMakeFiles\progress.marks"
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Ryan\Desktop\Ryan's Folder\Coding\C++\Final Project 2\LibraryFinalProject\cmake-build-debug\CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Hengky_Sanjaya\#_Kuliah\Sems_2\Data Structures & Algorithm\Data Structures Projects\Lecture Session\Final_Project\cmake-build-debug\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -311,6 +311,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+setup_variables.obj: setup_variables.cpp.obj
+
+.PHONY : setup_variables.obj
+
+# target to build an object file
+setup_variables.cpp.obj:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/setup_variables.cpp.obj
+.PHONY : setup_variables.cpp.obj
+
+setup_variables.i: setup_variables.cpp.i
+
+.PHONY : setup_variables.i
+
+# target to preprocess a source file
+setup_variables.cpp.i:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/setup_variables.cpp.i
+.PHONY : setup_variables.cpp.i
+
+setup_variables.s: setup_variables.cpp.s
+
+.PHONY : setup_variables.s
+
+# target to generate assembly for a file
+setup_variables.cpp.s:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/setup_variables.cpp.s
+.PHONY : setup_variables.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -341,6 +368,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... setup_variables.obj
+	@echo ... setup_variables.i
+	@echo ... setup_variables.s
 .PHONY : help
 
 

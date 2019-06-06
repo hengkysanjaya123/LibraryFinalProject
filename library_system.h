@@ -27,7 +27,11 @@ private:
     vector<Transaction> listTransaction;
 
 public:
+    void WriteWithColor(string message, char color);
+    void SetTextColor(char color);
+    void ResetTextColor();
     string toLower(string text);
+    bool IsUsernameExist(string username);
     User getCurrentUser();
     void setCurrentUser(User u);
     // -- User operations --
@@ -57,6 +61,7 @@ public:
 
     void displayBooks();
     void displayBorrowedBooks();
+    void displayBorrowedBooks(User u);
     void displayTopBorrowedBooks(string date, int option);
     void displayTopRatedBooks(string date,int option);
 
@@ -79,6 +84,7 @@ public:
 
     // -- Transaction operations --
     void addTransaction(int bookPosition);
+    bool returnBook(int bookId);
 
     void updateTransactionStatus(int bookposition);
     void viewTodaysTransactions(string date);

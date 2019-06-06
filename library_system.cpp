@@ -4,15 +4,55 @@
 #include <chrono>
 #include <ctime>
 #include "library_system.h"
+#include <windows.h>   // WinApi header ( HANDLE = to set color )
+#include "setup_variables.h";
 
 LibrarySystem::LibrarySystem() = default;
 
-string LibrarySystem::toLower(string text){
+void LibrarySystem::WriteWithColor(string message, char color) {
+//0 = Black	8 = Gray
+//1 = Blue	9 = Light Blue
+//2 = Green a = Light Green
+//3 = Aqua	b = Light Aqua
+//4 = Red	c = Light Red
+//5 = Purple	d = Light Purple
+//6 = Yellow	e = Light Yellow
+//7 = White	f = Bright White
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SetConsoleTextAttribute(hConsole, color);
+    cout << message << endl;
+
+    // reset to white textcolor
+    SetConsoleTextAttribute(hConsole, 7);
+}
+
+void LibrarySystem::SetTextColor(char color) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
+}
+
+void LibrarySystem::ResetTextColor() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    // reset to white textcolor
+    SetConsoleTextAttribute(hConsole, 7);
+}
+
+string LibrarySystem::toLower(string text) {
     string result = "";
     for (int i = 0; i < text.length(); i++) {
         result += tolower(text[i]);
     }
     return result;
+}
+
+bool LibrarySystem::IsUsernameExist(string username) {
+    for (User u : listUser) {
+        if (u.getUsername() == username) {
+            return true;
+        }
+    }
+    return false;
 }
 
 User LibrarySystem::getCurrentUser() {
@@ -127,17 +167,23 @@ bool LibrarySystem::searchBook() {
     }
 
     if (found) {
+        SetTextColor(COLOR_TABLE); // light yellow
+
+
         cout << endl;
-        printf("------------------------------------------------------------------------------------------------------------\n");
-        printf("%-5s | %-40s | %-20s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
+        printf(" ------------------------------------------------------------------------------------------------------------\n");
+        printf("| %-5s | %-40s | %-20s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
                "Rating");
-        printf("------------------------------------------------------------------------------------------------------------\n");
+        printf(" ------------------------------------------------------------------------------------------------------------\n");
         for (int i : listFound) {
-            printf("%-5d | %-40s | %-20s | %-10d | %-10s | %-6d |\n", listBook[i].getId(),
+            printf("| %-5d | %-40s | %-20s | %-10d | %-10s | %-6d |\n", listBook[i].getId(),
                    listBook[i].getName().c_str(),
                    listBook[i].getAuthor().c_str(), listBook[i].getStock(), listBook[i].getCategory().getName().c_str(),
                    listBook[i].getRating());
         }
+        printf(" ------------------------------------------------------------------------------------------------------------\n");
+        cout << " Found " << listFound.size() << " of " << listBook.size() << endl;
+        ResetTextColor();
         cout << endl;
         return true;
     } else {
@@ -150,21 +196,27 @@ void LibrarySystem::displayBooks() {
     if (listBook.empty()) {
         cout << "There is no data in the list" << endl;
     } else {
-        printf("------------------------------------------------------------------------------------------------------------\n");
-        printf("%-5s | %-40s | %-20s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
+        SetTextColor(COLOR_TABLE); // light yellow
+
+        printf(" ------------------------------------------------------------------------------------------------------------\n");
+        printf("| %-5s | %-40s | %-20s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
                "Rating");
-        printf("------------------------------------------------------------------------------------------------------------\n");
+        printf(" ------------------------------------------------------------------------------------------------------------\n");
         for (Book &i : listBook) {
             Category c = i.getCategory();
-            printf("%-5d | %-40s | %-20s | %-10d | %-10s | %-6d |\n", i.getId(), i.getName().c_str(),
+            printf("| %-5d | %-40s | %-20s | %-10d | %-10s | %-6d |\n", i.getId(), i.getName().c_str(),
                    i.getAuthor().c_str(), i.getStock(), c.getName().c_str(), i.getRating());
         }
+        printf(" ------------------------------------------------------------------------------------------------------------\n");
+        cout << " Total data " << listBook.size() << endl;
+        ResetTextColor();
     }
 }
 
 void LibrarySystem::displayBorrowedBooks() {
 
     bool borrowed = false;
+    SetTextColor(COLOR_TABLE); // yellow
     cout << "List of Borrowed Books\n"
             "=======================\n";
 
@@ -181,7 +233,33 @@ void LibrarySystem::displayBorrowedBooks() {
     if (!borrowed) {
         cout << "\nNULL" << endl;
     }
+
+    ResetTextColor();
 }
+
+void LibrarySystem::displayBorrowedBooks(User u) {
+
+    bool borrowed = false;
+    SetTextColor(COLOR_TABLE); // yellow
+    cout << "List of Borrowed Books\n"
+            "=======================\n";
+
+    printf("%-10s | %-30s |\n", "Book ID", "Book Name");
+    printf("---------------------------------------------\n");
+    for (Transaction t : listTransaction) {
+        //if book has not been returned
+        if (t.getStatus() == "borrowed" && t.getUser().getUsername() == u.getUsername()) {
+            printf("%-10d | %-30s |\n", t.getBook().getId(), t.getBook().getName().c_str());
+            borrowed = true;
+        }
+    }
+
+    if (!borrowed) {
+        cout << "\nNULL" << endl;
+    }
+    ResetTextColor();
+}
+
 
 void LibrarySystem::displayTopBorrowedBooks(string date, int option) {
 
@@ -339,10 +417,15 @@ void LibrarySystem::displayCategories() {
     if (listCategory.empty()) {
         cout << "There is no data in the list" << endl;
     } else {
+        SetTextColor(COLOR_TABLE); // light yellow
+        printf("-------------------------------------------");
         printf("%-20s | %-20s |\n", "ID", "Name");
+        printf("-------------------------------------------");
         for (Category &i : listCategory) {
             printf("%-20d | %-20s |\n", i.getId(), i.getName().c_str());
         }
+        printf("-------------------------------------------");
+        ResetTextColor();
     }
 }
 
@@ -400,6 +483,16 @@ void LibrarySystem::addTransaction(int bookPosition) {
 
     Transaction t(currentUser, listBook[bookPosition], "borrowed", std::ctime(&now_time), "");
     listTransaction.push_back(t);
+}
+
+bool LibrarySystem::returnBook(int bookId) {
+    for (Transaction t : listTransaction) {
+        if (t.getUser().getUsername() == currentUser.getUsername() && t.getBook().getId() == bookId) {
+            t.setStatus("returned");
+            return true;
+        }
+    }
+    return false;
 }
 
 void LibrarySystem::updateTransactionStatus(int bookposition) {

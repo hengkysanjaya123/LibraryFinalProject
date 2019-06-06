@@ -3,6 +3,7 @@
 //
 
 #include "library_system_ui.h"
+#include "setup_variables.h";
 
 int LibrarySystemUI::addCategoryUI() {
     cout << "-- Insert category --" << endl;
@@ -38,13 +39,15 @@ void LibrarySystemUI::run() {
     string option;
 
     while (true) {
-        cout << "=========================================" << endl
-             << "=       Welcome to Library System       =" << endl
-             << "=========================================" << endl
-             << "1. Login" << endl
-             << "2. Register" << endl
-             << "3. Exit" << endl
-             << ">>";
+        string title = "=========================================\n"
+                       "=         Welcome to HR Library         =\n"
+                       "=========================================\n";
+        ls.WriteWithColor(title, 9);
+
+        ls.WriteWithColor("1. Login    \n"
+                       "2. Register \n"
+                       "3. Exit     \n"
+                       ">>", COLOR_OPTIONS);
 
         cin >> option;
         // login
@@ -60,25 +63,59 @@ void LibrarySystemUI::run() {
             bool login = ls.doLogin(username, password, u);
             if (login) {
                 ls.setCurrentUser(u);
-
+                ls.WriteWithColor("~ Login Success ~", COLOR_SUCCESS_MESSAGE);
                 if (u.getRole() == "A") {
                     adminPage(u);
                 } else if (u.getRole() == "U") {
                     userPage(u);
                 }
             } else {
-                cout << "Username and password incorrect" << endl;
+                ls.WriteWithColor("Username and password incorrect", COLOR_WARNING_MESSAGE); // pink
             }
         }
             // register
         else if (option == "2") {
+            string name, username, password, confirm_password, role;
 
+            cout << "-- Add New User --" << endl;
+
+            cout << "name >>";
+            cin >> name;
+
+            while (true) {
+                cout << "username >> ";
+                cin >> username;
+
+                if (ls.IsUsernameExist(username)) {
+                    ls.WriteWithColor("Username already exists", COLOR_WARNING_MESSAGE);
+                } else {
+                    break;
+                }
+            }
+
+            cout << "password >>";
+            cin >> password;
+
+            while (true) {
+                cout << "confirm password >>";
+                cin >> confirm_password;
+
+                if (confirm_password != password) {
+                    ls.WriteWithColor("Confirm password and password must be the same", COLOR_WARNING_MESSAGE);
+                } else {
+                    break;
+                }
+            }
+
+            ls.addUser(User(name, username, password, "L"));
+
+            ls.WriteWithColor("Register success", COLOR_SUCCESS_MESSAGE);
         }
             // exit
         else if (option == "3") {
             break;
         } else {
-            cout << "Wrong Input" << endl;
+            ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
         }
         cout << endl;
     }
@@ -86,17 +123,17 @@ void LibrarySystemUI::run() {
 
 void LibrarySystemUI::userPage(User currentUser) {
 
-    int option,topBookoption,timeSpan;
-    string year,month,day,date;
+    int option, topBookoption, timeSpan;
+    string year, month, day, date;
     while (true) {
         cout << endl;
-        cout << "Welcome " << currentUser.getName() << " (User)" << endl
-             << "1. Borrow book" << endl
-             << "2. View Recommendation Books" << endl
-             << "3. View Top Books" << endl
-             << "4. Return Book" << endl
-             << "0. Logout" << endl
-             << ">>";
+        ls.WriteWithColor("Welcome " + currentUser.getName() + " (User)\n"
+                                                            "1. Borrow book               \n"
+                                                            "2. View Recommendation Books \n"
+                                                            "3. View Top Books            \n"
+                                                            "4. Return Book               \n"
+                                                            "0. Logout                    \n"
+                                                            ">>", COLOR_OPTIONS);
 
         cin >> option;
 
@@ -104,7 +141,7 @@ void LibrarySystemUI::userPage(User currentUser) {
             int bookid;
             bool found = ls.searchBook();
             if (found == false) {
-                cout << "There is no data in the list" << endl;
+                ls.WriteWithColor("There is no data in the list", COLOR_WARNING_MESSAGE);
             } else {
                 cout << "-- Borrow book --" << endl
                      << "Input book's id >>";
@@ -112,18 +149,16 @@ void LibrarySystemUI::userPage(User currentUser) {
 
                 int pos = ls.searchBook(bookid);
                 if (pos == -1) {
-                    cout << "Sorry, book id not found" << endl;
+                    ls.WriteWithColor("Sorry, book id not found", COLOR_WARNING_MESSAGE);
                 } else {
                     ls.addTransaction(pos);
 
-                    cout << "~ Transaction success ~" << endl;
+                    ls.WriteWithColor("~ Transaction success ~", COLOR_SUCCESS_MESSAGE);
                 }
             }
-        }
-        else if(option == 2){
+        } else if (option == 2) {
 
-        }
-        else if (option == 3){
+        } else if (option == 3) {
 
             time_t theTime = time(NULL);
             struct tm *currTime = localtime(&theTime);
@@ -134,38 +169,46 @@ void LibrarySystemUI::userPage(User currentUser) {
 
             date = year + "-" + month + "-" + day;
 
-            cout << "View By: " << endl
-                 << "1. Rating" << endl
-                 << "2. Amount Borrowed" << endl
-                 << ">>";
+            ls.WriteWithColor("View By:\n"
+                           "1. Rating         \n"
+                           "2. Amount Borrowed\n"
+                           ">>", COLOR_OPTIONS);
 
             cin >> topBookoption;
 
-            cout << "Time Span: " << endl
-                 << "1. This Month" << endl
-                 << "2. This Year" << endl
-                 << "3. All Time" << endl
-                 << ">>";
+            ls.WriteWithColor("Time Span: \n"
+                           "1. This Month \n"
+                           "2. This Year  \n"
+                           "3. All Time   \n"
+                           ">>", COLOR_OPTIONS);
 
             cin >> timeSpan;
 
-            if (topBookoption == 1){
+            if (topBookoption == 1) {
                 ls.displayTopRatedBooks(date, timeSpan);
-            }
-
-            else if (topBookoption == 2){
+            } else if (topBookoption == 2) {
                 ls.displayTopBorrowedBooks(date, timeSpan);
             }
 
 
-        }
-        else if(option == 4){
+        } else if (option == 4) {
+            cout << "- Return Book -" << endl;
 
-        }
-        else if (option == 0) {
+            int bookId;
+            ls.displayBorrowedBooks(currentUser);
+            cout << "Input Book Id you want to return >>";
+
+            cin >> bookId;
+
+            if (ls.returnBook(bookId)) {
+                ls.WriteWithColor("Return book success", COLOR_SUCCESS_MESSAGE);
+            } else {
+                ls.WriteWithColor("Sorry, You dont borrow this book", COLOR_WARNING_MESSAGE);
+            }
+        } else if (option == 0) {
             break;
         } else {
-            cout << "Wrong Input" << endl;
+            ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
         }
     }
 }
@@ -174,12 +217,12 @@ void LibrarySystemUI::adminPage(User currentUser) {
     int option;
     while (true) {
         cout << endl;
-        cout << "Welcome " << currentUser.getName() << " (admin)" << endl
-             << "1. Master Data" << endl
-             << "2. View Transaction" << endl
-             << "3. View Borrowed Books" << endl
-             << "4. Logout" << endl
-             << ">>";
+        ls.WriteWithColor("Welcome " + currentUser.getName() + " (admin)\n"
+                        "1. Master Data         \n"
+                        "2. View Transaction    \n"
+                        "3. View Borrowed Books \n"
+                        "4. Logout              \n"
+                        ">>", COLOR_OPTIONS);
 
         cin >> option;
         // master data
