@@ -7,8 +7,8 @@
 
 using namespace std;
 
-template <class T>
-class Sorting{
+template<class T>
+class Sorting {
 public:
 
     // function to swap
@@ -30,15 +30,15 @@ public:
         T L, R;
 
         /* Copy data to temp arrays L[] and R[] */
-        for (i = 0; i < n1; i++){
+        for (i = 0; i < n1; i++) {
             //cout << i << endl;
             //cout << arr[l+ i].getName() << endl;
             //L[i] = arr[l + i];
-            L.push_back(arr[l+i]);
+            L.push_back(arr[l + i]);
             //cout << L[i].getName() << endl;
         }
 
-        for (j = 0; j < n2; j++){
+        for (j = 0; j < n2; j++) {
             R.push_back(arr[m + 1 + j]);
             //R[j] = arr[m + 1 + j];
         }
@@ -48,10 +48,16 @@ public:
         j = 0; // Initial index of second subarray
         k = l; // Initial index of merged subarray
         while (i < n1 && j < n2) {
-            string a,b;
-            if(col == "name"){
+            string a, b;
+            if (col == "name") {
                 a = L[i].getName();
                 b = R[j].getName();
+            } else if (col == "author") {
+                a = L[i].getAuthor();
+                b = R[j].getAuthor();
+            } else if (col == "stock") {
+                a = to_string(L[i].getStock());
+                b = to_string(R[j].getStock());
             }
 
             if (a <= b) {

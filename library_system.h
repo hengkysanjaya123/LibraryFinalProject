@@ -102,7 +102,7 @@ public:
     vector<Category> getListCategory();
 
     // -- Transaction operations --
-    void addTransaction(int bookPosition);
+    bool addTransaction(int bookPosition);
 
     bool returnBook(int bookId);
 

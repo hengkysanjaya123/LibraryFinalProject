@@ -199,7 +199,8 @@ void LibrarySystemUI::userPage(User currentUser) {
                                                                "1. Borrow book               \n"
                                                                "2. View Recommendation Books \n"
                                                                "3. View Top Books            \n"
-                                                               "4. Return Book               \n"
+                                                               "4. View All Books            \n"
+                                                               "5. Return Book               \n"
                                                                "0. Logout                    \n"
                                                                ">>", COLOR_OPTIONS);
 
@@ -219,9 +220,15 @@ void LibrarySystemUI::userPage(User currentUser) {
                 if (pos == -1) {
                     ls.WriteWithColor("Sorry, book id not found", COLOR_WARNING_MESSAGE);
                 } else {
-                    ls.addTransaction(pos);
 
-                    ls.WriteWithColor("~ Transaction success ~", COLOR_SUCCESS_MESSAGE);
+                    bool res = ls.addTransaction(pos);
+
+                    if (res) {
+                        ls.WriteWithColor("~ Transaction success ~", COLOR_SUCCESS_MESSAGE);
+                    }
+                    else{
+                        ls.WriteWithColor("Sorry, You have already borrowed this book", COLOR_WARNING_MESSAGE);
+                    }
                 }
             }
         } else if (option == 2) {
@@ -260,6 +267,9 @@ void LibrarySystemUI::userPage(User currentUser) {
 
 
         } else if (option == 4) {
+            cout << "-- View all books --" << endl;
+            ls.displayBooks();
+        } else if (option == 5) {
             cout << "- Return Book -" << endl;
 
             int bookId;
@@ -296,24 +306,28 @@ void LibrarySystemUI::adminPage(User currentUser) {
         // master data
         if (option == 1) {
             int suboption_master_data;
-            cout << "1. Book" << endl
-                 << "2. Category" << endl
-                 << "3. User" << endl
+            ls.SetTextColor(COLOR_OPTIONS);
+            cout << "1. Book     " << endl
+                 << "2. Category " << endl
+                 << "3. User     " << endl
                  << ">>";
+            ls.ResetTextColor();
             cin >> suboption_master_data;
 
             // book
             if (suboption_master_data == 1) {
                 while (true) {
                     int suboption_book;
-                    cout << "Book CRUD" << endl
-                         << "1. Insert" << endl
-                         << "2. Update" << endl
-                         << "3. Delete" << endl
-                         << "4. Search" << endl
-                         << "5. View all" << endl
-                         << "6. Back to menu" << endl;
-
+                    ls.SetTextColor(COLOR_OPTIONS);
+                    cout << "Book CRUD       " << endl
+                         << "1. Insert       " << endl
+                         << "2. Update       " << endl
+                         << "3. Delete       " << endl
+                         << "4. Search       " << endl
+                         << "5. View all     " << endl
+                         << "6. Back to menu " << endl
+                         << ">>";
+                    ls.ResetTextColor();
                     cin >> suboption_book;
                     // insert book
                     if (suboption_book == 1) {
@@ -487,13 +501,15 @@ void LibrarySystemUI::adminPage(User currentUser) {
             else if (suboption_master_data == 2) {
                 while (true) {
                     int suboption_category;
-                    cout << "Category CRUD" << endl
-                         << "1. Insert" << endl
-                         << "2. Update" << endl
-                         << "3. Delete" << endl
-                         << "4. Search" << endl
-                         << "5. View all" << endl
-                         << "6. Back to menu" << endl;
+                    ls.SetTextColor(COLOR_OPTIONS);
+                    cout << "Category CRUD    " << endl
+                         << "1. Insert        " << endl
+                         << "2. Update        " << endl
+                         << "3. Delete        " << endl
+                         << "4. Search        " << endl
+                         << "5. View all      " << endl
+                         << "6. Back to menu  " << endl;
+                    ls.ResetTextColor();
 
                     cin >> suboption_category;
                     // insert category
@@ -577,13 +593,14 @@ void LibrarySystemUI::adminPage(User currentUser) {
                 // user
             else if (suboption_master_data == 3) {
                 int suboption_user;
+                ls.SetTextColor(COLOR_OPTIONS);
                 cout << "User CRUD" << endl
                      << "1. Insert" << endl
                      << "2. Update" << endl
                      << "3. Delete" << endl
                      << "4. Search" << endl
                      << "5. View all" << endl;
-
+                ls.ResetTextColor();
                 cin >> option;
                 // insert user
                 if (suboption_user == 1) {
