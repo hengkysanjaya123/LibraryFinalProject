@@ -3,7 +3,67 @@
 //
 
 #include "library_system_ui.h"
-#include "setup_variables.h";
+#include "setup_variables.h"
+#include <vector>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+
+vector<string> LibrarySystemUI::split(string text, char delimiter) {
+    int length = text.length();
+    vector<string> result;
+
+    string temp;
+    for (int i = 0; i < length; i++) {
+        if (text[i] == delimiter) {
+            result.push_back(temp);
+            temp = "";
+        } else if (i == (length - 1)) {
+            temp += text[i];
+            result.push_back(temp);
+            temp = "";
+        } else {
+            temp += text[i];
+        }
+    }
+
+    return result;
+}
+
+vector<vector<string>> LibrarySystemUI::readFile(string filename) {
+    string line;
+    ifstream file;
+    file.open("../database/" + filename);
+
+    vector<vector<string>> list;
+    if (!file) {
+        cout << "cannot open the file " << endl;
+    } else {
+        while (file) {
+            getline(file, line);
+
+            if (line != "") {
+                vector<string> test = split(line, ',');
+                list.push_back(test);
+            }
+        }
+    }
+
+    file.close();
+    return list;
+}
+
+void LibrarySystemUI::writeFile(string filename, vector<string> list) {
+    ofstream file;
+    file.open("../database/" + filename, ios::trunc);
+    if (file.is_open()) {
+        for (int i = 0; i < list.size(); i++) {
+            file << list[i];
+        }
+    }
+
+    file.close();
+}
 
 int LibrarySystemUI::addCategoryUI() {
     cout << "-- Insert category --" << endl;
@@ -19,22 +79,30 @@ int LibrarySystemUI::addCategoryUI() {
 }
 
 void LibrarySystemUI::run() {
-    ls.addCategory(Category("Business"));
-    ls.addCategory(Category("Music"));
-    ls.addCategory(Category("Biography"));
-    ls.addCategory(Category("Children"));
-    ls.addCategory(Category("Cooking"));
-    ls.addCategory(Category("Education"));
-    ls.addCategory(Category("Economics"));
+    vector<vector<string>> dataCategory = readFile("category.csv");
+    for (auto i : dataCategory) {
+        ls.addCategory((Category(i[1])));
+    }
 
-    ls.addBook(Book("The Visual MBA", "Jason Barron", 10, ls.getListCategory()[0]));
-    ls.addBook(Book("How to be Invisible: Lyrics", "Kate Bush", 10, ls.getListCategory()[1]));
-    ls.addBook(Book("The Only Business", "Laura Brown", 100, ls.getListCategory()[0]));
-    ls.addBook(Book("10 Steps to Successful Budgeting", "Lianabel Oliver", 200, ls.getListCategory()[0]));
-    ls.addBook(Book("Education and the Commercial Mindset", "Samuel E. Abrams", 350, ls.getListCategory()[5]));
+    vector<vector<string>> dataBook = readFile("book.csv");
+    for (auto i : dataBook) {
+        auto b = Book(i[1], i[2], stoi(i[3]), ls.getCategory(stoi(i[4]) - 1));
+        b.setRating(stoi(i[5]));
+        ls.addBook(b);
+    }
 
-    ls.addUser(User("test", "test", "test", "A"));
-    ls.addUser(User("coba", "coba", "coba", "U"));
+//    ls.addBook(Book("How to be Invisible: Lyrics", "Kate Bush", 10, ls.getListCategory()[1]));
+//    ls.addBook(Book("The Only Business", "Laura Brown", 100, ls.getListCategory()[0]));
+//    ls.addBook(Book("10 Steps to Successful Budgeting", "Lianabel Oliver", 200, ls.getListCategory()[0]));
+//    ls.addBook(Book("Education and the Commercial Mindset", "Samuel E. Abrams", 350, ls.getListCategory()[5]));
+
+
+    vector<vector<string>> dataUser = readFile("user.csv");
+    for (auto i : dataUser) {
+        ls.addUser(User(i[0], i[1], i[2], i[3]));
+    }
+//    ls.addUser(User("test", "test", "test", "A"));
+//    ls.addUser(User("coba", "coba", "coba", "U"));
 
     string option;
 
@@ -45,9 +113,9 @@ void LibrarySystemUI::run() {
         ls.WriteWithColor(title, 9);
 
         ls.WriteWithColor("1. Login    \n"
-                       "2. Register \n"
-                       "3. Exit     \n"
-                       ">>", COLOR_OPTIONS);
+                          "2. Register \n"
+                          "3. Exit     \n"
+                          ">>", COLOR_OPTIONS);
 
         cin >> option;
         // login
@@ -128,12 +196,12 @@ void LibrarySystemUI::userPage(User currentUser) {
     while (true) {
         cout << endl;
         ls.WriteWithColor("Welcome " + currentUser.getName() + " (User)\n"
-                                                            "1. Borrow book               \n"
-                                                            "2. View Recommendation Books \n"
-                                                            "3. View Top Books            \n"
-                                                            "4. Return Book               \n"
-                                                            "0. Logout                    \n"
-                                                            ">>", COLOR_OPTIONS);
+                                                               "1. Borrow book               \n"
+                                                               "2. View Recommendation Books \n"
+                                                               "3. View Top Books            \n"
+                                                               "4. Return Book               \n"
+                                                               "0. Logout                    \n"
+                                                               ">>", COLOR_OPTIONS);
 
         cin >> option;
 
@@ -170,17 +238,17 @@ void LibrarySystemUI::userPage(User currentUser) {
             date = year + "-" + month + "-" + day;
 
             ls.WriteWithColor("View By:\n"
-                           "1. Rating         \n"
-                           "2. Amount Borrowed\n"
-                           ">>", COLOR_OPTIONS);
+                              "1. Rating         \n"
+                              "2. Amount Borrowed\n"
+                              ">>", COLOR_OPTIONS);
 
             cin >> topBookoption;
 
             ls.WriteWithColor("Time Span: \n"
-                           "1. This Month \n"
-                           "2. This Year  \n"
-                           "3. All Time   \n"
-                           ">>", COLOR_OPTIONS);
+                              "1. This Month \n"
+                              "2. This Year  \n"
+                              "3. All Time   \n"
+                              ">>", COLOR_OPTIONS);
 
             cin >> timeSpan;
 
@@ -218,11 +286,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
     while (true) {
         cout << endl;
         ls.WriteWithColor("Welcome " + currentUser.getName() + " (admin)\n"
-                        "1. Master Data         \n"
-                        "2. View Transaction    \n"
-                        "3. View Borrowed Books \n"
-                        "4. Logout              \n"
-                        ">>", COLOR_OPTIONS);
+                                                               "1. Master Data         \n"
+                                                               "2. View Transaction    \n"
+                                                               "3. View Borrowed Books \n"
+                                                               "4. Logout              \n"
+                                                               ">>", COLOR_OPTIONS);
 
         cin >> option;
         // master data

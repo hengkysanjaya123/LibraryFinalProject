@@ -11,15 +11,23 @@
 
 using namespace std;
 
-class LibrarySystemUI{
+class LibrarySystemUI {
 private:
     LibrarySystem ls;
 public:
     void run();
+
     void adminPage(User currentUser);
+
     void userPage(User currentUser);
+
     int addCategoryUI();
 
+    vector<string> split(string text, char delimiter);
+
+    vector<vector<string>> readFile(string filename);
+
+    void writeFile(string filename, vector<string> list);
 };
 
 

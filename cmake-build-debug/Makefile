@@ -122,6 +122,33 @@ Final_Project/fast:
 	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/build
 .PHONY : Final_Project/fast
 
+Helper/sort.obj: Helper/sort.cpp.obj
+
+.PHONY : Helper/sort.obj
+
+# target to build an object file
+Helper/sort.cpp.obj:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Helper/sort.cpp.obj
+.PHONY : Helper/sort.cpp.obj
+
+Helper/sort.i: Helper/sort.cpp.i
+
+.PHONY : Helper/sort.i
+
+# target to preprocess a source file
+Helper/sort.cpp.i:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Helper/sort.cpp.i
+.PHONY : Helper/sort.cpp.i
+
+Helper/sort.s: Helper/sort.cpp.s
+
+.PHONY : Helper/sort.s
+
+# target to generate assembly for a file
+Helper/sort.cpp.s:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Helper/sort.cpp.s
+.PHONY : Helper/sort.cpp.s
+
 Model/book.obj: Model/book.cpp.obj
 
 .PHONY : Model/book.obj
@@ -347,6 +374,9 @@ help:
 	@echo ... rebuild_cache
 	@echo ... Final_Project
 	@echo ... edit_cache
+	@echo ... Helper/sort.obj
+	@echo ... Helper/sort.i
+	@echo ... Helper/sort.s
 	@echo ... Model/book.obj
 	@echo ... Model/book.i
 	@echo ... Model/book.s

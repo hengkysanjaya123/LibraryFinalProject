@@ -5,7 +5,10 @@
 #include <ctime>
 #include "library_system.h"
 #include <windows.h>   // WinApi header ( HANDLE = to set color )
-#include "setup_variables.h";
+#include <sstream>
+#include "setup_variables.h"
+#include <math.h>
+#include "Helper/sort.cpp"
 
 LibrarySystem::LibrarySystem() = default;
 
@@ -82,6 +85,19 @@ void LibrarySystem::updateUser(int position, User u) {
 
 vector<User> LibrarySystem::getListUser() {
     return listUser;
+}
+
+vector<string> LibrarySystem::getUsersinFormat() {
+    vector<string> result;
+
+    for (int i = 0; i < listUser.size(); i++) {
+        stringstream ss;
+        ss << listUser[i].getName() << "," << listUser[i].getUsername() << "," << listUser[i].getPassword() << ","
+           << listUser[i].getRole() << "\n";
+        result.push_back(ss.str());
+    }
+
+    return result;
 }
 
 // -- Login --
@@ -202,10 +218,17 @@ void LibrarySystem::displayBooks() {
         printf("| %-5s | %-40s | %-20s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
                "Rating");
         printf(" ------------------------------------------------------------------------------------------------------------\n");
-        for (Book &i : listBook) {
+
+        Sorting<vector<Book>> s;
+
+        vector<Book> book_list = listBook;
+        s.mergeSort(book_list, 0, book_list.size() - 1, "name");
+
+        for (Book &i : book_list) {
             Category c = i.getCategory();
-            printf("| %-5d | %-40s | %-20s | %-10d | %-10s | %-6d |\n", i.getId(), i.getName().c_str(),
-                   i.getAuthor().c_str(), i.getStock(), c.getName().c_str(), i.getRating());
+            printf("| %-5d | %-40s | %-20s | %-10d | %-10s | %-6.2f |\n", i.getId(), i.getName().c_str(),
+                   i.getAuthor().c_str(), i.getStock(), c.getName().c_str(),
+                   i.getRating());
         }
         printf(" ------------------------------------------------------------------------------------------------------------\n");
         cout << " Total data " << listBook.size() << endl;
@@ -393,10 +416,23 @@ void LibrarySystem::displayTopRatedBooks(string date, int option) {
     for (int j = 0; j < 10; j++) {
         printf("%-30s | %10f", ratedBookslist[j].second.c_str(), ratedBookslist[j].first);
     }
+// -- Category operations --
 
 }
 
-// -- Category operations --
+vector<string> LibrarySystem::getBooksInFormat() {
+    vector<string> result;
+
+    for (int i = 0; i < listBook.size(); i++) {
+        stringstream ss;
+        ss << listBook[i].getId() << "," << listBook[i].getName() << "," << listBook[i].getAuthor() << ","
+           << listBook[i].getStock() << "," << listBook[i].getCategory().getId() << "," << listBook[i].getRating()
+           << "\n";
+        result.push_back(ss.str());
+    }
+
+    return result;
+}
 
 int LibrarySystem::addCategory(Category c) {
     listCategory.push_back(c);
@@ -427,6 +463,18 @@ void LibrarySystem::displayCategories() {
         printf("-------------------------------------------");
         ResetTextColor();
     }
+}
+
+vector<string> LibrarySystem::getCategoriesInFormat() {
+    vector<string> result;
+
+    for (int i = 0; i < listCategory.size(); i++) {
+        stringstream ss;
+        ss << listCategory[i].getId() << "," << listCategory[i].getName() << "\n";
+        result.push_back(ss.str());
+    }
+
+    return result;
 }
 
 void LibrarySystem::updateCategory(int position, Category c) {

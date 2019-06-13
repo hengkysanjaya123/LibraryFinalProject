@@ -26,14 +26,22 @@ private:
     vector<Category> listCategory;
     vector<Transaction> listTransaction;
 
+
 public:
     void WriteWithColor(string message, char color);
+
     void SetTextColor(char color);
+
     void ResetTextColor();
+
     string toLower(string text);
+
     bool IsUsernameExist(string username);
+
     User getCurrentUser();
+
     void setCurrentUser(User u);
+
     // -- User operations --
     LibrarySystem();
 
@@ -44,6 +52,8 @@ public:
     void updateUser(int position, User u);
 
     vector<User> getListUser();
+
+    vector<string> getUsersinFormat();
 
     // -- Login --
     bool doLogin(string username, string password, User &u);
@@ -60,10 +70,16 @@ public:
     int searchBook(int id);
 
     void displayBooks();
+
     void displayBorrowedBooks();
+
     void displayBorrowedBooks(User u);
+
     void displayTopBorrowedBooks(string date, int option);
-    void displayTopRatedBooks(string date,int option);
+
+    void displayTopRatedBooks(string date, int option);
+
+    vector<string> getBooksInFormat();
 
 
     // -- Category operations --
@@ -75,20 +91,27 @@ public:
 
     void updateCategory(int position, Category c);
 
+    vector<string> getCategoriesInFormat();
+
     bool searchCategory();
 
     int searchCategory(int id);
 
     void displayCategories();
+
     vector<Category> getListCategory();
 
     // -- Transaction operations --
     void addTransaction(int bookPosition);
+
     bool returnBook(int bookId);
 
     void updateTransactionStatus(int bookposition);
+
     void viewTodaysTransactions(string date);
+
     void viewMonthlyTransactions(string date);
+
     void viewAllTransactions();
 
     void testing(int a);
