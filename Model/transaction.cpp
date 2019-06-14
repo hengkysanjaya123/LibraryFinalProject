@@ -4,66 +4,63 @@
 
 #include "transaction.h"
 
-Transaction::Transaction()
-{
+Transaction::Transaction() {
 }
 
-Transaction::Transaction(User user, Book book, string status, string date, string review)
-{
+Transaction::Transaction(User user, Book book, string status, string date, string review, int rating) {
     this->user = user;
     this->book = book;
     this->status = status;
     this->date = date;
     this->review = review;
+    this->rating = rating;
 }
 
-void Transaction::setUser(User user)
-{
+void Transaction::setUser(User user) {
     this->user = user;
 }
 
-User Transaction::getUser()
-{
+User Transaction::getUser() {
     return this->user;
 }
 
-void Transaction::setBook(Book book)
-{
+void Transaction::setBook(Book book) {
     this->book = book;
 }
 
-Book Transaction::getBook()
-{
+Book Transaction::getBook() {
     return this->book;
 }
 
-void Transaction::setStatus(string status)
-{
+void Transaction::setStatus(string status) {
     this->status = status;
 }
 
-string Transaction::getStatus()
-{
+string Transaction::getStatus() {
     return this->status;
 }
 
-void Transaction::setDate(string date)
-{
+void Transaction::setDate(string date) {
     this->date = date;
 }
 
-string Transaction::getDate()
-{
+string Transaction::getDate() {
     return this->date;
 }
 
-void Transaction::setReview(string review)
-{
+void Transaction::setReview(string review) {
     this->review = review;
 }
 
-string Transaction::getReview()
-{
+string Transaction::getReview() {
     return this->review;
 }
 
+
+void Transaction::setRating(int rating) {
+    this->rating = rating;
+}
+
+int Transaction::getRating() {
+    return this->rating;
+}

@@ -8,6 +8,9 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <chrono>
+
+using namespace chrono;
 
 vector<string> LibrarySystemUI::split(string text, char delimiter) {
     int length = text.length();
@@ -104,6 +107,14 @@ void LibrarySystemUI::run() {
 //    ls.addUser(User("test", "test", "test", "A"));
 //    ls.addUser(User("coba", "coba", "coba", "U"));
 
+    vector<vector<string>> dataTransaction = readFile("transaction.csv");
+    for (auto i : dataTransaction) {
+        ls.addTransaction(i[0], stoi(i[1]), i[2], i[3], i[4], stoi(i[5]));
+    }
+//    ls.setCurrentUser(ls.getListUser()[0]);
+//    ls.addTransaction(1);
+//    writeFile("transaction.csv", ls.getTransactionsinFormat());
+
     string option;
 
     while (true) {
@@ -175,12 +186,16 @@ void LibrarySystemUI::run() {
                 }
             }
 
-            ls.addUser(User(name, username, password, "L"));
+            ls.addUser(User(name, username, password, "U"));
 
             ls.WriteWithColor("Register success", COLOR_SUCCESS_MESSAGE);
         }
             // exit
         else if (option == "3") {
+            writeFile("book.csv", ls.getBooksInFormat());
+            writeFile("category.csv", ls.getCategoriesInFormat());
+            writeFile("user.csv", ls.getUsersinFormat());
+            writeFile("transaction.csv", ls.getTransactionsinFormat());
             break;
         } else {
             ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
@@ -196,12 +211,13 @@ void LibrarySystemUI::userPage(User currentUser) {
     while (true) {
         cout << endl;
         ls.WriteWithColor("Welcome " + currentUser.getName() + " (User)\n"
-                                                               "1. Borrow book               \n"
-                                                               "2. View Recommendation Books \n"
-                                                               "3. View Top Books            \n"
-                                                               "4. View All Books            \n"
-                                                               "5. Return Book               \n"
-                                                               "0. Logout                    \n"
+                                                               "1. Borrow book                          \n"
+                                                               "2. Return Book                          \n"
+                                                               //"3. View Top Books              \n"
+                                                               "3. View All Books                       \n"
+                                                               "4. View Top 3 Books by Rating           \n"
+                                                               "5. View Top 3 Books by Amount borrowed  \n"
+                                                               "0. Logout                               \n"
                                                                ">>", COLOR_OPTIONS);
 
         cin >> option;
@@ -216,60 +232,29 @@ void LibrarySystemUI::userPage(User currentUser) {
                      << "Input book's id >>";
                 cin >> bookid;
 
+                auto start = system_clock::now();
                 int pos = ls.searchBook(bookid);
+                auto end = system_clock::now();
+                auto elapsed = double(duration_cast<milliseconds>(end - start).count());
+                auto nano = double(duration_cast<nanoseconds>(end - start).count());
+
                 if (pos == -1) {
                     ls.WriteWithColor("Sorry, book id not found", COLOR_WARNING_MESSAGE);
+                } else if (pos == -2) {
+                    ls.WriteWithColor("Sorry, book out of stock", COLOR_WARNING_MESSAGE);
                 } else {
 
                     bool res = ls.addTransaction(pos);
 
                     if (res) {
+                        cout << " Hash search time taken : " << elapsed << " ms  | " << nano << " ns" << endl;
                         ls.WriteWithColor("~ Transaction success ~", COLOR_SUCCESS_MESSAGE);
-                    }
-                    else{
+                    } else {
                         ls.WriteWithColor("Sorry, You have already borrowed this book", COLOR_WARNING_MESSAGE);
                     }
                 }
             }
         } else if (option == 2) {
-
-        } else if (option == 3) {
-
-            time_t theTime = time(NULL);
-            struct tm *currTime = localtime(&theTime);
-
-            day = to_string(currTime->tm_mday);
-            month = to_string(currTime->tm_mon + 1);
-            year = to_string(currTime->tm_year + 1900);
-
-            date = year + "-" + month + "-" + day;
-
-            ls.WriteWithColor("View By:\n"
-                              "1. Rating         \n"
-                              "2. Amount Borrowed\n"
-                              ">>", COLOR_OPTIONS);
-
-            cin >> topBookoption;
-
-            ls.WriteWithColor("Time Span: \n"
-                              "1. This Month \n"
-                              "2. This Year  \n"
-                              "3. All Time   \n"
-                              ">>", COLOR_OPTIONS);
-
-            cin >> timeSpan;
-
-            if (topBookoption == 1) {
-                ls.displayTopRatedBooks(date, timeSpan);
-            } else if (topBookoption == 2) {
-                ls.displayTopBorrowedBooks(date, timeSpan);
-            }
-
-
-        } else if (option == 4) {
-            cout << "-- View all books --" << endl;
-            ls.displayBooks();
-        } else if (option == 5) {
             cout << "- Return Book -" << endl;
 
             int bookId;
@@ -283,6 +268,48 @@ void LibrarySystemUI::userPage(User currentUser) {
             } else {
                 ls.WriteWithColor("Sorry, You dont borrow this book", COLOR_WARNING_MESSAGE);
             }
+        }
+//        else if (option == 3) {
+//
+//            time_t theTime = time(NULL);
+//            struct tm *currTime = localtime(&theTime);
+//
+//            day = to_string(currTime->tm_mday);
+//            month = to_string(currTime->tm_mon + 1);
+//            year = to_string(currTime->tm_year + 1900);
+//
+//            date = year + "-" + month + "-" + day;
+//
+//            ls.WriteWithColor("View By:\n"
+//                              "1. Rating         \n"
+//                              "2. Amount Borrowed\n"
+//                              ">>", COLOR_OPTIONS);
+//
+//            cin >> topBookoption;
+//
+//            ls.WriteWithColor("Time Span: \n"
+//                              "1. This Month \n"
+//                              "2. This Year  \n"
+//                              "3. All Time   \n"
+//                              ">>", COLOR_OPTIONS);
+//
+//            cin >> timeSpan;
+//
+//            if (topBookoption == 1) {
+//                ls.displayTopRatedBooks(date, timeSpan);
+//            } else if (topBookoption == 2) {
+//                ls.displayTopBorrowedBooks(date, timeSpan);
+//            }
+//
+//
+//        }
+        else if (option == 3) {
+            cout << "-- View all books --" << endl;
+            ls.displayBooks();
+        } else if (option == 4) {
+            ls.viewHighestRatedBooks();
+        } else if (option == 5) {
+            ls.viewHighestBorrowedBooks();
         } else if (option == 0) {
             break;
         } else {
@@ -296,10 +323,13 @@ void LibrarySystemUI::adminPage(User currentUser) {
     while (true) {
         cout << endl;
         ls.WriteWithColor("Welcome " + currentUser.getName() + " (admin)\n"
-                                                               "1. Master Data         \n"
-                                                               "2. View Transaction    \n"
-                                                               "3. View Borrowed Books \n"
-                                                               "4. Logout              \n"
+                                                               "1. Master Data                          \n"
+                                                               "2. View Transaction                     \n"
+                                                               "3. View Borrowed Books                  \n"
+                                                               "4. View Book's Review                   \n"
+                                                               "5. View Top 3 Books by Rating           \n"
+                                                               "6. View Top 3 Books by Amount borrowed  \n"
+                                                               "7. Logout                               \n"
                                                                ">>", COLOR_OPTIONS);
 
         cin >> option;
@@ -309,7 +339,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
             ls.SetTextColor(COLOR_OPTIONS);
             cout << "1. Book     " << endl
                  << "2. Category " << endl
-                 << "3. User     " << endl
+                 //<< "3. User     " << endl
                  << ">>";
             ls.ResetTextColor();
             cin >> suboption_master_data;
@@ -658,8 +688,16 @@ void LibrarySystemUI::adminPage(User currentUser) {
         else if (option == 3) {
             ls.displayBorrowedBooks();
         }
-            // logout
+            // view book's review
         else if (option == 4) {
+            ls.viewBooksReview();
+        } else if (option == 5) {
+            ls.viewHighestRatedBooks();
+        } else if (option == 6) {
+            ls.viewHighestBorrowedBooks();
+        }
+            // logout
+        else if (option == 7) {
             break;
         }
             // wrong input

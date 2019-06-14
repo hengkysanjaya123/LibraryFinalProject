@@ -130,22 +130,40 @@ void LibrarySystem::updateBook(int position, Book b) {
 }
 
 int LibrarySystem::searchBook(int id) {
-    for (int i = 0; i < listBook.size(); ++i) {
-        if (listBook[i].getId() == id) {
-            return i;
+    if (id <= listBook.size()) {
+        auto current = listBook[id - 1];
+
+        int nBorrowed = 0;
+        for (Transaction t : listTransaction) {
+            if (t.getBook().getId() == current.getId() && t.getStatus() == "borrowed") {
+                nBorrowed += 1;
+            }
         }
+
+        if ((current.getStock() - nBorrowed) == 0) {
+            return -2;
+        }
+
+        return id - 1;
     }
+//    for (int i = 0; i < listBook.size(); ++i) {
+//        if (listBook[i].getId() == id) {
+//            return i;
+//        }
+//    }
     return -1;
 }
 
 bool LibrarySystem::searchBook() {
     int suboption_book_search;
     string key;
+    SetTextColor(COLOR_OPTIONS);
     cout << "Search book by : " << endl
-         << "1. Name" << endl
-         << "2. Author" << endl
-         << "3. Category" << endl
+         << "1. Name          " << endl
+         << "2. Author        " << endl
+         << "3. Category      " << endl
          << ">>";
+    ResetTextColor();
 
     cin >> suboption_book_search;
 
@@ -194,9 +212,17 @@ bool LibrarySystem::searchBook() {
                "Rating");
         printf(" ------------------------------------------------------------------------------------------------------------\n");
         for (int i : listFound) {
+            int nBorrowed = 0;
+            for (Transaction t : listTransaction) {
+                if (t.getBook().getId() == listBook[i].getId() && t.getStatus() == "borrowed") {
+                    nBorrowed += 1;
+                }
+            }
+            int stock = listBook[i].getStock() - nBorrowed;
+
             printf("| %-5d | %-40s | %-20s | %-10d | %-10s | %-6d |\n", listBook[i].getId(),
                    listBook[i].getName().c_str(),
-                   listBook[i].getAuthor().c_str(), listBook[i].getStock(), listBook[i].getCategory().getName().c_str(),
+                   listBook[i].getAuthor().c_str(), stock, listBook[i].getCategory().getName().c_str(),
                    listBook[i].getRating());
         }
         printf(" ------------------------------------------------------------------------------------------------------------\n");
@@ -246,10 +272,29 @@ void LibrarySystem::displayBooks() {
 
 
         for (Book &i : book_list) {
+            int nBorrowed = 0;
+            int nRating = 0, totalRating = 0;
+            for (Transaction t : listTransaction) {
+                if (t.getBook().getId() == i.getId() && t.getStatus() == "borrowed") {
+                    nBorrowed += 1;
+                }
+
+                if (t.getBook().getId() == i.getId() && t.getRating() != 0) {
+                    totalRating += t.getRating();
+                    nRating++;
+                }
+            }
+
+            float rating = 0;
+            if (nRating != 0) {
+                rating = (float) totalRating / nRating;
+            }
+            int stock = i.getStock() - nBorrowed;
+
             Category c = i.getCategory();
             printf("| %-5d | %-40s | %-20s | %-10d | %-10s | %-6.2f |\n", i.getId(), i.getName().c_str(),
-                   i.getAuthor().c_str(), i.getStock(), c.getName().c_str(),
-                   i.getRating());
+                   i.getAuthor().c_str(), stock, c.getName().c_str(),
+                   rating);
         }
         printf(" ------------------------------------------------------------------------------------------------------------\n");
         cout << " Total data " << listBook.size() << endl;
@@ -266,13 +311,14 @@ void LibrarySystem::displayBorrowedBooks() {
     cout << "List of Borrowed Books\n"
             "=======================\n\n";
 
-    printf(" ---------------------------------------------");
-    printf("| %-30s | %-10s |\n", "Book Name", "Book ID");
-    printf(" ---------------------------------------------");
+    printf(" ------------------------------------------------------------\n");
+    printf("| %-40s | %-15s |\n", "Book Name", "User");
+    printf(" ------------------------------------------------------------\n");
     for (Transaction t : listTransaction) {
         //if book has not been returned
         if (t.getStatus() == "borrowed") {
-            printf("| %-30s | %-10d |\n", t.getBook().getName().c_str(), t.getBook().getId());
+            printf("| %-40s | %-15s |\n", t.getBook().getName().c_str(),
+                   t.getUser().getName().c_str());
             borrowed = true;
         }
     }
@@ -280,7 +326,7 @@ void LibrarySystem::displayBorrowedBooks() {
     if (!borrowed) {
         cout << " NULL" << endl;
     }
-    printf(" ---------------------------------------------\n\n");
+    printf(" ------------------------------------------------------------\n\n");
     ResetTextColor();
 }
 
@@ -291,13 +337,13 @@ void LibrarySystem::displayBorrowedBooks(User u) {
     cout << "List of Borrowed Books\n"
             "=======================\n\n";
 
-    printf(" ---------------------------------------------\n");
-    printf("| %-10s | %-30s |\n", "Book ID", "Book Name");
-    printf(" ---------------------------------------------\n");
+    printf(" -------------------------------------------------------\n");
+    printf("| %-10s | %-40s |\n", "Book ID", "Book Name");
+    printf(" -------------------------------------------------------\n");
     for (Transaction t : listTransaction) {
         //if book has not been returned
         if (t.getStatus() == "borrowed" && t.getUser().getUsername() == u.getUsername()) {
-            printf("| %-10d | %-30s |\n", t.getBook().getId(), t.getBook().getName().c_str());
+            printf("| %-10d | %-40s |\n", t.getBook().getId(), t.getBook().getName().c_str());
             borrowed = true;
         }
     }
@@ -305,7 +351,7 @@ void LibrarySystem::displayBorrowedBooks(User u) {
     if (!borrowed) {
         cout << " NULL" << endl;
     }
-    printf(" ---------------------------------------------\n\n");
+    printf(" -------------------------------------------------------\n\n");
     ResetTextColor();
 }
 
@@ -480,13 +526,24 @@ void LibrarySystem::displayCategories() {
         cout << "There is no data in the list" << endl;
     } else {
         SetTextColor(COLOR_TABLE); // light yellow
-        printf("-------------------------------------------");
-        printf("%-20s | %-20s |\n", "ID", "Name");
-        printf("-------------------------------------------");
-        for (Category &i : listCategory) {
-            printf("%-20d | %-20s |\n", i.getId(), i.getName().c_str());
+
+        Sorting<vector<Category>> s;
+
+        vector<Category> category_list = listCategory;
+        auto start = system_clock::now();
+        s.mergeSort(category_list, 0, category_list.size() - 1, "name");
+        auto end = system_clock::now();
+
+        printf("  -------------------------------------------\n");
+        printf("| %-20s | %-20s |\n", "ID", "Name");
+        printf("  -------------------------------------------\n");
+        for (Category &i : category_list) {
+            printf("| %-20d | %-20s |\n", i.getId(), i.getName().c_str());
         }
-        printf("-------------------------------------------");
+        printf("  -------------------------------------------\n");
+        auto elapsed = double(duration_cast<milliseconds>(end - start).count());
+        auto nano = double(duration_cast<nanoseconds>(end - start).count());
+        cout << " Merge sort time taken : " << elapsed << " ms  | " << nano << " ns" << endl << endl;
         ResetTextColor();
     }
 }
@@ -516,19 +573,26 @@ bool LibrarySystem::searchCategory() {
     cout << "Input category name >>";
     cin >> key;
 
+    key = toLower(key);
     for (int i = 0; i < listCategory.size(); ++i) {
-        if (listCategory[i].getName() == key) {
+        if (toLower(listCategory[i].getName()) == key) {
             found = true;
             listFound.push_back(i);
         }
     }
 
     if (found) {
-        printf("%-20s | %-20s |\n", "ID", "Name");
+        SetTextColor(COLOR_TABLE);
+        printf("  -----------------------\n");
+        printf("| %-20s | %-20s |\n", "ID", "Name");
+        printf("  -----------------------\n");
         for (int j = 0; j < listFound.size(); ++j) {
             int i = listFound[j];
-            printf("%-20d | %-20s |\n", listCategory[i].getId(), listCategory[i].getName().c_str());
+            printf("| %-20d | %-20s |\n", listCategory[i].getId(), listCategory[i].getName().c_str());
         }
+        printf("  -----------------------\n");
+        cout << "  Found " << listFound.size() << " of " << listCategory.size() << endl;
+        ResetTextColor();
         cout << endl;
         return true;
     } else {
@@ -551,18 +615,165 @@ vector<Category> LibrarySystem::getListCategory() {
 }
 
 // -- Transaction operations --
-bool LibrarySystem::addTransaction(int bookPosition) {
-    auto now = std::chrono::system_clock::now();
-    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
 
-    for(auto i : listTransaction){
-        if(i.getUser().getUsername() == currentUser.getUsername() && i.getBook().getId() == listBook[bookPosition].getId()){
+void LibrarySystem::viewBooksReview() {
+    SetTextColor(COLOR_TABLE);
+    printf("  ----------------------------------------------------------------------------------------\n");
+    printf("| %-40s | %-40s |\n", "Book Name", "Review");
+    printf("  ----------------------------------------------------------------------------------------\n");
+    for (Book b : listBook) {
+        printf("| %-40s | %-40s |\n", b.getName().c_str(), "");
+
+        for (Transaction t : listTransaction) {
+            if (t.getReview() != "" && t.getBook().getId() == b.getId())
+                printf("| %-40s | %-40s |\n", "", (t.getUser().getUsername() + " : " + t.getReview()).c_str());
+        }
+    }
+    printf("  ----------------------------------------------------------------------------------------\n");
+    ResetTextColor();
+}
+
+void LibrarySystem::viewHighestRatedBooks() {
+
+    for (Book b : listBook) {
+        int nRating = 0, totalRating = 0;
+        for (Transaction t : listTransaction) {
+
+            if (t.getBook().getId() == b.getId() && t.getRating() != 0) {
+                totalRating += t.getRating();
+                nRating++;
+            }
+        }
+
+        float rating = 0;
+        if (nRating != 0) {
+            rating = (float) totalRating / nRating;
+        }
+
+        b.setRating(rating);
+    }
+
+    auto list = listBook;
+    sort(list.begin(), list.end(), [](Book const &a, Book const &b) -> bool {
+        return a.getRating() > b.getRating();
+    });
+
+    SetTextColor(COLOR_TABLE);
+    printf("  ------------------------------------------------------------------------------------------------------------\n");
+    printf("| %-40s | %-20s | %-20s | %-20s |\n", "Book Name", "Author", "Category", "Rating");
+    printf("  ------------------------------------------------------------------------------------------------------------\n");
+
+    int n = 0;
+    for (Book b : list) {
+        if (b.getRating() == 0)break;
+        n++;
+        printf("| %-40s | %-20s | %-20s | %-20.2f |\n", b.getName().c_str(), b.getAuthor().c_str(),
+               b.getCategory().getName().c_str(), b.getRating());
+        if (n == 3) break;
+    }
+    printf("  ------------------------------------------------------------------------------------------------------------\n");
+    cout << "  Found " << n << " of 3" << endl;
+    ResetTextColor();
+    cout << endl;
+}
+
+void LibrarySystem::viewHighestBorrowedBooks() {
+    vector<pair<int, int>> list;
+    for (Book b : listBook) {
+        int nBorrowed = 0;
+        for (Transaction t : listTransaction) {
+            if (t.getBook().getId() == b.getId()) {
+                nBorrowed++;
+            }
+        }
+        pair<int, int> value;
+        value.first = b.getId();
+        value.second = nBorrowed;
+        list.push_back(value);
+    }
+
+    SetTextColor(COLOR_TABLE);
+    printf("  ------------------------------------------------------------------------------------------------------------\n");
+    printf("| %-40s | %-20s | %-20s | %-20s |\n", "Book Name", "Author", "Category", "Amount");
+    printf("  ------------------------------------------------------------------------------------------------------------\n");
+
+    sort(list.begin(), list.end(), [](const pair<int, int> &a, const pair<int, int> &b) -> bool {
+        return a.second > b.second;
+    });
+
+    int n = 0;
+    for (auto l : list) {
+        if (l.second == 0)break;
+        n++;
+        auto b = listBook[l.first - 1];
+        printf("| %-40s | %-20s | %-20s | %-20d |\n", b.getName().c_str(), b.getAuthor().c_str(),
+               b.getCategory().getName().c_str(), l.second);
+        if (n == 3) break;
+    }
+    printf("  ------------------------------------------------------------------------------------------------------------\n");
+    cout << "  Found " << n << " of 3" << endl;
+    ResetTextColor();
+    cout << endl;
+}
+
+vector<string> LibrarySystem::getTransactionsinFormat() {
+    vector<string> result;
+
+    for (int i = 0; i < listTransaction.size(); i++) {
+        stringstream ss;
+        ss << listTransaction[i].getUser().getUsername() << "," << listTransaction[i].getBook().getId() << ","
+           << listTransaction[i].getStatus() << "," << listTransaction[i].getDate() << ","
+           << listTransaction[i].getReview() << "," << listTransaction[i].getRating()
+           << "\n";
+        result.push_back(ss.str());
+    }
+
+    return result;
+}
+
+bool LibrarySystem::addTransaction(int bookPosition) {
+//    auto now = std::chrono::system_clock::now();
+//    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+    time_t curr_time;
+    tm *curr_tm;
+    time(&curr_time);
+    curr_tm = localtime(&curr_time);
+
+    for (auto i : listTransaction) {
+        if (i.getUser().getUsername() == currentUser.getUsername() &&
+            i.getBook().getId() == listBook[bookPosition].getId()) {
             return false;
         }
     }
 
-    Transaction t(currentUser, listBook[bookPosition], "borrowed", std::ctime(&now_time), "");
+    char date_string[100];
+    strftime(date_string, 50, "%d %B %Y", curr_tm);
+
+    Transaction t(currentUser, listBook[bookPosition], "borrowed", date_string, "", 0);
     listTransaction.push_back(t);
+    return true;
+}
+
+bool LibrarySystem::addTransaction(string username, int bookId, string status, string date, string review, int rating) {
+    int userPos = 0;
+    for (int i = 0; i < listUser.size(); ++i) {
+        if (listUser[i].getUsername() == username) {
+            userPos = i;
+            break;
+        }
+    }
+
+    int bookPos = 0;
+    for (int j = 0; j < listBook.size(); ++j) {
+        if (listBook[j].getId() == bookId) {
+            bookPos = j;
+            break;
+        }
+    }
+
+
+    listTransaction.push_back(Transaction(listUser[userPos], listBook[bookPos], status, date, review, rating));
     return true;
 }
 
@@ -572,6 +783,26 @@ bool LibrarySystem::returnBook(int bookId) {
         if (t.getUser().getUsername() == currentUser.getUsername() && t.getBook().getId() == bookId) {
 //            t.setStatus("returned");
             listTransaction[i].setStatus("returned");
+
+            string choice;
+            cout << "Would you like to give your review of this book ? (Y/N)" << endl;
+            cin >> choice;
+            string review = "";
+            if (choice == "Y" || choice == "y") {
+                cout << "Enter your review >>" << endl;
+                cin.ignore();
+                getline(cin, review);
+            }
+
+            listTransaction[i].setReview(review);
+
+            int rating;
+            cout << "Enter rating (1-5) >>" << endl;
+            cin >> rating;
+            listTransaction[i].setRating(rating);
+
+            cout << "Thank you" << endl;
+
             return true;
         }
         i++;
@@ -629,15 +860,25 @@ void LibrarySystem::viewAllTransactions() {
     if (listTransaction.empty()) {
         cout << "There are no transactions in the list." << endl;
     } else {
-        printf("%-10s | %-10s | %-10s | %-10s | %-50s |\n", "Username", "Book", "Status", "Date", "Review");
+        SetTextColor(COLOR_TABLE);
+        int n = 0;
+        auto start = system_clock::now();
+        printf("  --------------------------------------------------------------------------------------------------------------\n");
+        printf("| %-10s | %-40s | %-10s | %-15s | %-20s |\n", "Username", "Book", "Status", "Date", "Review");
+        printf("  --------------------------------------------------------------------------------------------------------------\n");
         for (Transaction t : listTransaction) {
-            printf("%-10s | %-10s | %-10s | %-10d | %-50s |\n", t.getUser().getUsername().c_str(),
+            printf("| %-10s | %-40s | %-10s | %-15s | %-20s |\n", t.getUser().getUsername().c_str(),
                    t.getBook().getName().c_str(), t.getStatus().c_str(), t.getDate().c_str(), t.getReview().c_str());
-
+            n++;
         }
-
+        printf("  --------------------------------------------------------------------------------------------------------------\n");
+        cout << "  Total items : " << n << endl << endl;
+        auto end = system_clock::now();
+        auto elapsed = double(duration_cast<milliseconds>(end - start).count());
+        auto nano = double(duration_cast<nanoseconds>(end - start).count());
+        cout << "  Time taken : " << elapsed << " ms  | " << nano << " ns" << endl << endl;
+        ResetTextColor();
     }
-
 }
 
 

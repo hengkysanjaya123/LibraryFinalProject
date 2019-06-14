@@ -18,6 +18,11 @@ public:
 
     int getId();
 
+    // ignore
+    int getStock();
+    string getAuthor();
+
+
 private:
     int id;
     string name;

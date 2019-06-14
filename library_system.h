@@ -102,7 +102,13 @@ public:
     vector<Category> getListCategory();
 
     // -- Transaction operations --
+    void viewBooksReview();
+    void viewHighestRatedBooks();
+    void viewHighestBorrowedBooks();
+    vector<string> getTransactionsinFormat();
+
     bool addTransaction(int bookPosition);
+    bool addTransaction(string username, int bookId, string status, string date, string review, int rating);
 
     bool returnBook(int bookId);
 

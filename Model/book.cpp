@@ -57,7 +57,7 @@ void Book::setRating(float rating)
     this->rating = rating;
 }
 
-float Book::getRating()
+float Book::getRating() const
 {
     return this->rating;
 }

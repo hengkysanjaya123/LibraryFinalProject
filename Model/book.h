@@ -28,7 +28,7 @@ public:
     int getStock();
 
     void setRating(float rating);
-    float getRating();
+    float getRating() const;
 
     void setCategory(Category c);
     Category getCategory();

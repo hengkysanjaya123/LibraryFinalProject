@@ -4,32 +4,36 @@
 
 #include "category.h"
 
-Category::Category()
-{
+Category::Category() {
 }
 
 int Category::counter;
 
-Category::Category(string name)
-{
+Category::Category(string name) {
     counter++;
     this->name = name;
     this->id = counter;
 }
 
-void Category::setName(string name)
-{
+void Category::setName(string name) {
     this->name = name;
 }
 
-string Category::getName()
-{
+string Category::getName() {
     return this->name;
 }
 
-int Category::getId(){
+int Category::getId() {
     return this->id;
 }
+
+int Category::getStock() {
+
+};
+
+string Category::getAuthor() {
+
+};
 
 
 
