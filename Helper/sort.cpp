@@ -48,26 +48,50 @@ public:
         j = 0; // Initial index of second subarray
         k = l; // Initial index of merged subarray
         while (i < n1 && j < n2) {
-            string a, b;
+
             if (col == "name") {
+                string a, b;
                 a = L[i].getName();
                 b = R[j].getName();
+
+                if (a <= b) {
+                    arr[k] = L[i];
+                    i++;
+                } else {
+                    arr[k] = R[j];
+                    j++;
+                }
+                k++;
+
             } else if (col == "author") {
+                string a, b;
                 a = L[i].getAuthor();
                 b = R[j].getAuthor();
+
+                if (a <= b) {
+                    arr[k] = L[i];
+                    i++;
+                } else {
+                    arr[k] = R[j];
+                    j++;
+                }
+                k++;
             } else if (col == "stock") {
-                a = to_string(L[i].getStock());
-                b = to_string(R[j].getStock());
+                int a, b;
+                a = L[i].getStock();
+                b = R[j].getStock();
+
+                if (a <= b) {
+                    arr[k] = L[i];
+                    i++;
+                } else {
+                    arr[k] = R[j];
+                    j++;
+                }
+                k++;
             }
 
-            if (a <= b) {
-                arr[k] = L[i];
-                i++;
-            } else {
-                arr[k] = R[j];
-                j++;
-            }
-            k++;
+
         }
 
         /* Copy the remaining elements of L[], if there

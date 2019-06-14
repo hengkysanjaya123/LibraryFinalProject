@@ -543,7 +543,8 @@ void LibrarySystem::displayCategories() {
         printf("  -------------------------------------------\n");
         auto elapsed = double(duration_cast<milliseconds>(end - start).count());
         auto nano = double(duration_cast<nanoseconds>(end - start).count());
-        cout << " Merge sort time taken : " << elapsed << " ms  | " << nano << " ns" << endl << endl;
+        cout << "  Total items : " << category_list.size() << endl;
+        cout << "  Merge sort time taken : " << elapsed << " ms  | " << nano << " ns" << endl << endl;
         ResetTextColor();
     }
 }
@@ -618,9 +619,9 @@ vector<Category> LibrarySystem::getListCategory() {
 
 void LibrarySystem::viewBooksReview() {
     SetTextColor(COLOR_TABLE);
-    printf("  ----------------------------------------------------------------------------------------\n");
+    printf("  -------------------------------------------------------------------------------------\n");
     printf("| %-40s | %-40s |\n", "Book Name", "Review");
-    printf("  ----------------------------------------------------------------------------------------\n");
+    printf("  -------------------------------------------------------------------------------------\n");
     for (Book b : listBook) {
         printf("| %-40s | %-40s |\n", b.getName().c_str(), "");
 
@@ -629,7 +630,7 @@ void LibrarySystem::viewBooksReview() {
                 printf("| %-40s | %-40s |\n", "", (t.getUser().getUsername() + " : " + t.getReview()).c_str());
         }
     }
-    printf("  ----------------------------------------------------------------------------------------\n");
+    printf("  -------------------------------------------------------------------------------------\n");
     ResetTextColor();
 }
 

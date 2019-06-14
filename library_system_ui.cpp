@@ -77,7 +77,8 @@ int LibrarySystemUI::addCategoryUI() {
 
     int index = ls.addCategory(Category(c_name));
 
-    cout << "~ Category added successfully ~" << endl;
+    ls.WriteWithColor("~ Category added successfully ~", COLOR_SUCCESS_MESSAGE);
+    cout << endl;
     return index;
 }
 
@@ -404,15 +405,16 @@ void LibrarySystemUI::adminPage(User currentUser) {
                             }
                         }
 
-                        cout << "position" << pos << endl;
+//                        cout << "position" << pos << endl;
                         Category c = ls.getCategory(pos);
-                        cout << "category name" << c.getName() << endl;
+//                        cout << "category name" << c.getName() << endl;
 
                         Book b = Book(b_name, b_author, b_stock, c);
-                        cout << "category name2 " << b.getCategory().getName() << endl;
+//                        cout << "category name2 " << b.getCategory().getName() << endl;
                         ls.addBook(b);
 
-                        cout << "~ Book added successfully ~" << endl;
+                        ls.WriteWithColor("~ Book added successfully ~", COLOR_SUCCESS_MESSAGE);
+                        cout << endl;
                     }
                         // update book
                     else if (suboption_book == 2) {
@@ -476,9 +478,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
                             Category c = ls.getCategory(pos);
                             ls.updateBook(pos, Book(b_name, b_author, b_stock, c));
 
-                            cout << "~ Data updated successfully ~" << endl;
+                            ls.WriteWithColor("~ Data updated successfully ~", COLOR_SUCCESS_MESSAGE);
+                            cout << endl;
                         } else {
-                            cout << "~ Book not found ~";
+                            ls.WriteWithColor("~ Book not found ~", COLOR_WARNING_MESSAGE);
+                            cout << endl;
                         }
                     }
                         // delete book
@@ -500,9 +504,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         if (pos != -1) {
                             ls.removeBook(pos);
 
-                            cout << "~ Data deleted successfully ~" << endl;
+                            ls.WriteWithColor("~ Data deleted successfully ~", COLOR_SUCCESS_MESSAGE);
+                            cout << endl;
                         } else {
-                            cout << "~ Book not found ~";
+                            ls.WriteWithColor("~ Book not found ~", COLOR_WARNING_MESSAGE);
+                            cout << endl;
                         }
 
                     }
@@ -569,9 +575,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
 
                             ls.updateCategory(pos, Category(c_name));
 
-                            cout << "~ Data updated successfully ~" << endl;
+                            ls.WriteWithColor("~ Data updated successfully ~", COLOR_SUCCESS_MESSAGE);
+                            cout << endl;
                         } else {
-                            cout << "~ Category not found ~";
+                            ls.WriteWithColor("~ Category not found ~", COLOR_WARNING_MESSAGE);
+                            cout << endl;
                         }
                     }
                         // delete category
@@ -593,9 +601,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         if (pos != -1) {
                             ls.removeCategory(pos);
 
-                            cout << "~ Data deleted successfully ~" << endl;
+                            ls.WriteWithColor("~ Data deleted successfully ~", COLOR_SUCCESS_MESSAGE);
+                            cout << endl;
                         } else {
-                            cout << "~ Category not found ~";
+                            ls.WriteWithColor("~ Category not found ~", COLOR_WARNING_MESSAGE);
+                            cout << endl;
                         }
 
                     }
