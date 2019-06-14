@@ -8,6 +8,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Final_Project.dir/library_system_ui.cpp.obj"
   "CMakeFiles/Final_Project.dir/setup_variables.cpp.obj"
   "CMakeFiles/Final_Project.dir/Helper/sort.cpp.obj"
+  "CMakeFiles/Final_Project.dir/DataStructure/btree.cpp.obj"
   "Final_Project.pdb"
   "Final_Project.exe"
   "Final_Project.exe.manifest"

@@ -122,6 +122,33 @@ Final_Project/fast:
 	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/build
 .PHONY : Final_Project/fast
 
+DataStructure/btree.obj: DataStructure/btree.cpp.obj
+
+.PHONY : DataStructure/btree.obj
+
+# target to build an object file
+DataStructure/btree.cpp.obj:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/DataStructure/btree.cpp.obj
+.PHONY : DataStructure/btree.cpp.obj
+
+DataStructure/btree.i: DataStructure/btree.cpp.i
+
+.PHONY : DataStructure/btree.i
+
+# target to preprocess a source file
+DataStructure/btree.cpp.i:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/DataStructure/btree.cpp.i
+.PHONY : DataStructure/btree.cpp.i
+
+DataStructure/btree.s: DataStructure/btree.cpp.s
+
+.PHONY : DataStructure/btree.s
+
+# target to generate assembly for a file
+DataStructure/btree.cpp.s:
+	$(MAKE) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/DataStructure/btree.cpp.s
+.PHONY : DataStructure/btree.cpp.s
+
 Helper/sort.obj: Helper/sort.cpp.obj
 
 .PHONY : Helper/sort.obj
@@ -374,6 +401,9 @@ help:
 	@echo ... rebuild_cache
 	@echo ... Final_Project
 	@echo ... edit_cache
+	@echo ... DataStructure/btree.obj
+	@echo ... DataStructure/btree.i
+	@echo ... DataStructure/btree.s
 	@echo ... Helper/sort.obj
 	@echo ... Helper/sort.i
 	@echo ... Helper/sort.s
