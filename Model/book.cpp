@@ -14,12 +14,12 @@ int Book::counter;
 Book::Book(string name, string author, int stock, Category c)
 {
     counter++;
+    this->id = counter;
     this->name = name;
     this->author = author;
     this->stock = stock;
     this->rating = 0;
     this->category = c;
-    this->id = counter;
 }
 
 void Book::setName(string name)

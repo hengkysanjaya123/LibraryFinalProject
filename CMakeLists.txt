@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.14)
 project(Final_Project)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -static-libstdc++ -static-libgcc")
 
 set(SOURCE_FILES main.cpp)

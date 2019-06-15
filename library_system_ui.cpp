@@ -127,8 +127,8 @@ void LibrarySystemUI::run() {
 
         ls.WriteWithColor("1. Login    \n"
                           "2. Register \n"
-                          "3. Test BTree \n"
-                          "4. Exit     \n"
+                          //"3. Test BTree \n"
+                          "3. Exit     \n"
                           ">>", COLOR_OPTIONS);
 
         cin >> option;
@@ -193,57 +193,8 @@ void LibrarySystemUI::run() {
 
             ls.WriteWithColor("Register success", COLOR_SUCCESS_MESSAGE);
         }
-            //test btree
-        else if (option == "3") {
-            BTree bt;
-
-            int val, opt;
-            for (int i = 0; i <= 5; i++) {
-                bt.insertion(i);
-            }
-
-            while (true) {
-                cout << "1. Insertion\t2. Deletion\n";
-                cout << "3. Searching\t4. Traversal\n";
-                cout << "5. Exit\nEnter your choice: ";
-                cin >> opt;
-                cout << endl;
-                switch (opt) {
-                    case 1:
-                        cout << "Enter your input:";
-                        cin >> val;
-                        bt.insertion(val);
-                        break;
-                    case 2:
-                        cout << "Enter the element to delete:";
-                        cin >> val;
-                        bt.deletion(val, bt.root);
-                        break;
-                    case 3: {
-                        cout << "Enter the element to search:";
-                        cin >> val;
-                        auto start = chrono::system_clock::now();
-                        bt.searching(val, &opt, bt.root);
-                        auto end = chrono::system_clock::now();
-                        auto elapsed = double(duration_cast<milliseconds>(end - start).count());
-                        auto nano = double(duration_cast<nanoseconds>(end - start).count());
-                        cout << "elapsed time : " << elapsed << " ms";
-                        cout << " or " << nano << " ns" << endl;
-
-
-                        break;
-                    }
-                    case 4:
-                        bt.traversal(bt.root);
-                        break;
-                    case 5:
-                        exit(0);
-                }
-                cout << endl;
-            }
-        }
             // exit
-        else if (option == "4") {
+        else if (option == "3") {
             writeFile("book.csv", ls.getBooksInFormat());
             writeFile("category.csv", ls.getCategoriesInFormat());
             writeFile("user.csv", ls.getUsersinFormat());
@@ -481,8 +432,8 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         int bookId;
                         cin >> bookId;
 
-                        int pos = ls.searchBook(bookId);
-                        if (pos != -1) {
+                        int pos_book = ls.searchBook(bookId);
+                        if (pos_book != -1) {
 
                             string b_name, b_author, category_option;
                             int b_stock;
@@ -527,7 +478,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                             }
 
                             Category c = ls.getCategory(pos);
-                            ls.updateBook(pos, Book(b_name, b_author, b_stock, c));
+                            ls.updateBook(pos_book, Book(b_name, b_author, b_stock, c));
 
                             ls.WriteWithColor("~ Data updated successfully ~", COLOR_SUCCESS_MESSAGE);
                             cout << endl;

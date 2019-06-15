@@ -34,12 +34,12 @@ public:
     Category getCategory();
 
 private:
+    static int counter;
     int id;
     string name;
     string author;
     int stock;
     float rating;
     Category category;
-    static int counter;
 };
 #endif //FINAL_PROJECT_BOOK_H

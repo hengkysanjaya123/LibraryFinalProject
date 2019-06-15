@@ -127,6 +127,7 @@ void LibrarySystem::updateBook(int position, Book b) {
     listBook[position].setName(b.getName());
     listBook[position].setAuthor(b.getAuthor());
     listBook[position].setStock(b.getStock());
+    listBook[position].setCategory(b.getCategory());
 }
 
 int LibrarySystem::searchBook(int id) {
@@ -146,11 +147,6 @@ int LibrarySystem::searchBook(int id) {
 
         return id - 1;
     }
-//    for (int i = 0; i < listBook.size(); ++i) {
-//        if (listBook[i].getId() == id) {
-//            return i;
-//        }
-//    }
     return -1;
 }
 
