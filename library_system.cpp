@@ -154,23 +154,33 @@ bool LibrarySystem::searchBook() {
     int suboption_book_search;
     string key;
     SetTextColor(COLOR_OPTIONS);
-    cout << "Search book by : " << endl
-         << "1. Name          " << endl
-         << "2. Author        " << endl
-         << "3. Category      " << endl
-         << ">>";
-    ResetTextColor();
+    bool correctInput = false;
+    while (correctInput == false) {
 
-    cin >> suboption_book_search;
 
-    if (suboption_book_search == 1) {
-        cout << "Input book name >>";
-    } else if (suboption_book_search == 2) {
-        cout << "Input Author name >>";
-    } else if (suboption_book_search == 3) {
-        cout << "Input Category name >>";
+        cout << "Search book by : " << endl
+             << "1. Name          " << endl
+             << "2. Author        " << endl
+             << "3. Category      " << endl
+             << ">>";
+        ResetTextColor();
+
+        cin >> suboption_book_search;
+
+        if (suboption_book_search == 1) {
+            correctInput = true;
+            cout << "Input book name >>";
+        } else if (suboption_book_search == 2) {
+            correctInput = true;
+            cout << "Input Author name >>";
+        } else if (suboption_book_search == 3) {
+            correctInput = true;
+            cout << "Input Category name >>";
+        } else {
+            WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
+            ResetTextColor();
+        }
     }
-
     cin.ignore();
     getline(cin, key);
 //    cin >> key;
@@ -233,25 +243,41 @@ bool LibrarySystem::searchBook() {
 }
 
 void LibrarySystem::displayBooks() {
+
+    string sortby_input, sortby;
+    bool valInp = true;
     if (listBook.empty()) {
         cout << "There is no data in the list" << endl;
+        return;
     } else {
-        SetTextColor(COLOR_OPTIONS);
-        cout << "Sort book by : \n"
-                "1. Name        \n"
-                "2. Author      \n"
-                "3. Stock       \n"
-                ">>" << endl;
-        ResetTextColor();
-        string sortby_input, sortby;
-        cin >> sortby_input;
+        do{
+            SetTextColor(COLOR_OPTIONS);
+            cout << "Sort book by : \n"
+                    "1. Name        \n"
+                    "2. Author      \n"
+                    "3. Stock       \n"
+                    ">>" << endl;
+            ResetTextColor();
 
-        SetTextColor(COLOR_TABLE); // light yellow
+            cin >> sortby_input;
 
-        if (sortby_input == "1") sortby = "name";
-        else if (sortby_input == "2") sortby = "author";
-        else if (sortby_input == "3") sortby = "stock";
+            SetTextColor(COLOR_TABLE); // light yellow
 
+            if (sortby_input == "1") {
+                sortby = "name";
+                valInp = true;
+            }else if (sortby_input == "2") {
+                sortby = "author";
+                valInp = true;
+            }else if (sortby_input == "3"){
+                sortby = "stock";
+                valInp = true;
+            }else{
+                WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
+                valInp = false;
+            }
+        }
+        while(valInp == false);
         Sorting<vector<Book>> s;
 
         vector<Book> book_list = listBook;
@@ -417,15 +443,13 @@ void LibrarySystem::displayTopBorrowedBooks(string date, int option) {
 
 }
 
-// only displays books with more than 10 reads(?)
+// displays top rated books
 void LibrarySystem::displayTopRatedBooks(string date, int option) {
 
     if (listTransaction.empty()) {
         cout << "There are no existing transactions" << endl;
         return;
     }
-
-    vector<pair<float, string> > ratedBookslist;
     vector<pair<int, Book> > topBooksList;
 
     Transaction t = listTransaction.back();
@@ -466,23 +490,20 @@ void LibrarySystem::displayTopRatedBooks(string date, int option) {
             topBooksList.push_back(make_pair(1, book));
         } else {
             topBooksList[index].first += 1;
-            if (topBooksList[index].first >= 10) {
-                ratedBookslist.push_back(
-                        make_pair(topBooksList[index].second.getRating(), topBooksList[index].second.getName()));
-            }
-            contains = false;
         }
+        contains = false;
+
 
         t = listTransaction[listTransaction.size() - counter];
         counter++;
     }
-    if (ratedBookslist.empty()) {
-        cout << "No books have been borrowed or has not been rated 10 times. " << endl;
+    if (topBooksList.empty()) {
+        cout << "No books have been borrowed. " << endl;
         return;
     }
-    sort(ratedBookslist.begin(), ratedBookslist.end());
+//    sort(topBooksList.begin(), topBooksList.end());
     for (int j = 0; j < 10; j++) {
-        printf("%-30s | %10f", ratedBookslist[j].second.c_str(), ratedBookslist[j].first);
+        printf("%-30s | %10f", topBooksList[j].second.getName().c_str(), topBooksList[j].first);
     }
 // -- Category operations --
 
@@ -775,6 +796,7 @@ bool LibrarySystem::addTransaction(string username, int bookId, string status, s
 }
 
 bool LibrarySystem::returnBook(int bookId) {
+
     int i = 0;
     for (Transaction t : listTransaction) {
         if (t.getUser().getUsername() == currentUser.getUsername() && t.getBook().getId() == bookId) {
