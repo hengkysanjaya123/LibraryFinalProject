@@ -11,14 +11,6 @@ template<class T>
 class Sorting {
 public:
 
-    // function to swap
-    void swap(int *a, int *b) {
-        int temp = *a;
-        *a = *b;
-        *b = temp;
-    }
-
-
     // function merge sort
     void merge(T &arr, int l, int m, int r, string col) {
 

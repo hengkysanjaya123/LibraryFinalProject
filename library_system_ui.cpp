@@ -11,30 +11,30 @@
 #include <chrono>
 #include <stdio.h>
 #include "DataStructure/btree.cpp"
+
 #define ENTER 13
 #define TAB 9
 #define BKSP 8
 
 using namespace chrono;
 
+// function to set passwordchar '*'
 string LibrarySystemUI::enterPassword() {
-    int charCount=0;
+    int charCount = 0;
     char ch, password[100];
     bool passwordLoop = true;
-    while(passwordLoop == true){
+    while (passwordLoop == true) {
         ch = getch();
 
-        if (ch == ENTER || ch == TAB){
+        if (ch == ENTER || ch == TAB) {
             password[charCount] = '\0';
             break;
-        }
-        else if (ch == BKSP){
-            if (charCount > 0){
+        } else if (ch == BKSP) {
+            if (charCount > 0) {
                 charCount--;
                 printf("\b \b");
             }
-        }
-        else{
+        } else {
             password[charCount] = ch;
             charCount++;
             printf("* \b");
@@ -46,6 +46,7 @@ string LibrarySystemUI::enterPassword() {
 
 }
 
+// function to split string by delimiter
 vector<string> LibrarySystemUI::split(string text, char delimiter) {
     int length = text.length();
     vector<string> result;
@@ -67,6 +68,7 @@ vector<string> LibrarySystemUI::split(string text, char delimiter) {
     return result;
 }
 
+// function to read data from file
 vector<vector<string>> LibrarySystemUI::readFile(string filename) {
     string line;
     ifstream file;
@@ -90,6 +92,7 @@ vector<vector<string>> LibrarySystemUI::readFile(string filename) {
     return list;
 }
 
+// function to write data to file
 void LibrarySystemUI::writeFile(string filename, vector<string> list) {
     ofstream file;
     file.open("../database/" + filename, ios::trunc);
@@ -102,6 +105,7 @@ void LibrarySystemUI::writeFile(string filename, vector<string> list) {
     file.close();
 }
 
+// function to display add category ui
 int LibrarySystemUI::addCategoryUI() {
     cout << "-- Insert category --" << endl;
 
@@ -116,6 +120,7 @@ int LibrarySystemUI::addCategoryUI() {
     return index;
 }
 
+// function to run ui
 void LibrarySystemUI::run() {
     vector<vector<string>> dataCategory = readFile("category.csv");
     for (auto i : dataCategory) {
@@ -241,6 +246,7 @@ void LibrarySystemUI::run() {
     }
 }
 
+// function to display userpage ui
 void LibrarySystemUI::userPage(User currentUser) {
 
     int option, topBookoption, timeSpan;
@@ -259,6 +265,7 @@ void LibrarySystemUI::userPage(User currentUser) {
 
         cin >> option;
 
+        // borrow book
         if (option == 1) {
             int bookid;
             bool found = ls.searchBook();
@@ -291,13 +298,15 @@ void LibrarySystemUI::userPage(User currentUser) {
                     }
                 }
             }
-        } else if (option == 2) {
+        }
+            // return book
+        else if (option == 2) {
 
             bool valInp = false;
             cout << "- Return Book -" << endl;
 
             int bookId;
-            while(valInp == false) {
+            while (valInp == false) {
 
                 ls.displayBorrowedBooks(currentUser);
                 cout << "Input Book Id you want to return >>";
@@ -305,13 +314,12 @@ void LibrarySystemUI::userPage(User currentUser) {
 
                 cin >> bookId;
 
-                if (!cin.fail()){
+                if (!cin.fail()) {
                     valInp = true;
-                }
-                else{
+                } else {
                     ls.WriteWithColor("\nPlease input a number\n", COLOR_WARNING_MESSAGE);
                     cin.clear();
-                    cin.ignore(256,'\n');
+                    cin.ignore(256, '\n');
                 }
             }
             if (ls.returnBook(bookId)) {
@@ -321,55 +329,31 @@ void LibrarySystemUI::userPage(User currentUser) {
                 ls.WriteWithColor("Sorry, You dont borrow this book", COLOR_WARNING_MESSAGE);
             }
         }
-//        else if (option == 3) {
-//
-//            time_t theTime = time(NULL);
-//            struct tm *currTime = localtime(&theTime);
-//
-//            day = to_string(currTime->tm_mday);
-//            month = to_string(currTime->tm_mon + 1);
-//            year = to_string(currTime->tm_year + 1900);
-//
-//            date = year + "-" + month + "-" + day;
-//
-//            ls.WriteWithColor("View By:\n"
-//                              "1. Rating         \n"
-//                              "2. Amount Borrowed\n"
-//                              ">>", COLOR_OPTIONS);
-//
-//            cin >> topBookoption;
-//
-//            ls.WriteWithColor("Time Span: \n"
-//                              "1. This Month \n"
-//                              "2. This Year  \n"
-//                              "3. All Time   \n"
-//                              ">>", COLOR_OPTIONS);
-//
-//            cin >> timeSpan;
-//
-//            if (topBookoption == 1) {
-//                ls.displayTopRatedBooks(date, timeSpan);
-//            } else if (topBookoption == 2) {
-//                ls.displayTopBorrowedBooks(date, timeSpan);
-//            }
-//
-//
-//        }
+            // view all books
         else if (option == 3) {
             cout << "-- View all books --" << endl;
             ls.displayBooks();
-        } else if (option == 4) {
+        }
+            // view highest rated books
+        else if (option == 4) {
             ls.viewHighestRatedBooks();
-        } else if (option == 5) {
+        }
+            // view highest borrowedbooks
+        else if (option == 5) {
             ls.viewHighestBorrowedBooks();
-        } else if (option == 0) {
+        }
+            // exit
+        else if (option == 0) {
             break;
-        } else {
+        }
+            // wrong input
+        else {
             ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
         }
     }
 }
 
+// function to display admin page ui
 void LibrarySystemUI::adminPage(User currentUser) {
     string option;
     while (true) {
@@ -398,10 +382,9 @@ void LibrarySystemUI::adminPage(User currentUser) {
                 ls.ResetTextColor();
                 cin >> suboption_master_data;
 
-                if (suboption_master_data != "1" && suboption_master_data != "2"){
+                if (suboption_master_data != "1" && suboption_master_data != "2") {
                     ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
-                }
-                else{
+                } else {
                     break;
                 }
             }
@@ -746,9 +729,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                     // view all users
                 else if (suboption_user == "5") {
 
-                }
-
-                else{
+                } else {
                     ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
                 }
             }
@@ -776,7 +757,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
         }
             // wrong input
         else {
-            ls.WriteWithColor("Wrong Input",COLOR_WARNING_MESSAGE);
+            ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
         }
         cout << endl;
     }

@@ -14,6 +14,7 @@ using namespace chrono;
 
 LibrarySystem::LibrarySystem() = default;
 
+// function to print out text in color ( automatically reset the color after )
 void LibrarySystem::WriteWithColor(string message, char color) {
 //0 = Black	8 = Gray
 //1 = Blue	9 = Light Blue
@@ -32,17 +33,20 @@ void LibrarySystem::WriteWithColor(string message, char color) {
     SetConsoleTextAttribute(hConsole, 7);
 }
 
+// function to set forecolor in terminal
 void LibrarySystem::SetTextColor(char color) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
 
+// function to reset the forecolor
 void LibrarySystem::ResetTextColor() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     // reset to white textcolor
     SetConsoleTextAttribute(hConsole, 7);
 }
 
+// function to set text in lowercase
 string LibrarySystem::toLower(string text) {
     string result = "";
     for (int i = 0; i < text.length(); i++) {
@@ -51,6 +55,7 @@ string LibrarySystem::toLower(string text) {
     return result;
 }
 
+// function to check username exist
 bool LibrarySystem::IsUsernameExist(string username) {
     for (User u : listUser) {
         if (u.getUsername() == username) {
@@ -60,10 +65,12 @@ bool LibrarySystem::IsUsernameExist(string username) {
     return false;
 }
 
+// function to get current user
 User LibrarySystem::getCurrentUser() {
     return currentUser;
 }
 
+// function to set current user
 void LibrarySystem::setCurrentUser(User u) {
     this->currentUser = u;
 }
@@ -89,6 +96,7 @@ vector<User> LibrarySystem::getListUser() {
     return listUser;
 }
 
+// function to get users data in format
 vector<string> LibrarySystem::getUsersinFormat() {
     vector<string> result;
 
@@ -115,14 +123,17 @@ bool LibrarySystem::doLogin(string username, string password, User &u) {
 
 // -- Book operations --
 
+// function to add book
 void LibrarySystem::addBook(Book b) {
     listBook.push_back(b);
 }
 
+// function to remove book by position
 void LibrarySystem::removeBook(int position) {
     listBook.erase(listBook.begin() + position);
 }
 
+// function to update book
 void LibrarySystem::updateBook(int position, Book b) {
     listBook[position].setName(b.getName());
     listBook[position].setAuthor(b.getAuthor());
@@ -130,6 +141,7 @@ void LibrarySystem::updateBook(int position, Book b) {
     listBook[position].setCategory(b.getCategory());
 }
 
+// function to search book by id
 int LibrarySystem::searchBook(int id) {
     if (id <= listBook.size()) {
         auto current = listBook[id - 1];
@@ -150,6 +162,7 @@ int LibrarySystem::searchBook(int id) {
     return -1;
 }
 
+// function to display searchbook ui
 bool LibrarySystem::searchBook() {
     string suboption_book_search;
     string key;
@@ -243,6 +256,7 @@ bool LibrarySystem::searchBook() {
     }
 }
 
+// function to display books data
 void LibrarySystem::displayBooks() {
 
     string sortby_input, sortby;
@@ -326,6 +340,7 @@ void LibrarySystem::displayBooks() {
     }
 }
 
+// function to display list of borrowed books
 void LibrarySystem::displayBorrowedBooks() {
 
     bool borrowed = false;
@@ -352,6 +367,7 @@ void LibrarySystem::displayBorrowedBooks() {
     ResetTextColor();
 }
 
+// function to display list of borrowed books by given user
 void LibrarySystem::displayBorrowedBooks(User u) {
 
     bool borrowed = false;
@@ -377,7 +393,7 @@ void LibrarySystem::displayBorrowedBooks(User u) {
     ResetTextColor();
 }
 
-
+// function to display top borrowed books
 void LibrarySystem::displayTopBorrowedBooks(string date, int option) {
 
     if (listTransaction.empty()) {
@@ -509,6 +525,7 @@ void LibrarySystem::displayTopRatedBooks(string date, int option) {
 
 }
 
+// function to get list of books in format
 vector<string> LibrarySystem::getBooksInFormat() {
     vector<string> result;
 
@@ -523,20 +540,24 @@ vector<string> LibrarySystem::getBooksInFormat() {
     return result;
 }
 
+// function to add category
 int LibrarySystem::addCategory(Category c) {
     listCategory.push_back(c);
     int size = listCategory.size();
     return size - 1;
 }
 
+// function to get category by position
 Category LibrarySystem::getCategory(int position) {
     return listCategory[position];
 }
 
+// funtion to remove category by position
 void LibrarySystem::removeCategory(int position) {
     listCategory.erase(listCategory.begin() + position);
 }
 
+// function to display categories
 void LibrarySystem::displayCategories() {
 
     if (listCategory.empty()) {
@@ -566,6 +587,7 @@ void LibrarySystem::displayCategories() {
     }
 }
 
+// function to get list of categories in format
 vector<string> LibrarySystem::getCategoriesInFormat() {
     vector<string> result;
 
@@ -578,10 +600,12 @@ vector<string> LibrarySystem::getCategoriesInFormat() {
     return result;
 }
 
+// function to update category data
 void LibrarySystem::updateCategory(int position, Category c) {
     listCategory[position].setName(c.getName());
 }
 
+// function to search category
 bool LibrarySystem::searchCategory() {
     string key;
 
@@ -619,6 +643,7 @@ bool LibrarySystem::searchCategory() {
     }
 }
 
+// function to search category by id
 int LibrarySystem::searchCategory(int id) {
     for (int i = 0; i < listCategory.size(); ++i) {
         if (listCategory[i].getId() == id) {
@@ -628,12 +653,13 @@ int LibrarySystem::searchCategory(int id) {
     return -1;
 }
 
+// function to get list of categories
 vector<Category> LibrarySystem::getListCategory() {
     return listCategory;
 }
 
 // -- Transaction operations --
-
+// function to display books review
 void LibrarySystem::viewBooksReview() {
 
     string inp = "";
@@ -684,6 +710,7 @@ void LibrarySystem::viewBooksReview() {
     ResetTextColor();
 }
 
+// function to view highest rated books
 void LibrarySystem::viewHighestRatedBooks() {
 
     int i = 0;
@@ -731,6 +758,7 @@ void LibrarySystem::viewHighestRatedBooks() {
     cout << endl;
 }
 
+// function to view highest borrowed books
 void LibrarySystem::viewHighestBorrowedBooks() {
     vector<pair<int, int>> list;
     for (Book b : listBook) {
@@ -770,6 +798,7 @@ void LibrarySystem::viewHighestBorrowedBooks() {
     cout << endl;
 }
 
+// function to get list of transactions in format
 vector<string> LibrarySystem::getTransactionsinFormat() {
     vector<string> result;
 
@@ -785,6 +814,7 @@ vector<string> LibrarySystem::getTransactionsinFormat() {
     return result;
 }
 
+// function to add transaction
 bool LibrarySystem::addTransaction(int bookPosition) {
 //    auto now = std::chrono::system_clock::now();
 //    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
@@ -809,6 +839,7 @@ bool LibrarySystem::addTransaction(int bookPosition) {
     return true;
 }
 
+// function overloading to add transaction
 bool LibrarySystem::addTransaction(string username, int bookId, string status, string date, string review, int rating) {
     int userPos = 0;
     for (int i = 0; i < listUser.size(); ++i) {
@@ -831,6 +862,7 @@ bool LibrarySystem::addTransaction(string username, int bookId, string status, s
     return true;
 }
 
+// function to return book
 bool LibrarySystem::returnBook(int bookId) {
 
     int i = 0;
@@ -866,12 +898,14 @@ bool LibrarySystem::returnBook(int bookId) {
     return false;
 }
 
+// function to update transaction status
 void LibrarySystem::updateTransactionStatus(int bookposition) {
 
     for (int i = 0; i < listTransaction.size(); i++) {
 
         if (listTransaction[i].getBook().getName() == listBook[bookposition].getName() &&
-            currentUser.getUsername() == listTransaction[i].getUser().getUsername()) {
+            currentUser.getUsername() == listTransaction[i].getUser().getUsername() &&
+            listTransaction[i].getStatus() == "borrowed") {
 
             listTransaction[i].setStatus("returned");
             listTransaction[i].getUser().addExp();
@@ -912,6 +946,7 @@ void LibrarySystem::viewMonthlyTransactions(string date) {
     }
 }
 
+// function to view all transactions data
 void LibrarySystem::viewAllTransactions() {
     if (listTransaction.empty()) {
         cout << "There are no transactions in the list." << endl;
