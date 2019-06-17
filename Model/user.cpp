@@ -62,12 +62,14 @@ void User::addExp() {
     this->exp++;
 
 }
+
+
 void User::levelCheck() {
 
     if (this->exp >= this->reqExp){
         this->level++;
         this->booklim++;
-        this->exp = 0;
+        this->exp = this->exp - this->reqExp;
         this->reqExp = level * 3;
 
         cout << "You are now level " << this->level << " and your borrow limit has been increased to " << this->booklim << " books." << endl;

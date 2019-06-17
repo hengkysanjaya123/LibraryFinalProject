@@ -9,9 +9,42 @@
 #include <iostream>
 #include <sstream>
 #include <chrono>
+#include <stdio.h>
 #include "DataStructure/btree.cpp"
+#define ENTER 13
+#define TAB 9
+#define BKSP 8
 
 using namespace chrono;
+
+string LibrarySystemUI::enterPassword() {
+    int charCount=0;
+    char ch, password[100];
+    bool passwordLoop = true;
+    while(passwordLoop == true){
+        ch = getch();
+
+        if (ch == ENTER || ch == TAB){
+            password[charCount] = '\0';
+            break;
+        }
+        else if (ch == BKSP){
+            if (charCount > 0){
+                charCount--;
+                printf("\b \b");
+            }
+        }
+        else{
+            password[charCount] = ch;
+            charCount++;
+            printf("* \b");
+        }
+    }
+    cout << endl;
+
+    return password;
+
+}
 
 vector<string> LibrarySystemUI::split(string text, char delimiter) {
     int length = text.length();
@@ -134,12 +167,14 @@ void LibrarySystemUI::run() {
         cin >> option;
         // login
         if (option == "1") {
-            string username, password;
+            string username;
+            string password;
             cout << "please enter your :" << endl;
             cout << "username >>";
             cin >> username;
             cout << "password >>";
-            cin >> password;
+
+            password = enterPassword();
 
             User u;
             bool login = ls.doLogin(username, password, u);
@@ -152,7 +187,7 @@ void LibrarySystemUI::run() {
                     userPage(u);
                 }
             } else {
-                ls.WriteWithColor("Username and password incorrect", COLOR_WARNING_MESSAGE); // pink
+                ls.WriteWithColor("Username or password incorrect", COLOR_WARNING_MESSAGE); // pink
             }
         }
             // register
@@ -169,21 +204,20 @@ void LibrarySystemUI::run() {
                 cin >> username;
 
                 if (ls.IsUsernameExist(username)) {
-                    ls.WriteWithColor("Username already exists", COLOR_WARNING_MESSAGE);
+                    ls.WriteWithColor("Username has already been taken", COLOR_WARNING_MESSAGE);
                 } else {
                     break;
                 }
             }
 
-            cout << "password >>";
-            cin >> password;
-
             while (true) {
+                cout << "password >> ";
+                password = enterPassword();
                 cout << "confirm password >>";
-                cin >> confirm_password;
+                confirm_password = enterPassword();
 
                 if (confirm_password != password) {
-                    ls.WriteWithColor("Confirm password and password must be the same", COLOR_WARNING_MESSAGE);
+                    ls.WriteWithColor("Passwords are not the same", COLOR_WARNING_MESSAGE);
                 } else {
                     break;
                 }
@@ -282,6 +316,7 @@ void LibrarySystemUI::userPage(User currentUser) {
             }
             if (ls.returnBook(bookId)) {
                 ls.WriteWithColor("Return book success", COLOR_SUCCESS_MESSAGE);
+                currentUser.addExp();
             } else {
                 ls.WriteWithColor("Sorry, You dont borrow this book", COLOR_WARNING_MESSAGE);
             }
@@ -737,7 +772,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
         }
             // wrong input
         else {
-            cout << "Wrong Input" << endl;
+            ls.WriteWithColor("Wrong Input",COLOR_WARNING_MESSAGE);
         }
         cout << endl;
     }

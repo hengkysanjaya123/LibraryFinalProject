@@ -23,6 +23,8 @@ public:
 
     int addCategoryUI();
 
+    string enterPassword();
+
     vector<string> split(string text, char delimiter);
 
     vector<vector<string>> readFile(string filename);

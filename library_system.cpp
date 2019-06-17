@@ -185,23 +185,24 @@ bool LibrarySystem::searchBook() {
     getline(cin, key);
 //    cin >> key;
     key = toLower(key);
+    int keyLength = key.size();
 
     bool found = false;
     vector<int> listFound;
 
     for (int i = 0; i < listBook.size(); ++i) {
         if (suboption_book_search == 1) {
-            if (toLower(listBook[i].getName()) == key) {
+            if (toLower(listBook[i].getName()).substr(0,keyLength) == toLower(key).substr(0,keyLength)) {
                 found = true;
                 listFound.push_back(i);
             }
         } else if (suboption_book_search == 2) {
-            if (toLower(listBook[i].getAuthor()) == key) {
+            if (toLower(listBook[i].getAuthor()).substr(0,keyLength) == toLower(key).substr(0,keyLength)) {
                 found = true;
                 listFound.push_back(i);
             }
         } else if (suboption_book_search == 3) {
-            if (toLower(listBook[i].getCategory().getName()) == key) {
+            if (toLower(listBook[i].getCategory().getName()) == toLower(key)) {
                 found = true;
                 listFound.push_back(i);
             }
@@ -635,18 +636,52 @@ vector<Category> LibrarySystem::getListCategory() {
 // -- Transaction operations --
 
 void LibrarySystem::viewBooksReview() {
+
+    string inp="";
+    int id;
+    int pos;
+    bool valInp = false;
+    bool found = searchBook();
+
+    if (found){
+        while (valInp == false) {
+            valInp = true;
+            cout << "Input book id\n>> ";
+            cin >> inp;
+            cout << endl;
+
+            for (int i = 0;i < inp.length();i++){
+                if (!isdigit(inp[i])){
+                    valInp = false;
+                }
+            }
+            if (valInp == false){
+                WriteWithColor("Please input a number.", COLOR_WARNING_MESSAGE);
+            }
+        }
+    }
+    else{
+        WriteWithColor("Book not found\n", COLOR_WARNING_MESSAGE);
+        return;
+    }
+    id = stoi(inp);
+    pos = searchBook(id);
+    if (pos == -1) {
+        WriteWithColor("Sorry, book id not found", COLOR_WARNING_MESSAGE);
+        return;
+    }
     SetTextColor(COLOR_TABLE);
     printf("  -------------------------------------------------------------------------------------\n");
     printf("| %-40s | %-40s |\n", "Book Name", "Review");
     printf("  -------------------------------------------------------------------------------------\n");
-    for (Book b : listBook) {
-        printf("| %-40s | %-40s |\n", b.getName().c_str(), "");
 
-        for (Transaction t : listTransaction) {
-            if (t.getReview() != "" && t.getBook().getId() == b.getId())
-                printf("| %-40s | %-40s |\n", "", (t.getUser().getUsername() + " : " + t.getReview()).c_str());
-        }
+    printf("| %-40s | %-40s |\n", listBook[pos].getName().c_str(), "");
+
+    for (Transaction t : listTransaction) {
+        if (t.getReview() != "" && t.getBook().getId() == listBook[pos].getId())
+            printf("| %-40s | %-40s |\n", "", (t.getUser().getUsername() + " : " + t.getReview()).c_str());
     }
+
     printf("  -------------------------------------------------------------------------------------\n");
     ResetTextColor();
 }
