@@ -258,14 +258,28 @@ void LibrarySystemUI::userPage(User currentUser) {
                 }
             }
         } else if (option == 2) {
+
+            bool valInp = false;
             cout << "- Return Book -" << endl;
 
             int bookId;
-            ls.displayBorrowedBooks(currentUser);
-            cout << "Input Book Id you want to return >>";
+            while(valInp == false) {
 
-            cin >> bookId;
+                ls.displayBorrowedBooks(currentUser);
+                cout << "Input Book Id you want to return >>";
 
+
+                cin >> bookId;
+
+                if (!cin.fail()){
+                    valInp = true;
+                }
+                else{
+                    ls.WriteWithColor("\nPlease input a number\n", COLOR_WARNING_MESSAGE);
+                    cin.clear();
+                    cin.ignore(256,'\n');
+                }
+            }
             if (ls.returnBook(bookId)) {
                 ls.WriteWithColor("Return book success", COLOR_SUCCESS_MESSAGE);
             } else {
@@ -338,15 +352,24 @@ void LibrarySystemUI::adminPage(User currentUser) {
         cin >> option;
         // master data
         if (option == 1) {
+            bool valInp = false;
             int suboption_master_data;
             ls.SetTextColor(COLOR_OPTIONS);
-            cout << "1. Book     " << endl
-                 << "2. Category " << endl
-                 //<< "3. User     " << endl
-                 << ">>";
-            ls.ResetTextColor();
-            cin >> suboption_master_data;
+            while (valInp == false) {
+                cout << "1. Book     " << endl
+                     << "2. Category " << endl
+                     //<< "3. User     " << endl
+                     << ">>";
+                ls.ResetTextColor();
+                cin >> suboption_master_data;
 
+                if (suboption_master_data != 1 && suboption_master_data != 2){
+                    ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
+                }
+                else{
+                    break;
+                }
+            }
             // book
             if (suboption_master_data == 1) {
                 while (true) {
@@ -531,7 +554,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                     else if (suboption_book == 6) {
                         break;
                     } else {
-                        cout << "Wrong Input" << endl;
+                        ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
                     }
                 }
             }
