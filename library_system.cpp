@@ -192,12 +192,12 @@ bool LibrarySystem::searchBook() {
 
     for (int i = 0; i < listBook.size(); ++i) {
         if (suboption_book_search == "1") {
-            if (toLower(listBook[i].getName()).substr(0,keyLength) == toLower(key).substr(0,keyLength)) {
+            if (toLower(listBook[i].getName()).substr(0, keyLength) == toLower(key).substr(0, keyLength)) {
                 found = true;
                 listFound.push_back(i);
             }
         } else if (suboption_book_search == "2") {
-            if (toLower(listBook[i].getAuthor()).substr(0,keyLength) == toLower(key).substr(0,keyLength)) {
+            if (toLower(listBook[i].getAuthor()).substr(0, keyLength) == toLower(key).substr(0, keyLength)) {
                 found = true;
                 listFound.push_back(i);
             }
@@ -251,7 +251,7 @@ void LibrarySystem::displayBooks() {
         cout << "There is no data in the list" << endl;
         return;
     } else {
-        do{
+        do {
             SetTextColor(COLOR_OPTIONS);
             cout << "Sort book by : \n"
                     "1. Name        \n"
@@ -267,18 +267,17 @@ void LibrarySystem::displayBooks() {
             if (sortby_input == "1") {
                 sortby = "name";
                 valInp = true;
-            }else if (sortby_input == "2") {
+            } else if (sortby_input == "2") {
                 sortby = "author";
                 valInp = true;
-            }else if (sortby_input == "3"){
+            } else if (sortby_input == "3") {
                 sortby = "stock";
                 valInp = true;
-            }else{
+            } else {
                 WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
                 valInp = false;
             }
-        }
-        while(valInp == false);
+        } while (valInp == false);
         Sorting<vector<Book>> s;
 
         vector<Book> book_list = listBook;
@@ -637,30 +636,29 @@ vector<Category> LibrarySystem::getListCategory() {
 
 void LibrarySystem::viewBooksReview() {
 
-    string inp="";
+    string inp = "";
     int id;
     int pos;
     bool valInp = false;
     bool found = searchBook();
 
-    if (found){
+    if (found) {
         while (valInp == false) {
             valInp = true;
             cout << "Input book id\n>> ";
             cin >> inp;
             cout << endl;
 
-            for (int i = 0;i < inp.length();i++){
-                if (!isdigit(inp[i])){
+            for (int i = 0; i < inp.length(); i++) {
+                if (!isdigit(inp[i])) {
                     valInp = false;
                 }
             }
-            if (valInp == false){
+            if (valInp == false) {
                 WriteWithColor("Please input a number.", COLOR_WARNING_MESSAGE);
             }
         }
-    }
-    else{
+    } else {
         WriteWithColor("Book not found\n", COLOR_WARNING_MESSAGE);
         return;
     }
@@ -798,7 +796,7 @@ bool LibrarySystem::addTransaction(int bookPosition) {
 
     for (auto i : listTransaction) {
         if (i.getUser().getUsername() == currentUser.getUsername() &&
-            i.getBook().getId() == listBook[bookPosition].getId()) {
+            i.getBook().getId() == listBook[bookPosition].getId() && i.getStatus() == "borrowed") {
             return false;
         }
     }
@@ -837,7 +835,8 @@ bool LibrarySystem::returnBook(int bookId) {
 
     int i = 0;
     for (Transaction t : listTransaction) {
-        if (t.getUser().getUsername() == currentUser.getUsername() && t.getBook().getId() == bookId) {
+        if (t.getUser().getUsername() == currentUser.getUsername() && t.getBook().getId() == bookId &&
+            t.getStatus() == "borrowed") {
 //            t.setStatus("returned");
             listTransaction[i].setStatus("returned");
 
