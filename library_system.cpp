@@ -688,6 +688,7 @@ void LibrarySystem::viewBooksReview() {
 
 void LibrarySystem::viewHighestRatedBooks() {
 
+    int i = 0;
     for (Book b : listBook) {
         int nRating = 0, totalRating = 0;
         for (Transaction t : listTransaction) {
@@ -703,7 +704,9 @@ void LibrarySystem::viewHighestRatedBooks() {
             rating = (float) totalRating / nRating;
         }
 
-        b.setRating(rating);
+        listBook[i].setRating(rating);
+//        b.setRating(rating);
+        i++;
     }
 
     auto list = listBook;
