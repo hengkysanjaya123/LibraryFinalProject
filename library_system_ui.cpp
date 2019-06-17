@@ -371,7 +371,7 @@ void LibrarySystemUI::userPage(User currentUser) {
 }
 
 void LibrarySystemUI::adminPage(User currentUser) {
-    int option;
+    string option;
     while (true) {
         cout << endl;
         ls.WriteWithColor("Welcome " + currentUser.getName() + " (admin)\n"
@@ -386,9 +386,9 @@ void LibrarySystemUI::adminPage(User currentUser) {
 
         cin >> option;
         // master data
-        if (option == 1) {
+        if (option == "1") {
             bool valInp = false;
-            int suboption_master_data;
+            string suboption_master_data;
             ls.SetTextColor(COLOR_OPTIONS);
             while (valInp == false) {
                 cout << "1. Book     " << endl
@@ -398,7 +398,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                 ls.ResetTextColor();
                 cin >> suboption_master_data;
 
-                if (suboption_master_data != 1 && suboption_master_data != 2){
+                if (suboption_master_data != "1" && suboption_master_data != "2"){
                     ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
                 }
                 else{
@@ -406,9 +406,9 @@ void LibrarySystemUI::adminPage(User currentUser) {
                 }
             }
             // book
-            if (suboption_master_data == 1) {
+            if (suboption_master_data == "1") {
                 while (true) {
-                    int suboption_book;
+                    string suboption_book;
                     ls.SetTextColor(COLOR_OPTIONS);
                     cout << "Book CRUD       " << endl
                          << "1. Insert       " << endl
@@ -421,7 +421,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                     ls.ResetTextColor();
                     cin >> suboption_book;
                     // insert book
-                    if (suboption_book == 1) {
+                    if (suboption_book == "1") {
                         cout << "-- Insert book --" << endl;
                         string b_name, b_author, category_option;
                         int b_stock;
@@ -477,7 +477,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         cout << endl;
                     }
                         // update book
-                    else if (suboption_book == 2) {
+                    else if (suboption_book == "2") {
                         cout << "-- Update book --" << endl;
                         bool re = ls.searchBook();
 
@@ -546,7 +546,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         }
                     }
                         // delete book
-                    else if (suboption_book == 3) {
+                    else if (suboption_book == "3") {
                         cout << "-- Delete book --" << endl;
                         bool re = ls.searchBook();
 
@@ -573,7 +573,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
 
                     }
                         // search book
-                    else if (suboption_book == 4) {
+                    else if (suboption_book == "4") {
                         cout << "-- Search books --" << endl;
                         bool re = ls.searchBook();
                         if (re == false) {
@@ -581,12 +581,12 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         }
                     }
                         // view all book
-                    else if (suboption_book == 5) {
+                    else if (suboption_book == "5") {
                         cout << "-- View all books --" << endl;
                         ls.displayBooks();
                     }
                         // back to menu
-                    else if (suboption_book == 6) {
+                    else if (suboption_book == "6") {
                         break;
                     } else {
                         ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
@@ -594,9 +594,9 @@ void LibrarySystemUI::adminPage(User currentUser) {
                 }
             }
                 // category
-            else if (suboption_master_data == 2) {
+            else if (suboption_master_data == "2") {
                 while (true) {
-                    int suboption_category;
+                    string suboption_category;
                     ls.SetTextColor(COLOR_OPTIONS);
                     cout << "Category CRUD    " << endl
                          << "1. Insert        " << endl
@@ -609,11 +609,11 @@ void LibrarySystemUI::adminPage(User currentUser) {
 
                     cin >> suboption_category;
                     // insert category
-                    if (suboption_category == 1) {
+                    if (suboption_category == "1") {
                         addCategoryUI();
                     }
                         // update category
-                    else if (suboption_category == 2) {
+                    else if (suboption_category == "2") {
                         cout << "-- Update category --" << endl;
                         bool re = ls.searchCategory();
 
@@ -643,7 +643,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         }
                     }
                         // delete category
-                    else if (suboption_category == 3) {
+                    else if (suboption_category == "3") {
                         cout << "-- Delete category --" << endl;
                         bool re = ls.searchCategory();
 
@@ -670,7 +670,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
 
                     }
                         // search category
-                    else if (suboption_category == 4) {
+                    else if (suboption_category == "4") {
                         cout << "-- Search categories --" << endl;
                         bool re = ls.searchCategory();
                         if (re == false) {
@@ -678,21 +678,21 @@ void LibrarySystemUI::adminPage(User currentUser) {
                         }
                     }
                         // view all categories
-                    else if (suboption_category == 5) {
+                    else if (suboption_category == "5") {
                         cout << "-- View all categories --" << endl;
                         ls.displayCategories();
                     }
                         // back to menu
-                    else if (suboption_category == 6) {
+                    else if (suboption_category == "6") {
                         break;
                     } else {
-                        cout << "Wrong Input" << endl;
+                        ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
                     }
                 }
             }
                 // user
-            else if (suboption_master_data == 3) {
-                int suboption_user;
+            else if (suboption_master_data == "3") {
+                string suboption_user;
                 ls.SetTextColor(COLOR_OPTIONS);
                 cout << "User CRUD" << endl
                      << "1. Insert" << endl
@@ -703,7 +703,7 @@ void LibrarySystemUI::adminPage(User currentUser) {
                 ls.ResetTextColor();
                 cin >> option;
                 // insert user
-                if (suboption_user == 1) {
+                if (suboption_user == "1") {
                     string name, username, password, confirm_password, role;
 
                     cout << "-- Add New User --" << endl;
@@ -732,42 +732,46 @@ void LibrarySystemUI::adminPage(User currentUser) {
                     ls.addUser(User(name, username, password, role));
                 }
                     // update user
-                else if (suboption_user == 2) {
+                else if (suboption_user == "2") {
 
                 }
                     // delete user
-                else if (suboption_user == 3) {
+                else if (suboption_user == "3") {
 
                 }
                     // search user
-                else if (suboption_user == 4) {
+                else if (suboption_user == "4") {
 
                 }
                     // view all users
-                else if (suboption_user == 5) {
+                else if (suboption_user == "5") {
 
+                }
+
+                else{
+                    ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
                 }
             }
 
         }
             // view transaction
-        else if (option == 2) {
+        else if (option == "2") {
             ls.viewAllTransactions();
         }
             // view borrowed books
-        else if (option == 3) {
+        else if (option == "3") {
             ls.displayBorrowedBooks();
         }
             // view book's review
-        else if (option == 4) {
+        else if (option == "4") {
             ls.viewBooksReview();
-        } else if (option == 5) {
+        } else if (option == "5") {
             ls.viewHighestRatedBooks();
-        } else if (option == 6) {
+        } else if (option == "6") {
             ls.viewHighestBorrowedBooks();
         }
             // logout
-        else if (option == 7) {
+        else if (option == "7") {
             break;
         }
             // wrong input

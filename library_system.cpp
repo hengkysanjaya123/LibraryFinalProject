@@ -151,7 +151,7 @@ int LibrarySystem::searchBook(int id) {
 }
 
 bool LibrarySystem::searchBook() {
-    int suboption_book_search;
+    string suboption_book_search;
     string key;
     SetTextColor(COLOR_OPTIONS);
     bool correctInput = false;
@@ -167,13 +167,13 @@ bool LibrarySystem::searchBook() {
 
         cin >> suboption_book_search;
 
-        if (suboption_book_search == 1) {
+        if (suboption_book_search == "1") {
             correctInput = true;
             cout << "Input book name >>";
-        } else if (suboption_book_search == 2) {
+        } else if (suboption_book_search == "2") {
             correctInput = true;
             cout << "Input Author name >>";
-        } else if (suboption_book_search == 3) {
+        } else if (suboption_book_search == "3") {
             correctInput = true;
             cout << "Input Category name >>";
         } else {
@@ -191,17 +191,17 @@ bool LibrarySystem::searchBook() {
     vector<int> listFound;
 
     for (int i = 0; i < listBook.size(); ++i) {
-        if (suboption_book_search == 1) {
+        if (suboption_book_search == "1") {
             if (toLower(listBook[i].getName()).substr(0,keyLength) == toLower(key).substr(0,keyLength)) {
                 found = true;
                 listFound.push_back(i);
             }
-        } else if (suboption_book_search == 2) {
+        } else if (suboption_book_search == "2") {
             if (toLower(listBook[i].getAuthor()).substr(0,keyLength) == toLower(key).substr(0,keyLength)) {
                 found = true;
                 listFound.push_back(i);
             }
-        } else if (suboption_book_search == 3) {
+        } else if (suboption_book_search == "3") {
             if (toLower(listBook[i].getCategory().getName()) == toLower(key)) {
                 found = true;
                 listFound.push_back(i);
