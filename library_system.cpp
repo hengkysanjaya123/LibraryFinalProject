@@ -9,6 +9,15 @@
 #include "setup_variables.h"
 #include <math.h>
 #include "Helper/sort.cpp"
+#include <conio.h>
+#include <fstream>
+#include <stdlib.h>
+
+
+#define ENTER 13
+#define BKSP 8
+#define LEFT_KEY 75
+#define RIGHT_KEY 77
 
 using namespace chrono;
 
@@ -227,10 +236,15 @@ bool LibrarySystem::searchBook() {
 
 
         cout << endl;
-        printf(" ------------------------------------------------------------------------------------------------------------\n");
-        printf("| %-5s | %-40s | %-20s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
+        printf(" -----------------------------------------------------------------------------------------------------------------\n");
+        printf("| %-5s | %-40s | %-25s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
                "Rating");
-        printf(" ------------------------------------------------------------------------------------------------------------\n");
+        printf(" -----------------------------------------------------------------------------------------------------------------\n");
+
+        int index = 0;
+        int n_perPage = 20;
+        int c_input;
+        int n_data = 0;
         for (int i : listFound) {
             int nBorrowed = 0;
             for (Transaction t : listTransaction) {
@@ -240,13 +254,41 @@ bool LibrarySystem::searchBook() {
             }
             int stock = listBook[i].getStock() - nBorrowed;
 
-            printf("| %-5d | %-40s | %-20s | %-10d | %-10s | %-6d |\n", listBook[i].getId(),
+            printf("| %-5d | %-40s | %-25s | %-10d | %-10s | %-6d |\n", listBook[i].getId(),
                    listBook[i].getName().c_str(),
                    listBook[i].getAuthor().c_str(), stock, listBook[i].getCategory().getName().c_str(),
                    listBook[i].getRating());
+
+            index++;
+            n_data++;
+
+            if (index % n_perPage == 0) {
+                SetTextColor(COLOR_OPTIONS);
+                string msg = "Press enter to load data";
+                cout << msg;
+                c_input = getch();
+                while (c_input != ENTER && c_input != LEFT_KEY) {
+                    c_input = getch();
+                }
+
+                if (c_input == ENTER) {
+                    for (int j = 0; j < msg.length(); ++j) {
+                        printf("\b \b");
+                    }
+                    SetTextColor(COLOR_TABLE);
+                    continue;
+                } else if (c_input == LEFT_KEY) {
+                    for (int j = 0; j < msg.length(); ++j) {
+                        printf("\b \b");
+                    }
+
+                    SetTextColor(COLOR_TABLE);
+                    break;
+                }
+            }
         }
-        printf(" ------------------------------------------------------------------------------------------------------------\n");
-        cout << " Found " << listFound.size() << " of " << listBook.size() << endl;
+        printf(" -----------------------------------------------------------------------------------------------------------------\n");
+        cout << " Found " << n_data << " of " << listBook.size() << endl;
         ResetTextColor();
         cout << endl;
         return true;
@@ -301,11 +343,16 @@ void LibrarySystem::displayBooks() {
         auto elapsed = double(duration_cast<milliseconds>(end - start).count());
         auto nano = double(duration_cast<nanoseconds>(end - start).count());
 
-        printf(" ------------------------------------------------------------------------------------------------------------\n");
-        printf("| %-5s | %-40s | %-20s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
+        printf(" -----------------------------------------------------------------------------------------------------------------\n");
+        printf("| %-5s | %-40s | %-25s | %-10s | %-10s | %-6s |\n", "ID", "Name", "Author", "Stock", "Category",
                "Rating");
-        printf(" ------------------------------------------------------------------------------------------------------------\n");
+        printf(" -----------------------------------------------------------------------------------------------------------------\n");
 
+
+        int index = 0;
+        int n_perPage = 10;
+        int c_input;
+        int n_data = 0;
 
         for (Book &i : book_list) {
             int nBorrowed = 0;
@@ -328,12 +375,40 @@ void LibrarySystem::displayBooks() {
             int stock = i.getStock() - nBorrowed;
 
             Category c = i.getCategory();
-            printf("| %-5d | %-40s | %-20s | %-10d | %-10s | %-6.2f |\n", i.getId(), i.getName().c_str(),
+            printf("| %-5d | %-40s | %-25s | %-10d | %-10s | %-6.2f |\n", i.getId(), i.getName().c_str(),
                    i.getAuthor().c_str(), stock, c.getName().c_str(),
                    rating);
+            index++;
+            n_data++;
+
+            if (index % n_perPage == 0) {
+                SetTextColor(COLOR_OPTIONS);
+                string msg = "Press enter to load data";
+                cout << msg;
+                c_input = getch();
+                while (c_input != ENTER && c_input != LEFT_KEY) {
+                    c_input = getch();
+                }
+
+                if (c_input == ENTER) {
+                    for (int j = 0; j < msg.length(); ++j) {
+                        printf("\b \b");
+                    }
+                    SetTextColor(COLOR_TABLE);
+                    continue;
+                } else if (c_input == LEFT_KEY) {
+                    for (int j = 0; j < msg.length(); ++j) {
+                        printf("\b \b");
+                    }
+
+                    SetTextColor(COLOR_TABLE);
+                    break;
+                }
+            }
         }
-        printf(" ------------------------------------------------------------------------------------------------------------\n");
-        cout << " Total data " << listBook.size() << endl;
+
+        printf(" -----------------------------------------------------------------------------------------------------------------\n");
+        cout << " Total data " << n_data << endl;
         cout << " Merge sort time taken : " << elapsed << " ms  | " << nano << " ns" << endl << endl;
 
         ResetTextColor();
@@ -824,6 +899,7 @@ bool LibrarySystem::addTransaction(int bookPosition) {
     time(&curr_time);
     curr_tm = localtime(&curr_time);
 
+
     for (auto i : listTransaction) {
         if (i.getUser().getUsername() == currentUser.getUsername() &&
             i.getBook().getId() == listBook[bookPosition].getId() && i.getStatus() == "borrowed") {
@@ -836,6 +912,32 @@ bool LibrarySystem::addTransaction(int bookPosition) {
 
     Transaction t(currentUser, listBook[bookPosition], "borrowed", date_string, "", 0);
     listTransaction.push_back(t);
+
+    char date_string2[100];
+    strftime(date_string2, 50, "%d%B%Y", curr_tm);
+
+    ofstream file;
+    string filename = currentUser.getUsername() + to_string(listBook[bookPosition].getId()) + date_string2 + ".txt";
+    string filepath = "../receipt/" + filename;
+    file.open(filepath, ios::trunc);
+    if (file.is_open()) {
+        string datestr = date_string;
+        string receipt = "====================================================\n"
+                         "=                    HR Library                    =\n"
+                         "====================================================\n\n"
+                         "Borrow Date : " + datestr + "\n"
+                                                      "User : " + currentUser.getUsername() + "\n"
+                                                                                              "Book : " +
+                         listBook[bookPosition].getName() + "\n"
+                                                            "Return date : \n"
+                                                            "\n\n"
+                                                            "----------------------------------------------------\n"
+                                                            "                      Thank You\n";
+        file << receipt;
+    }
+
+    file.close();
+    system(("start " + filepath).c_str());
     return true;
 }
 

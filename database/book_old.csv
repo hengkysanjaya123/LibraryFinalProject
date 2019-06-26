@@ -1,0 +1,192 @@
+1,The Visual MBA,Jason Barron,1,1,5
+2,How to be Invisible: Lyrics,Kate Bush,10,2,0
+3,The Only Business,Laura Brown,100,1,0
+4,10 Steps to Successful Budgeting,Lianabel Oliver,200,1,0
+5,Education and the Commercial Mindset,Samuel E. Abrams,350,6,0
+6,Fundamentals of Wavelets,Goswami Jaideva,27,5,8
+7,Data Smart,Foreman John,49,1,8
+8,God Created the Integers,Hawking Stephen,50,1,8
+9,Superfreakonomics,Dubner Stephen,12,5,9
+10,Orientalism,Said Edward,31,5,10
+11,Nature of Statistical Learning Theory The,Vapnik Vladimir,17,5,8
+12,Integration of the Indian States,Menon V P,24,2,10
+13,Drunkard's Walk The,Mlodinow Leonard,9,1,9
+14,Image Processing & Mathematical Morphology,Shih Frank,36,5,8
+15,How to Think Like Sherlock Holmes,Konnikova Maria,37,1,10
+16,Data Scientists at Work,Sebastian Gutierrez,12,5,8
+17,Slaughterhouse Five,Vonnegut Kurt,11,4,11
+18,Birth of a Theorem,Villani Cedric,24,4,9
+19,Structure & Interpretation of Computer Programs,Sussman Gerald,45,1,8
+20,Age of Wrath The,Eraly Abraham,39,4,10
+21,Trial The,Kafka Frank,7,3,11
+22,Statistical Decision Theory',Pratt John,5,1,8
+23,Data Mining Handbook,Nisbet Robert,5,4,8
+24,New Machiavelli The,Wells H. G.,41,3,11
+25,Physics & Philosophy,Heisenberg Werner,29,2,12
+26,Making Software,Oram Andy,30,2,8
+27,Analysis Vol I,Tao Terence,21,2,8
+28,Machine Learning for Hackers,Conway Drew,18,4,8
+29,Signal and the Noise The,Silver Nate,11,2,8
+30,Python for Data Analysis,McKinney Wes,16,5,8
+31,Introduction to Algorithms,Cormen Thomas,13,1,8
+32,Beautiful and the Damned The,Deb Siddhartha,18,1,10
+33,Outsider The,Camus Albert,6,3,11
+34,Complete Sherlock Holmes The - Vol I,Doyle Arthur Conan,11,3,11
+35,Complete Sherlock Holmes The - Vol II,Doyle Arthur Conan,11,2,11
+36,Wealth of Nations The,Smith Adam,45,4,9
+37,Pillars of the Earth The,Follett Ken,35,4,11
+38,Mein Kampf,Hitler Adolf,5,3,10
+39,Tao of Physics The,Capra Fritjof,40,5,9
+40,Surely You're Joking Mr Feynman,Feynman Richard,47,1,9
+41,Farewell to Arms A,Hemingway Ernest,13,5,11
+42,Veteran The,Forsyth Frederick,17,1,11
+43,False Impressions,Archer Jeffery,38,1,11
+44,Last Lecture The,Pausch Randy,5,4,10
+45,Return of the Primitive,Rand Ayn,46,5,12
+46,Jurassic Park,Crichton Michael,34,5,11
+47,Russian Journal A,Steinbeck John,17,4,10
+48,Tales of Mystery and Imagination,Poe Edgar Allen,21,5,11
+49,Freakonomics,Dubner Stephen,24,5,9
+50,Hidden Connections The,Capra Fritjof,13,2,9
+51,Story of Philosophy The,Durant Will,40,2,12
+52,Asami Asami,Deshpande P L,46,1,11
+53,Journal of a Novel,Steinbeck John,11,4,11
+54,Once There Was a War,Steinbeck John,29,3,10
+55,Moon is Down The,Steinbeck John,43,3,11
+56,Brethren The,Grisham John,38,2,11
+57,In a Free State,Naipaul V. S.,49,5,11
+58,Catch 22,Heller Joseph,24,5,11
+59,Complete Mastermind The,BBC,15,4,10
+60,Dylan on Dylan,Dylan Bob,17,4,10
+61,Soft Computing & Intelligent Systems,Gupta Madan,35,4,8
+62,Textbook of Economic Theory,Stonier Alfred,27,1,8
+63,Econometric Analysis,Greene W. H.,30,1,8
+64,Learning OpenCV,Bradsky Gary,34,5,8
+65,Data Structures Using C & C++,Tanenbaum Andrew,40,1,8
+66,Computer Vision A Modern Approach,Forsyth David,37,2,8
+67,Principles of Communication Systems,Taub Schilling,5,5,8
+68,Let Us C,Kanetkar Yashwant,19,3,8
+69,Amulet of Samarkand The,Stroud Jonathan,43,2,11
+70,Crime and Punishment,Dostoevsky Fyodor,29,4,11
+71,Angels & Demons,Brown Dan,32,4,11
+72,Argumentative Indian The,Sen Amartya,11,4,10
+73,Sea of Poppies,Ghosh Amitav,14,4,11
+74,Idea of Justice The,Sen Amartya,28,3,12
+75,Raisin in the Sun A,Hansberry Lorraine,30,5,11
+76,All the President's Men,Woodward Bob,40,2,10
+77,Prisoner of Birth A,Archer Jeffery,18,3,11
+78,Scoop!,Nayar Kuldip,28,5,10
+79,Ahe Manohar Tari,Deshpande Sunita,18,1,10
+80,Last Mughal The,Dalrymple William,41,1,10
+81,Social Choice & Welfare Vol 39 No. 1,Various,35,3,8
+82,Radiowaril Bhashane & Shrutika,Deshpande P L,5,1,10
+83,Gun Gayin Awadi,Deshpande P L,25,1,10
+84,Aghal Paghal,Deshpande P L,50,2,10
+85,Maqta-e-Ghalib,Garg Sanjay,43,1,10
+86,Manasa,Kale V P,48,4,10
+87,India from Midnight to Milennium,Tharoor Shashi,32,2,10
+88,Great Indian Novel The,Tharoor Shashi,40,4,11
+89,O Jerusalem!,Lapierre Dominique,20,5,10
+90,City of Joy The,Lapierre Dominique,50,1,11
+91,Freedom at Midnight,Lapierre Dominique,26,2,10
+92,Winter of Our Discontent The,Steinbeck John,36,2,11
+93,On Education,Russell Bertrand,18,4,12
+94,Free Will,Harris Sam,7,3,10
+95,Bookless in Baghdad,Tharoor Shashi,11,1,10
+96,Case of the Lame Canary The,Gardner Earle Stanley,44,2,11
+97,Theory of Everything The,Hawking Stephen,50,5,9
+98,New Markets & Other Essays,Drucker Peter,37,3,9
+99,Electric Universe,Bodanis David,21,3,9
+100,Hunchback of Notre Dame The,Hugo Victor,10,2,11
+101,Burning Bright,Steinbeck John,22,2,11
+102,Age of Discontuinity The,Drucker Peter,26,3,10
+103,Doctor in the Nude,Gordon Richard,30,5,11
+104,Down and Out in Paris & London,Orwell George,33,2,10
+105,Identity & Violence,Sen Amartya,18,5,12
+106,Beyond the Three Seas,Dalrymple William,14,2,10
+107,Talking Straight,Iacoca Lee,9,2,10
+108,Maugham's Collected Short Stories Vol 3,Maugham William S,27,5,11
+109,Phantom of Manhattan The,Forsyth Frederick,38,4,11
+110,Ashenden of The British Agent,Maugham William S,15,4,11
+111,Zen & The Art of Motorcycle Maintenance,Pirsig Robert,49,1,12
+112,Great War for Civilization The,Fisk Robert,6,3,10
+113,We the Living,Rand Ayn,12,3,11
+114,Artist and the Mathematician The,Aczel Amir,50,4,9
+115,History of Western Philosophy,Russell Bertrand,10,5,12
+116,Rationality & Freedom,Sen Amartya,40,5,9
+117,Clash of Civilizations and Remaking of the World Order,Huntington Samuel,26,4,10
+118,Uncommon Wisdom,Capra Fritjof,45,5,10
+119,One,Bach Richard,17,5,10
+120,To Sir With Love,Braithwaite,43,4,11
+121,Half A Life,Naipaul V S,23,1,11
+122,Discovery of India The,Nehru Jawaharlal,19,2,10
+123,Apulki,Deshpande P L,17,2,10
+124,Unpopular Essays,Russell Bertrand,22,2,12
+125,Deceiver The,Forsyth Frederick,8,3,11
+126,Veil: Secret Wars of the CIA,Woodward Bob,18,2,10
+127,Char Shabda,Deshpande P L,43,5,10
+128,Rosy is My Relative,Durrell Gerald,43,1,11
+129,Moon and Sixpence The,Maugham William S,29,4,11
+130,Short History of the World A,Wells H G,15,2,10
+131,Trembling of a Leaf The,Maugham William S,39,5,11
+132,Doctor on the Brain,Gordon Richard,11,4,11
+133,Simpsons & Their Mathematical Secrets,Singh Simon,12,2,9
+134,Pattern Classification,Duda Hart,26,4,8
+135,From Beirut to Jerusalem,Friedman Thomas,8,5,10
+136,Code Book The,Singh Simon,30,2,9
+137,Age of the Warrior The,Fisk Robert,39,3,10
+138,Numbers Behind Numb3rs The,Devlin Keith,37,4,9
+139,Life in Letters A,Steinbeck John,13,4,10
+140,Information The,Gleick James,23,2,9
+141,Elements of Information Theory,Thomas Joy,37,1,8
+142,Power Electronics - Rashid,Rashid Muhammad,39,4,8
+143,Power Electronics - Mohan,Mohan Ned,26,5,8
+144,Neural Networks,Haykin Simon,28,3,8
+145,Grapes of Wrath The,Steinbeck John,11,5,11
+146,Vyakti ani Valli,Deshpande P L,8,3,10
+147,Statistical Learning Theory,Vapnik Vladimir,16,1,8
+148,Empire of the Mughal - The Tainted Throne,Rutherford Alex,9,2,10
+149,Empire of the Mughal - Brothers at War,Rutherford Alex,41,3,10
+150,Empire of the Mughal - Ruler of the World,Rutherford Alex,23,5,10
+151,Empire of the Mughal - The Serpent's Tooth,Rutherford Alex,47,5,10
+152,Empire of the Mughal - Raiders from the North,Rutherford Alex,36,2,10
+153,Mossad,Baz-Zohar Michael,21,5,10
+154,Jim Corbett Omnibus,Corbett Jim,15,1,10
+155,20000 Leagues Under the Sea,Verne Jules,29,2,11
+156,Batatyachi Chal,Deshpande P L,43,1,11
+157,Hafasavnuk,Deshpande P L,27,2,11
+158,Urlasurla,Deshpande P L,40,4,11
+159,Pointers in C,Kanetkar Yashwant,50,2,8
+160,Cathedral and the Bazaar The,Raymond Eric,7,4,8
+161,Design with OpAmps,Franco Sergio,15,2,8
+162,Think Complexity,Downey Allen,38,4,8
+163,Devil's Advocate The,West Morris,34,2,11
+164,Ayn Rand Answers,Rand Ayn,49,2,12
+165,Philosophy: Who Needs It,Rand Ayn,34,3,12
+166,Data Analysis with Open Source Tools,Janert Phillip,33,4,8
+167,Broca's Brain,Sagan Carl,26,5,9
+168,Men of Mathematics,Bell E T,14,3,9
+169,Oxford book of Modern Science Writing,Dawkins Richard,47,3,9
+170,Justice Judiciary and Democracy,Ranjan Sudhanshu,9,3,10
+171,Arthashastra The,Kautiyla,39,5,12
+172,We the People,Palkhivala,12,5,12
+173,We the Nation,Palkhivala,44,2,12
+174,Courtroom Genius The,Sorabjee,40,5,10
+175,Dongri to Dubai,Zaidi Hussain,19,3,10
+176,History of England Foundation,Ackroyd Peter,40,5,10
+177,City of Djinns,Dalrymple William,28,4,10
+178,India's Legal System,Nariman,11,3,10
+179,More Tears to Cry,Sassoon Jean,10,1,11
+180,Ropemaker The,Dickinson Peter,29,3,11
+181,Angels & Demons,Brown Dan,43,2,11
+182,Prince The,Machiavelli,23,3,11
+183,Eyeless in Gaza,Huxley Aldous,26,3,11
+184,Tales of Beedle the Bard,Rowling J K,30,4,11
+185,Girl with the Dragon Tattoo,Larsson Steig,28,3,11
+186,Girl who kicked the Hornet's Nest,Larsson Steig,48,2,11
+187,Girl who played with Fire,Larsson Steig,37,3,11
+188,Structure and Randomness,Tao Terence,22,5,9
+189,Image Processing with MATLAB,Eddins Steve,42,4,8
+190,Animal Farm,Orwell George,22,2,11
+191,Idiot The,Dostoevsky Fyodor,21,5,11
+192,Christmas Carol A,Dickens Charles,47,1,11
