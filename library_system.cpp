@@ -880,10 +880,130 @@ vector<string> LibrarySystem::getTransactionsinFormat() {
     for (int i = 0; i < listTransaction.size(); i++) {
         stringstream ss;
         ss << listTransaction[i].getUser().getUsername() << "," << listTransaction[i].getBook().getId() << ","
-           << listTransaction[i].getStatus() << "," << listTransaction[i].getDate() << ","
-           << listTransaction[i].getReview() << "," << listTransaction[i].getRating()
+           << listTransaction[i].getStatus() << "," << listTransaction[i].getDate() << "," << listTransaction[i].getDuedate()
+           <<"," <<  listTransaction[i].getReview() << "," << listTransaction[i].getRating()
            << "\n";
         result.push_back(ss.str());
+    }
+
+    return result;
+}
+
+string LibrarySystem::calculateReturnDate(time_t now){
+
+    tm *curr_tm;
+    curr_tm = localtime(&now);
+
+    string date = "";
+
+    int day = curr_tm->tm_mday;
+    int month = 1 + curr_tm->tm_mon;
+    int year = 1900 + curr_tm->tm_year;
+
+    day += 21;
+
+    if ((day > 28 && month == 2) &&  (year%4!=0)){
+
+        month = month + 1;
+        day = day - 28;
+    }
+
+    else if ((day > 29 && month == 2) && ((year%4==0 && year%100 != 0) || year%400 == 0)){
+
+        month = month + 1;
+        day = day - 29;
+    }
+    else if (day > 31 && (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)){
+
+        if (month == 12){
+            year = year + 1;
+            month = 1;
+            day = day - 31;
+        }
+
+        else{
+            month = month + 1;
+            day = day - 31;
+        }
+    }
+
+    else if (day > 30 && (month == 4 || month == 6 || month == 9 || month == 11)){
+
+        month = month + 1;
+        day = day - 31;
+    }
+
+    date = to_string(day) + "-" + to_string(month) + "-" + to_string(year);
+
+    return date;
+
+}
+
+void LibrarySystem::compareReturnDates(time_t now){
+
+    tm* curr_tm;
+    curr_tm = localtime(&now);
+    vector<string> dates;
+
+    cout << curr_tm->tm_year;
+    for (int i = 0; i < listTransaction.size(); i++){
+
+        if (listTransaction[i].getStatus() == "borrowed" && listTransaction[i].getUser().getName() == currentUser.getName()){
+
+            string duedate = listTransaction[i].getDuedate();
+            dates = split(duedate,  '-');
+
+            struct tm currDate = {0,0,0,curr_tm->tm_mday,curr_tm->tm_mon+1,curr_tm->tm_year+1900};
+            struct tm dueDate = {0,0,0,stoi(dates[0]),stoi(dates[1]),stoi(dates[2])};
+
+            time_t curr_date = mktime(&currDate);
+            time_t due_date = mktime(&dueDate);
+
+            if ( curr_date != (std::time_t)(-1) && due_date != (std::time_t)(-1) )
+            {
+                int difference = std::difftime(curr_date, due_date / (60 * 60 * 24));
+
+                if (difference == -1){
+
+                    cout << "You have one day left to return " << listTransaction[i].getBook().getName() << endl;
+                }
+
+                else if (difference == 0){
+
+                    cout << "Please return " << listTransaction[i].getBook().getName() << " today." << endl;
+                }
+
+                else if (difference > 0){
+
+                    cout << listTransaction[i].getBook().getName() << " is " << difference << " day(s) late on return.\n"
+                         << "You will be fined $1 for each day the book isn't returned." << endl;
+
+                    cout <<  "Current fine: $" << difference << "." << endl;
+                }
+            }
+
+        }
+    }
+
+
+}
+
+vector<string> LibrarySystem::split(string text, char delimiter) {
+    int length = text.length();
+    vector<string> result;
+
+    string temp;
+    for (int i = 0; i < length; i++) {
+        if (text[i] == delimiter) {
+            result.push_back(temp);
+            temp = "";
+        } else if (i == (length - 1)) {
+            temp += text[i];
+            result.push_back(temp);
+            temp = "";
+        } else {
+            temp += text[i];
+        }
     }
 
     return result;
@@ -894,12 +1014,12 @@ bool LibrarySystem::addTransaction(int bookPosition) {
 //    auto now = std::chrono::system_clock::now();
 //    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
 
-    time_t curr_time;
-    tm *curr_tm;
-    time(&curr_time);
-    curr_tm = localtime(&curr_time);
+    time_t now = time(0);
+    tm* curr_tm;
+    curr_tm = localtime(&now);
 
 
+    string returnDate = calculateReturnDate(now);
     for (auto i : listTransaction) {
         if (i.getUser().getUsername() == currentUser.getUsername() &&
             i.getBook().getId() == listBook[bookPosition].getId() && i.getStatus() == "borrowed") {
@@ -910,7 +1030,7 @@ bool LibrarySystem::addTransaction(int bookPosition) {
     char date_string[100];
     strftime(date_string, 50, "%d %B %Y", curr_tm);
 
-    Transaction t(currentUser, listBook[bookPosition], "borrowed", date_string, "", 0);
+    Transaction t(currentUser, listBook[bookPosition], "borrowed", date_string, returnDate, "", 0);
     listTransaction.push_back(t);
 
     char date_string2[100];
@@ -942,7 +1062,12 @@ bool LibrarySystem::addTransaction(int bookPosition) {
 }
 
 // function overloading to add transaction
-bool LibrarySystem::addTransaction(string username, int bookId, string status, string date, string review, int rating) {
+bool LibrarySystem::addTransaction(string username, int bookId, string status, string date, string duedate, string review, int rating) {
+
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+
+
     int userPos = 0;
     for (int i = 0; i < listUser.size(); ++i) {
         if (listUser[i].getUsername() == username) {
@@ -960,7 +1085,7 @@ bool LibrarySystem::addTransaction(string username, int bookId, string status, s
     }
 
 
-    listTransaction.push_back(Transaction(listUser[userPos], listBook[bookPos], status, date, review, rating));
+    listTransaction.push_back(Transaction(listUser[userPos], listBook[bookPos], status, date, duedate, review, rating));
     return true;
 }
 
@@ -990,6 +1115,9 @@ bool LibrarySystem::returnBook(int bookId) {
             cout << "Enter rating (1-5) >>" << endl;
             cin >> rating;
             listTransaction[i].setRating(rating);
+
+            currentUser.addExp();
+            currentUser.levelCheck();
 
             cout << "Thank you" << endl;
 

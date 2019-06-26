@@ -149,7 +149,7 @@ void LibrarySystemUI::run() {
 
     vector<vector<string>> dataTransaction = readFile("transaction.csv");
     for (auto i : dataTransaction) {
-        ls.addTransaction(i[0], stoi(i[1]), i[2], i[3], i[4], stoi(i[5]));
+        ls.addTransaction(i[0], stoi(i[1]), i[2], i[3], i[4], i[5], stoi(i[6]));
     }
 //    ls.setCurrentUser(ls.getListUser()[0]);
 //    ls.addTransaction(1);
@@ -249,8 +249,11 @@ void LibrarySystemUI::run() {
 // function to display userpage ui
 void LibrarySystemUI::userPage(User currentUser) {
 
-    int option, topBookoption, timeSpan;
+    string option;
+    int topBookoption, timeSpan;
     string year, month, day, date;
+    time_t now = time(0);
+    ls.compareReturnDates(now);
     while (true) {
         cout << endl;
         ls.WriteWithColor("Welcome " + currentUser.getName() + " (User)\n"
@@ -266,7 +269,8 @@ void LibrarySystemUI::userPage(User currentUser) {
         cin >> option;
 
         // borrow book
-        if (option == 1) {
+
+        if (option == "1") {
             int bookid;
             bool found = ls.searchBook();
             if (found == false) {
@@ -300,7 +304,7 @@ void LibrarySystemUI::userPage(User currentUser) {
             }
         }
             // return book
-        else if (option == 2) {
+        else if (option == "2") {
 
             bool valInp = false;
             cout << "- Return Book -" << endl;
@@ -330,20 +334,54 @@ void LibrarySystemUI::userPage(User currentUser) {
             }
         }
             // view all books
-        else if (option == 3) {
+//        else if (option == 3) {
+//
+//            time_t theTime = time(NULL);
+//            struct tm *currTime = localtime(&theTime);
+//
+//            day = to_string(currTime->tm_mday);
+//            month = to_string(currTime->tm_mon + 1);
+//            year = to_string(currTime->tm_year + 1900);
+//
+//            date = year + "-" + month + "-" + day;
+//
+//            ls.WriteWithColor("View By:\n"
+//                              "1. Rating         \n"
+//                              "2. Amount Borrowed\n"
+//                              ">>", COLOR_OPTIONS);
+//
+//            cin >> topBookoption;
+//
+//            ls.WriteWithColor("Time Span: \n"
+//                              "1. This Month \n"
+//                              "2. This Year  \n"
+//                              "3. All Time   \n"
+//                              ">>", COLOR_OPTIONS);
+//
+//            cin >> timeSpan;
+//
+//            if (topBookoption == 1) {
+//                ls.displayTopRatedBooks(date, timeSpan);
+//            } else if (topBookoption == 2) {
+//                ls.displayTopBorrowedBooks(date, timeSpan);
+//            }
+//
+//
+//        }
+        else if (option == "3") {
             cout << "-- View all books --" << endl;
             ls.displayBooks();
         }
             // view highest rated books
-        else if (option == 4) {
+        else if (option == "4") {
             ls.viewHighestRatedBooks();
         }
             // view highest borrowedbooks
-        else if (option == 5) {
+        else if (option == "5") {
             ls.viewHighestBorrowedBooks();
         }
             // exit
-        else if (option == 0) {
+        else if (option == "0") {
             break;
         }
             // wrong input
@@ -351,131 +389,60 @@ void LibrarySystemUI::userPage(User currentUser) {
             ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
         }
     }
-}
-
+    }
 // function to display admin page ui
-void LibrarySystemUI::adminPage(User currentUser) {
-    string option;
-    while (true) {
-        cout << endl;
-        ls.WriteWithColor("Welcome " + currentUser.getName() + " (admin)\n"
-                                                               "1. Master Data                          \n"
-                                                               "2. View Transaction                     \n"
-                                                               "3. View Borrowed Books                  \n"
-                                                               "4. View Book's Review                   \n"
-                                                               "5. View Top 3 Books by Rating           \n"
-                                                               "6. View Top 3 Books by Amount borrowed  \n"
-                                                               "7. Logout                               \n"
-                                                               ">>", COLOR_OPTIONS);
+    void LibrarySystemUI::adminPage(User currentUser) {
+        string option;
+        while (true) {
+            cout << endl;
+            ls.WriteWithColor("Welcome " + currentUser.getName() + " (admin)\n"
+                                                                   "1. Master Data                          \n"
+                                                                   "2. View Transaction                     \n"
+                                                                   "3. View Borrowed Books                  \n"
+                                                                   "4. View Book's Review                   \n"
+                                                                   "5. View Top 3 Books by Rating           \n"
+                                                                   "6. View Top 3 Books by Amount borrowed  \n"
+                                                                   "7. Logout                               \n"
+                                                                   ">>", COLOR_OPTIONS);
 
-        cin >> option;
-        // master data
-        if (option == "1") {
-            bool valInp = false;
-            string suboption_master_data;
-            ls.SetTextColor(COLOR_OPTIONS);
-            while (valInp == false) {
-                cout << "1. Book     " << endl
-                     << "2. Category " << endl
-                     //<< "3. User     " << endl
-                     << ">>";
-                ls.ResetTextColor();
-                cin >> suboption_master_data;
-
-                if (suboption_master_data != "1" && suboption_master_data != "2") {
-                    ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
-                } else {
-                    break;
-                }
-            }
-            // book
-            if (suboption_master_data == "1") {
-                while (true) {
-                    string suboption_book;
-                    ls.SetTextColor(COLOR_OPTIONS);
-                    cout << "Book CRUD       " << endl
-                         << "1. Insert       " << endl
-                         << "2. Update       " << endl
-                         << "3. Delete       " << endl
-                         << "4. Search       " << endl
-                         << "5. View all     " << endl
-                         << "6. Back to menu " << endl
+            cin >> option;
+            // master data
+            if (option == "1") {
+                bool valInp = false;
+                string suboption_master_data;
+                ls.SetTextColor(COLOR_OPTIONS);
+                while (valInp == false) {
+                    cout << "1. Book     " << endl
+                         << "2. Category " << endl
+                         //<< "3. User     " << endl
                          << ">>";
                     ls.ResetTextColor();
-                    cin >> suboption_book;
-                    // insert book
-                    if (suboption_book == "1") {
-                        cout << "-- Insert book --" << endl;
-                        string b_name, b_author, category_option;
-                        int b_stock;
+                    cin >> suboption_master_data;
 
-                        cout << "book's name >>";
-                        cin >> b_name;
-
-                        cout << "book's author >>";
-                        cin >> b_author;
-
-                        cout << "book's stock >>";
-                        cin >> b_stock;
-
-                        int pos;
-                        while (true) {
-                            cout << "Browse category or insert new [B,I]?" << endl;
-                            cin >> category_option;
-
-
-                            if (category_option == "b" || category_option == "B") {
-                                bool re = ls.searchCategory();
-
-                                if (re == false) {
-                                    cout << "There is no data found in category list" << endl;
-                                } else {
-                                    cout << "Please input category's Id >>";
-                                    int categoryId;
-                                    cin >> categoryId;
-
-                                    pos = ls.searchCategory(categoryId);
-
-                                    if (pos != -1) {
-                                        break;
-                                    } else {
-                                        cout << "CategoryId not found" << endl;
-                                    }
-                                }
-                            } else if (category_option == "i" || category_option == "I") {
-                                pos = addCategoryUI();
-                                break;
-                            }
-                        }
-
-//                        cout << "position" << pos << endl;
-                        Category c = ls.getCategory(pos);
-//                        cout << "category name" << c.getName() << endl;
-
-                        Book b = Book(b_name, b_author, b_stock, c);
-//                        cout << "category name2 " << b.getCategory().getName() << endl;
-                        ls.addBook(b);
-
-                        ls.WriteWithColor("~ Book added successfully ~", COLOR_SUCCESS_MESSAGE);
-                        cout << endl;
+                    if (suboption_master_data != "1" && suboption_master_data != "2") {
+                        ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
+                    } else {
+                        break;
                     }
-                        // update book
-                    else if (suboption_book == "2") {
-                        cout << "-- Update book --" << endl;
-                        bool re = ls.searchBook();
-
-                        if (re == false) {
-                            cout << "There is no data found" << endl;
-                            continue;
-                        }
-
-                        cout << "Please input book's Id >>";
-                        int bookId;
-                        cin >> bookId;
-
-                        int pos_book = ls.searchBook(bookId);
-                        if (pos_book != -1) {
-
+                }
+                // book
+                if (suboption_master_data == "1") {
+                    while (true) {
+                        string suboption_book;
+                        ls.SetTextColor(COLOR_OPTIONS);
+                        cout << "Book CRUD       " << endl
+                             << "1. Insert       " << endl
+                             << "2. Update       " << endl
+                             << "3. Delete       " << endl
+                             << "4. Search       " << endl
+                             << "5. View all     " << endl
+                             << "6. Back to menu " << endl
+                             << ">>";
+                        ls.ResetTextColor();
+                        cin >> suboption_book;
+                        // insert book
+                        if (suboption_book == "1") {
+                            cout << "-- Insert book --" << endl;
                             string b_name, b_author, category_option;
                             int b_stock;
 
@@ -518,247 +485,317 @@ void LibrarySystemUI::adminPage(User currentUser) {
                                 }
                             }
 
+//                        cout << "position" << pos << endl;
                             Category c = ls.getCategory(pos);
-                            ls.updateBook(pos_book, Book(b_name, b_author, b_stock, c));
+//                        cout << "category name" << c.getName() << endl;
 
-                            ls.WriteWithColor("~ Data updated successfully ~", COLOR_SUCCESS_MESSAGE);
+                            Book b = Book(b_name, b_author, b_stock, c);
+//                        cout << "category name2 " << b.getCategory().getName() << endl;
+                            ls.addBook(b);
+
+                            ls.WriteWithColor("~ Book added successfully ~", COLOR_SUCCESS_MESSAGE);
                             cout << endl;
+                        }
+                            // update book
+                        else if (suboption_book == "2") {
+                            cout << "-- Update book --" << endl;
+                            bool re = ls.searchBook();
+
+                            if (re == false) {
+                                cout << "There is no data found" << endl;
+                                continue;
+                            }
+
+                            cout << "Please input book's Id >>";
+                            int bookId;
+                            cin >> bookId;
+
+                            int pos_book = ls.searchBook(bookId);
+                            if (pos_book != -1) {
+
+                                string b_name, b_author, category_option;
+                                int b_stock;
+
+                                cout << "book's name >>";
+                                cin >> b_name;
+
+                                cout << "book's author >>";
+                                cin >> b_author;
+
+                                cout << "book's stock >>";
+                                cin >> b_stock;
+
+                                int pos;
+                                while (true) {
+                                    cout << "Browse category or insert new [B,I]?" << endl;
+                                    cin >> category_option;
+
+
+                                    if (category_option == "b" || category_option == "B") {
+                                        bool re = ls.searchCategory();
+
+                                        if (re == false) {
+                                            cout << "There is no data found in category list" << endl;
+                                        } else {
+                                            cout << "Please input category's Id >>";
+                                            int categoryId;
+                                            cin >> categoryId;
+
+                                            pos = ls.searchCategory(categoryId);
+
+                                            if (pos != -1) {
+                                                break;
+                                            } else {
+                                                cout << "CategoryId not found" << endl;
+                                            }
+                                        }
+                                    } else if (category_option == "i" || category_option == "I") {
+                                        pos = addCategoryUI();
+                                        break;
+                                    }
+                                }
+
+                                Category c = ls.getCategory(pos);
+                                ls.updateBook(pos_book, Book(b_name, b_author, b_stock, c));
+
+                                ls.WriteWithColor("~ Data updated successfully ~", COLOR_SUCCESS_MESSAGE);
+                                cout << endl;
+                            } else {
+                                ls.WriteWithColor("~ Book not found ~", COLOR_WARNING_MESSAGE);
+                                cout << endl;
+                            }
+                        }
+                            // delete book
+                        else if (suboption_book == "3") {
+                            cout << "-- Delete book --" << endl;
+                            bool re = ls.searchBook();
+
+                            if (re == false) {
+                                cout << "There is no data found" << endl;
+                                continue;
+                            }
+
+                            cout << "Please input book's Id >>";
+                            int bookId;
+                            cin >> bookId;
+
+                            int pos = ls.searchBook(bookId);
+
+                            if (pos != -1) {
+                                ls.removeBook(pos);
+
+                                ls.WriteWithColor("~ Data deleted successfully ~", COLOR_SUCCESS_MESSAGE);
+                                cout << endl;
+                            } else {
+                                ls.WriteWithColor("~ Book not found ~", COLOR_WARNING_MESSAGE);
+                                cout << endl;
+                            }
+
+                        }
+                            // search book
+                        else if (suboption_book == "4") {
+                            cout << "-- Search books --" << endl;
+                            bool re = ls.searchBook();
+                            if (re == false) {
+                                cout << "There is no data found" << endl;
+                            }
+                        }
+                            // view all book
+                        else if (suboption_book == "5") {
+                            cout << "-- View all books --" << endl;
+                            ls.displayBooks();
+                        }
+                            // back to menu
+                        else if (suboption_book == "6") {
+                            break;
                         } else {
-                            ls.WriteWithColor("~ Book not found ~", COLOR_WARNING_MESSAGE);
-                            cout << endl;
+                            ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
                         }
-                    }
-                        // delete book
-                    else if (suboption_book == "3") {
-                        cout << "-- Delete book --" << endl;
-                        bool re = ls.searchBook();
-
-                        if (re == false) {
-                            cout << "There is no data found" << endl;
-                            continue;
-                        }
-
-                        cout << "Please input book's Id >>";
-                        int bookId;
-                        cin >> bookId;
-
-                        int pos = ls.searchBook(bookId);
-
-                        if (pos != -1) {
-                            ls.removeBook(pos);
-
-                            ls.WriteWithColor("~ Data deleted successfully ~", COLOR_SUCCESS_MESSAGE);
-                            cout << endl;
-                        } else {
-                            ls.WriteWithColor("~ Book not found ~", COLOR_WARNING_MESSAGE);
-                            cout << endl;
-                        }
-
-                    }
-                        // search book
-                    else if (suboption_book == "4") {
-                        cout << "-- Search books --" << endl;
-                        bool re = ls.searchBook();
-                        if (re == false) {
-                            cout << "There is no data found" << endl;
-                        }
-                    }
-                        // view all book
-                    else if (suboption_book == "5") {
-                        cout << "-- View all books --" << endl;
-                        ls.displayBooks();
-                    }
-                        // back to menu
-                    else if (suboption_book == "6") {
-                        break;
-                    } else {
-                        ls.WriteWithColor("\nWrong Input\n", COLOR_WARNING_MESSAGE);
                     }
                 }
-            }
-                // category
-            else if (suboption_master_data == "2") {
-                while (true) {
-                    string suboption_category;
+                    // category
+                else if (suboption_master_data == "2") {
+                    while (true) {
+                        string suboption_category;
+                        ls.SetTextColor(COLOR_OPTIONS);
+                        cout << "Category CRUD    " << endl
+                             << "1. Insert        " << endl
+                             << "2. Update        " << endl
+                             << "3. Delete        " << endl
+                             << "4. Search        " << endl
+                             << "5. View all      " << endl
+                             << "6. Back to menu  " << endl;
+                        ls.ResetTextColor();
+
+                        cin >> suboption_category;
+                        // insert category
+                        if (suboption_category == "1") {
+                            addCategoryUI();
+                        }
+                            // update category
+                        else if (suboption_category == "2") {
+                            cout << "-- Update category --" << endl;
+                            bool re = ls.searchCategory();
+
+                            if (re == false) {
+                                cout << "There is no data found" << endl;
+                                continue;
+                            }
+
+                            cout << "Please input category's Id >>";
+                            int categoryId;
+                            cin >> categoryId;
+
+                            int pos = ls.searchCategory(categoryId);
+                            if (pos != -1) {
+                                string c_name;
+
+                                cout << "category's name >>";
+                                cin >> c_name;
+
+                                ls.updateCategory(pos, Category(c_name));
+
+                                ls.WriteWithColor("~ Data updated successfully ~", COLOR_SUCCESS_MESSAGE);
+                                cout << endl;
+                            } else {
+                                ls.WriteWithColor("~ Category not found ~", COLOR_WARNING_MESSAGE);
+                                cout << endl;
+                            }
+                        }
+                            // delete category
+                        else if (suboption_category == "3") {
+                            cout << "-- Delete category --" << endl;
+                            bool re = ls.searchCategory();
+
+                            if (re == false) {
+                                cout << "There is no data found" << endl;
+                                continue;
+                            }
+
+                            cout << "Please input category's Id >>";
+                            int categoryId;
+                            cin >> categoryId;
+
+                            int pos = ls.searchCategory(categoryId);
+
+                            if (pos != -1) {
+                                ls.removeCategory(pos);
+
+                                ls.WriteWithColor("~ Data deleted successfully ~", COLOR_SUCCESS_MESSAGE);
+                                cout << endl;
+                            } else {
+                                ls.WriteWithColor("~ Category not found ~", COLOR_WARNING_MESSAGE);
+                                cout << endl;
+                            }
+
+                        }
+                            // search category
+                        else if (suboption_category == "4") {
+                            cout << "-- Search categories --" << endl;
+                            bool re = ls.searchCategory();
+                            if (re == false) {
+                                cout << "There is no data found" << endl;
+                            }
+                        }
+                            // view all categories
+                        else if (suboption_category == "5") {
+                            cout << "-- View all categories --" << endl;
+                            ls.displayCategories();
+                        }
+                            // back to menu
+                        else if (suboption_category == "6") {
+                            break;
+                        } else {
+                            ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
+                        }
+                    }
+                }
+                    // user
+                else if (suboption_master_data == "3") {
+                    string suboption_user;
                     ls.SetTextColor(COLOR_OPTIONS);
-                    cout << "Category CRUD    " << endl
-                         << "1. Insert        " << endl
-                         << "2. Update        " << endl
-                         << "3. Delete        " << endl
-                         << "4. Search        " << endl
-                         << "5. View all      " << endl
-                         << "6. Back to menu  " << endl;
+                    cout << "User CRUD" << endl
+                         << "1. Insert" << endl
+                         << "2. Update" << endl
+                         << "3. Delete" << endl
+                         << "4. Search" << endl
+                         << "5. View all" << endl;
                     ls.ResetTextColor();
+                    cin >> option;
+                    // insert user
+                    if (suboption_user == "1") {
+                        string name, username, password, confirm_password, role;
 
-                    cin >> suboption_category;
-                    // insert category
-                    if (suboption_category == "1") {
-                        addCategoryUI();
+                        cout << "-- Add New User --" << endl;
+
+                        cout << "name >>";
+                        cin.ignore();
+                        getline(cin, name);
+
+                        cout << "username >>";
+                        cin.ignore();
+                        getline(cin, username);
+
+                        cout << "password >>";
+                        cin.ignore();
+                        getline(cin, password);
+
+                        cout << "confirm password >>";
+                        cin.ignore();
+                        getline(cin, confirm_password);
+                        // check confirm password & password
+
+                        cin.ignore();
+                        cout << "Role [L = Library, A = Admin]>>";
+                        getline(cin, role);
+
+                        ls.addUser(User(name, username, password, role));
                     }
-                        // update category
-                    else if (suboption_category == "2") {
-                        cout << "-- Update category --" << endl;
-                        bool re = ls.searchCategory();
-
-                        if (re == false) {
-                            cout << "There is no data found" << endl;
-                            continue;
-                        }
-
-                        cout << "Please input category's Id >>";
-                        int categoryId;
-                        cin >> categoryId;
-
-                        int pos = ls.searchCategory(categoryId);
-                        if (pos != -1) {
-                            string c_name;
-
-                            cout << "category's name >>";
-                            cin >> c_name;
-
-                            ls.updateCategory(pos, Category(c_name));
-
-                            ls.WriteWithColor("~ Data updated successfully ~", COLOR_SUCCESS_MESSAGE);
-                            cout << endl;
-                        } else {
-                            ls.WriteWithColor("~ Category not found ~", COLOR_WARNING_MESSAGE);
-                            cout << endl;
-                        }
-                    }
-                        // delete category
-                    else if (suboption_category == "3") {
-                        cout << "-- Delete category --" << endl;
-                        bool re = ls.searchCategory();
-
-                        if (re == false) {
-                            cout << "There is no data found" << endl;
-                            continue;
-                        }
-
-                        cout << "Please input category's Id >>";
-                        int categoryId;
-                        cin >> categoryId;
-
-                        int pos = ls.searchCategory(categoryId);
-
-                        if (pos != -1) {
-                            ls.removeCategory(pos);
-
-                            ls.WriteWithColor("~ Data deleted successfully ~", COLOR_SUCCESS_MESSAGE);
-                            cout << endl;
-                        } else {
-                            ls.WriteWithColor("~ Category not found ~", COLOR_WARNING_MESSAGE);
-                            cout << endl;
-                        }
+                        // update user
+                    else if (suboption_user == "2") {
 
                     }
-                        // search category
-                    else if (suboption_category == "4") {
-                        cout << "-- Search categories --" << endl;
-                        bool re = ls.searchCategory();
-                        if (re == false) {
-                            cout << "There is no data found" << endl;
-                        }
+                        // delete user
+                    else if (suboption_user == "3") {
+
                     }
-                        // view all categories
-                    else if (suboption_category == "5") {
-                        cout << "-- View all categories --" << endl;
-                        ls.displayCategories();
+                        // search user
+                    else if (suboption_user == "4") {
+
                     }
-                        // back to menu
-                    else if (suboption_category == "6") {
-                        break;
+                        // view all users
+                    else if (suboption_user == "5") {
+
                     } else {
                         ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
                     }
                 }
+
             }
-                // user
-            else if (suboption_master_data == "3") {
-                string suboption_user;
-                ls.SetTextColor(COLOR_OPTIONS);
-                cout << "User CRUD" << endl
-                     << "1. Insert" << endl
-                     << "2. Update" << endl
-                     << "3. Delete" << endl
-                     << "4. Search" << endl
-                     << "5. View all" << endl;
-                ls.ResetTextColor();
-                cin >> option;
-                // insert user
-                if (suboption_user == "1") {
-                    string name, username, password, confirm_password, role;
-
-                    cout << "-- Add New User --" << endl;
-
-                    cout << "name >>";
-                    cin.ignore();
-                    getline(cin, name);
-
-                    cout << "username >>";
-                    cin.ignore();
-                    getline(cin, username);
-
-                    cout << "password >>";
-                    cin.ignore();
-                    getline(cin, password);
-
-                    cout << "confirm password >>";
-                    cin.ignore();
-                    getline(cin, confirm_password);
-                    // check confirm password & password
-
-                    cin.ignore();
-                    cout << "Role [L = Library, A = Admin]>>";
-                    getline(cin, role);
-
-                    ls.addUser(User(name, username, password, role));
-                }
-                    // update user
-                else if (suboption_user == "2") {
-
-                }
-                    // delete user
-                else if (suboption_user == "3") {
-
-                }
-                    // search user
-                else if (suboption_user == "4") {
-
-                }
-                    // view all users
-                else if (suboption_user == "5") {
-
-                } else {
-                    ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
-                }
+                // view transaction
+            else if (option == "2") {
+                ls.viewAllTransactions();
             }
-
+                // view borrowed books
+            else if (option == "3") {
+                ls.displayBorrowedBooks();
+            }
+                // view book's review
+            else if (option == "4") {
+                ls.viewBooksReview();
+            } else if (option == "5") {
+                ls.viewHighestRatedBooks();
+            } else if (option == "6") {
+                ls.viewHighestBorrowedBooks();
+            }
+                // logout
+            else if (option == "7") {
+                break;
+            }
+                // wrong input
+            else {
+                ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
+            }
+            cout << endl;
         }
-            // view transaction
-        else if (option == "2") {
-            ls.viewAllTransactions();
-        }
-            // view borrowed books
-        else if (option == "3") {
-            ls.displayBorrowedBooks();
-        }
-            // view book's review
-        else if (option == "4") {
-            ls.viewBooksReview();
-        } else if (option == "5") {
-            ls.viewHighestRatedBooks();
-        } else if (option == "6") {
-            ls.viewHighestBorrowedBooks();
-        }
-            // logout
-        else if (option == "7") {
-            break;
-        }
-            // wrong input
-        else {
-            ls.WriteWithColor("Wrong Input", COLOR_WARNING_MESSAGE);
-        }
-        cout << endl;
     }
-}

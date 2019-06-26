@@ -7,11 +7,12 @@
 Transaction::Transaction() {
 }
 
-Transaction::Transaction(User user, Book book, string status, string date, string review, int rating) {
+Transaction::Transaction(User user, Book book, string status, string date, string duedate, string review, int rating) {
     this->user = user;
     this->book = book;
     this->status = status;
     this->date = date;
+    this->duedate = duedate;
     this->review = review;
     this->rating = rating;
 }
@@ -46,6 +47,14 @@ void Transaction::setDate(string date) {
 
 string Transaction::getDate() {
     return this->date;
+}
+
+void Transaction::setDuedate(string duedate) {
+    this->duedate = duedate;
+}
+
+string Transaction::getDuedate() {
+    return this->duedate;
 }
 
 void Transaction::setReview(string review) {

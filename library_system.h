@@ -10,6 +10,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <ctime>
 
 #include "Model/book.h"
 #include "Model/user.h"
@@ -30,6 +31,8 @@ private:
 public:
     void WriteWithColor(string message, char color);
 
+    vector<string> split(string text, char delimiter);
+
     void SetTextColor(char color);
 
     void ResetTextColor();
@@ -37,6 +40,9 @@ public:
     string toLower(string text);
 
     bool IsUsernameExist(string username);
+
+    string calculateReturnDate(time_t now);
+    void compareReturnDates(time_t now);
 
     User getCurrentUser();
 
@@ -108,7 +114,7 @@ public:
     vector<string> getTransactionsinFormat();
 
     bool addTransaction(int bookPosition);
-    bool addTransaction(string username, int bookId, string status, string date, string review, int rating);
+    bool addTransaction(string username, int bookId, string status, string date, string duedate, string review, int rating);
 
     bool returnBook(int bookId);
 

@@ -15,7 +15,7 @@ class Transaction
 {
 public:
     Transaction();
-    Transaction(User user, Book book, string status, string date, string review, int rating);
+    Transaction(User user, Book book, string status, string date, string duedate, string review, int rating);
 
     void setUser(User user);
     User getUser();
@@ -29,6 +29,9 @@ public:
     void setDate(string date);
     string getDate();
 
+    void setDuedate(string duedate);
+    string getDuedate();
+
     void setReview(string review);
     string getReview();
 
@@ -40,6 +43,7 @@ private:
     Book book;
     string status;
     string date;
+    string duedate;
     string review;
     int rating;
 
