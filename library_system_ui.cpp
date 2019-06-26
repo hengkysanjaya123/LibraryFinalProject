@@ -597,7 +597,7 @@ void LibrarySystemUI::userPage(User currentUser) {
                             cout << "-- Search books --" << endl;
                             bool re = ls.searchBook();
                             if (re == false) {
-                                cout << "There is no data found" << endl;
+                                ls.WriteWithColor("There is no data found", COLOR_WARNING_MESSAGE);
                             }
                         }
                             // view all book

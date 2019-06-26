@@ -3,6 +3,8 @@
 
 CMakeFiles/Final_Project.dir/DataStructure/btree.cpp.obj: ../DataStructure/btree.cpp
 
+CMakeFiles/Final_Project.dir/Helper/KMPSearch.cpp.obj: ../Helper/KMPSearch.cpp
+
 CMakeFiles/Final_Project.dir/Helper/sort.cpp.obj: ../Helper/sort.cpp
 
 CMakeFiles/Final_Project.dir/Model/book.cpp.obj: ../Model/book.cpp
@@ -21,6 +23,7 @@ CMakeFiles/Final_Project.dir/Model/transaction.cpp.obj: ../Model/user.h
 CMakeFiles/Final_Project.dir/Model/user.cpp.obj: ../Model/user.cpp
 CMakeFiles/Final_Project.dir/Model/user.cpp.obj: ../Model/user.h
 
+CMakeFiles/Final_Project.dir/library_system.cpp.obj: ../Helper/KMPSearch.cpp
 CMakeFiles/Final_Project.dir/library_system.cpp.obj: ../Helper/sort.cpp
 CMakeFiles/Final_Project.dir/library_system.cpp.obj: ../Model/book.h
 CMakeFiles/Final_Project.dir/library_system.cpp.obj: ../Model/category.h
