@@ -12,6 +12,7 @@
 #include <conio.h>
 #include <fstream>
 #include <stdlib.h>
+#include "Helper/KMPSearch.cpp"
 
 
 #define ENTER 13
@@ -232,19 +233,37 @@ bool LibrarySystem::searchBook() {
     bool found = false;
     vector<int> listFound;
 
+    char ckey[key.size()+1];
+    strcpy(ckey, key.c_str());
+
+    KMPSearchPattern ksp;
+
     for (int i = 0; i < listBook.size(); ++i) {
         if (suboption_book_search == "1") {
-            if (toLower(listBook[i].getName()).substr(0, keyLength) == toLower(key).substr(0, keyLength)) {
+            string name = toLower(listBook[i].getName());
+            char cstr[name.size()+1];
+            strcpy(cstr,name.c_str());
+
+
+            if (ksp.KMPSearch(ckey,cstr) == 1) {
                 found = true;
                 listFound.push_back(i);
             }
         } else if (suboption_book_search == "2") {
-            if (toLower(listBook[i].getAuthor()).substr(0, keyLength) == toLower(key).substr(0, keyLength)) {
+            string author = toLower(listBook[i].getAuthor());
+            char cstr[author.size()+1];
+            strcpy(cstr,author.c_str());
+
+            if (ksp.KMPSearch(ckey,cstr) == 1) {
                 found = true;
                 listFound.push_back(i);
             }
         } else if (suboption_book_search == "3") {
-            if (toLower(listBook[i].getCategory().getName()) == toLower(key)) {
+            string category = toLower(listBook[i].getCategory().getName());
+            char cstr[category.size()+1];
+            strcpy(cstr,category.c_str());
+
+            if (ksp.KMPSearch(ckey,cstr) == 1) {
                 found = true;
                 listFound.push_back(i);
             }
