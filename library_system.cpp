@@ -74,6 +74,26 @@ bool LibrarySystem::IsUsernameExist(string username) {
     return false;
 }
 
+bool LibrarySystem::checkBookLimit(){
+
+    int currBorrowed = 0;
+    for (int i = 0; i < listTransaction.size(); i++){
+
+        if (listTransaction[i].getStatus() == "borrowed" && listTransaction[i].getUser().getName() == currentUser.getName()){
+
+            currBorrowed++;
+
+            if (currBorrowed >= currentUser.getBooklim()){
+
+                return false;
+
+            }
+        }
+    }
+    return true;
+
+}
+
 // function to get current user
 User LibrarySystem::getCurrentUser() {
     return currentUser;
@@ -1018,7 +1038,6 @@ bool LibrarySystem::addTransaction(int bookPosition) {
     tm* curr_tm;
     curr_tm = localtime(&now);
 
-
     string returnDate = calculateReturnDate(now);
     for (auto i : listTransaction) {
         if (i.getUser().getUsername() == currentUser.getUsername() &&
@@ -1049,7 +1068,7 @@ bool LibrarySystem::addTransaction(int bookPosition) {
                                                       "User : " + currentUser.getUsername() + "\n"
                                                                                               "Book : " +
                          listBook[bookPosition].getName() + "\n"
-                                                            "Return date : \n"
+                                                            "Return date : " + t.getDuedate() + "\n"
                                                             "\n\n"
                                                             "----------------------------------------------------\n"
                                                             "                      Thank You\n";
@@ -1067,7 +1086,6 @@ bool LibrarySystem::addTransaction(string username, int bookId, string status, s
     time_t now = time(0);
     tm *ltm = localtime(&now);
 
-
     int userPos = 0;
     for (int i = 0; i < listUser.size(); ++i) {
         if (listUser[i].getUsername() == username) {
@@ -1083,7 +1101,6 @@ bool LibrarySystem::addTransaction(string username, int bookId, string status, s
             break;
         }
     }
-
 
     listTransaction.push_back(Transaction(listUser[userPos], listBook[bookPos], status, date, duedate, review, rating));
     return true;
@@ -1201,8 +1218,6 @@ void LibrarySystem::viewAllTransactions() {
         ResetTextColor();
     }
 }
-
-
 
 //		list<User>* getListUser(){
 //			return &(this->listUser);

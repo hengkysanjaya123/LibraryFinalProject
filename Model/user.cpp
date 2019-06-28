@@ -15,7 +15,7 @@ User::User(string n, string u, string p, string r){
     this->role = r;
     this->level = 1;
     this->booklim = 2;
-    this->reqExp = level * 3;
+    this->reqExp = 3;
 }
 
 void User::setName(string name) {
@@ -58,19 +58,24 @@ int User::getLevel(){
     return this->level;
 }
 
+void User::setBooklim(int limit) {
+    this->booklim = limit;
+}
+
+int User::getBooklim() {
+    return this->booklim;
+}
 void User::addExp() {
     this->exp++;
 
 }
 
-
 void User::levelCheck() {
 
-    if (this->exp >= this->reqExp){
-        this->level++;
+    if (this->exp >= this->reqExp && this->level < 5){
+        this->level += 1;
         this->booklim++;
-        this->exp = this->exp - this->reqExp;
-        this->reqExp = level * 3;
+        this->exp = 0;
 
         cout << "You are now level " << this->level << " and your borrow limit has been increased to " << this->booklim << " books." << endl;
     }

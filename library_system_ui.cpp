@@ -271,11 +271,15 @@ void LibrarySystemUI::userPage(User currentUser) {
         // borrow book
 
         if (option == "1") {
+
+            bool limit = ls.checkBookLimit();
             int bookid;
             bool found = ls.searchBook();
             if (found == false) {
                 ls.WriteWithColor("There is no data in the list", COLOR_WARNING_MESSAGE);
-            } else {
+            }else if (limit == false){
+                ls.WriteWithColor("Borrow limit reached",COLOR_WARNING_MESSAGE);
+            }else {
                 cout << "-- Borrow book --" << endl
                      << "Input book's id >>";
                 cin >> bookid;
@@ -314,7 +318,6 @@ void LibrarySystemUI::userPage(User currentUser) {
 
                 ls.displayBorrowedBooks(currentUser);
                 cout << "Input Book Id you want to return >>";
-
 
                 cin >> bookId;
 

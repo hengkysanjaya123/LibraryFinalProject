@@ -40,7 +40,7 @@ public:
     string toLower(string text);
 
     bool IsUsernameExist(string username);
-
+    bool checkBookLimit();
     string calculateReturnDate(time_t now);
     void compareReturnDates(time_t now);
 

@@ -25,16 +25,24 @@ private:
 public:
     User();
     User(string n, string u, string p, string r);
+
     void setName(string name);
     string getName();
+
     void setUsername(string username);
     string getUsername();
+
     void setPassword(string password);
     string getPassword();
+
     void setRole(string role);
     string getRole();
+
     void setLevel(int level);
     int getLevel();
+
+    void setBooklim(int limit);
+    int getBooklim();
 
     void addExp();
     void levelCheck();
