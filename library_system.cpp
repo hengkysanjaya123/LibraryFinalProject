@@ -984,40 +984,32 @@ void LibrarySystem::compareReturnDates(time_t now){
     curr_tm = localtime(&now);
     vector<string> dates;
 
-    cout << curr_tm->tm_year;
     for (int i = 0; i < listTransaction.size(); i++){
 
         if (listTransaction[i].getStatus() == "borrowed" && listTransaction[i].getUser().getName() == currentUser.getName()){
-
             string duedate = listTransaction[i].getDuedate();
             dates = split(duedate,  '-');
-
-            struct tm currDate = {0,0,0,curr_tm->tm_mday,curr_tm->tm_mon+1,curr_tm->tm_year+1900};
-            struct tm dueDate = {0,0,0,stoi(dates[0]),stoi(dates[1]),stoi(dates[2])};
+            struct tm currDate = {0,0,0,curr_tm->tm_mday,curr_tm->tm_mon,curr_tm->tm_year};
+            struct tm dueDate = {0,0,0,stoi(dates[0]),stoi(dates[1])-1,stoi(dates[2])-1900};
 
             time_t curr_date = mktime(&currDate);
             time_t due_date = mktime(&dueDate);
-
-            if ( curr_date != (std::time_t)(-1) && due_date != (std::time_t)(-1) )
-            {
-                int difference = std::difftime(curr_date, due_date / (60 * 60 * 24));
-
-                if (difference == -1){
+            if ( curr_date != (time_t)(-1) && due_date != (time_t)(-1) ) {
+                int difference = std::difftime(curr_date, due_date) / (60 * 60 * 24);
+                cout << difference << endl;
+                if (difference == -1) {
 
                     cout << "You have one day left to return " << listTransaction[i].getBook().getName() << endl;
-                }
-
-                else if (difference == 0){
+                } else if (difference == 0) {
 
                     cout << "Please return " << listTransaction[i].getBook().getName() << " today." << endl;
-                }
+                } else if (difference > 0) {
 
-                else if (difference > 0){
-
-                    cout << listTransaction[i].getBook().getName() << " is " << difference << " day(s) late on return.\n"
+                    cout << listTransaction[i].getBook().getName() << " is " << difference
+                         << " day(s) late on return.\n"
                          << "You will be fined $1 for each day the book isn't returned." << endl;
 
-                    cout <<  "Current fine: $" << difference << "." << endl;
+                    cout << "Current fine: $" << difference << "." << endl;
                 }
             }
 
@@ -1065,8 +1057,10 @@ bool LibrarySystem::addTransaction(int bookPosition) {
         }
     }
 
-    char date_string[100];
-    strftime(date_string, 50, "%d %B %Y", curr_tm);
+    //char date_string[100];
+    //strftime(date_string, 50, "%d %B %Y", curr_tm);
+    string date_string = "";
+    date_string = date_string + to_string(curr_tm->tm_mday) + "-" + to_string(curr_tm->tm_mon) + "-" + to_string(curr_tm->tm_year);
 
     Transaction t(currentUser, listBook[bookPosition], "borrowed", date_string, returnDate, "", 0);
     listTransaction.push_back(t);
