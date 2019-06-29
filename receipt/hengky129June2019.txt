@@ -2,7 +2,7 @@
 =                    HR Library                    =
 ====================================================
 
-Borrow Date : 26 June 2019
+Borrow Date : 29 June 2019
 User : hengky
 Book : The Visual MBA
 Return date : 

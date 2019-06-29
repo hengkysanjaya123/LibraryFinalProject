@@ -75,16 +75,17 @@ bool LibrarySystem::IsUsernameExist(string username) {
     return false;
 }
 
-bool LibrarySystem::checkBookLimit(){
+bool LibrarySystem::checkBookLimit() {
 
     int currBorrowed = 0;
-    for (int i = 0; i < listTransaction.size(); i++){
+    for (int i = 0; i < listTransaction.size(); i++) {
 
-        if (listTransaction[i].getStatus() == "borrowed" && listTransaction[i].getUser().getName() == currentUser.getName()){
+        if (listTransaction[i].getStatus() == "borrowed" &&
+            listTransaction[i].getUser().getName() == currentUser.getName()) {
 
             currBorrowed++;
 
-            if (currBorrowed >= currentUser.getBooklim()){
+            if (currBorrowed >= currentUser.getBooklim()) {
 
                 return false;
 
@@ -233,7 +234,7 @@ bool LibrarySystem::searchBook() {
     bool found = false;
     vector<int> listFound;
 
-    char ckey[key.size()+1];
+    char ckey[key.size() + 1];
     strcpy(ckey, key.c_str());
 
     KMPSearchPattern ksp;
@@ -241,29 +242,29 @@ bool LibrarySystem::searchBook() {
     for (int i = 0; i < listBook.size(); ++i) {
         if (suboption_book_search == "1") {
             string name = toLower(listBook[i].getName());
-            char cstr[name.size()+1];
-            strcpy(cstr,name.c_str());
+            char cstr[name.size() + 1];
+            strcpy(cstr, name.c_str());
 
 
-            if (ksp.KMPSearch(ckey,cstr) == 1) {
+            if (ksp.KMPSearch(ckey, cstr) == 1) {
                 found = true;
                 listFound.push_back(i);
             }
         } else if (suboption_book_search == "2") {
             string author = toLower(listBook[i].getAuthor());
-            char cstr[author.size()+1];
-            strcpy(cstr,author.c_str());
+            char cstr[author.size() + 1];
+            strcpy(cstr, author.c_str());
 
-            if (ksp.KMPSearch(ckey,cstr) == 1) {
+            if (ksp.KMPSearch(ckey, cstr) == 1) {
                 found = true;
                 listFound.push_back(i);
             }
         } else if (suboption_book_search == "3") {
             string category = toLower(listBook[i].getCategory().getName());
-            char cstr[category.size()+1];
-            strcpy(cstr,category.c_str());
+            char cstr[category.size() + 1];
+            strcpy(cstr, category.c_str());
 
-            if (ksp.KMPSearch(ckey,cstr) == 1) {
+            if (ksp.KMPSearch(ckey, cstr) == 1) {
                 found = true;
                 listFound.push_back(i);
             }
@@ -919,8 +920,9 @@ vector<string> LibrarySystem::getTransactionsinFormat() {
     for (int i = 0; i < listTransaction.size(); i++) {
         stringstream ss;
         ss << listTransaction[i].getUser().getUsername() << "," << listTransaction[i].getBook().getId() << ","
-           << listTransaction[i].getStatus() << "," << listTransaction[i].getDate() << "," << listTransaction[i].getDuedate()
-           <<"," <<  listTransaction[i].getReview() << "," << listTransaction[i].getRating()
+           << listTransaction[i].getStatus() << "," << listTransaction[i].getDate() << ","
+           << listTransaction[i].getDuedate()
+           << "," << listTransaction[i].getReview() << "," << listTransaction[i].getRating()
            << "\n";
         result.push_back(ss.str());
     }
@@ -928,7 +930,7 @@ vector<string> LibrarySystem::getTransactionsinFormat() {
     return result;
 }
 
-string LibrarySystem::calculateReturnDate(time_t now){
+string LibrarySystem::calculateReturnDate(time_t now) {
 
     tm *curr_tm;
     curr_tm = localtime(&now);
@@ -941,32 +943,26 @@ string LibrarySystem::calculateReturnDate(time_t now){
 
     day += 21;
 
-    if ((day > 28 && month == 2) &&  (year%4!=0)){
+    if ((day > 28 && month == 2) && (year % 4 != 0)) {
 
         month = month + 1;
         day = day - 28;
-    }
-
-    else if ((day > 29 && month == 2) && ((year%4==0 && year%100 != 0) || year%400 == 0)){
+    } else if ((day > 29 && month == 2) && ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)) {
 
         month = month + 1;
         day = day - 29;
-    }
-    else if (day > 31 && (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)){
+    } else if (day > 31 &&
+               (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)) {
 
-        if (month == 12){
+        if (month == 12) {
             year = year + 1;
             month = 1;
             day = day - 31;
-        }
-
-        else{
+        } else {
             month = month + 1;
             day = day - 31;
         }
-    }
-
-    else if (day > 30 && (month == 4 || month == 6 || month == 9 || month == 11)){
+    } else if (day > 30 && (month == 4 || month == 6 || month == 9 || month == 11)) {
 
         month = month + 1;
         day = day - 31;
@@ -978,15 +974,20 @@ string LibrarySystem::calculateReturnDate(time_t now){
 
 }
 
-void LibrarySystem::compareReturnDates(time_t now){
+void LibrarySystem::compareReturnDates(time_t now) {
 
-    tm* curr_tm;
+    tm *curr_tm;
     curr_tm = localtime(&now);
+
+
     vector<string> dates;
 
-    for (int i = 0; i < listTransaction.size(); i++){
+    cout << "Current Date Time : " << curr_tm->tm_mday << " " << curr_tm->tm_mon << " " << curr_tm->tm_year;
+    for (int i = 0; i < listTransaction.size(); i++) {
 
-        if (listTransaction[i].getStatus() == "borrowed" && listTransaction[i].getUser().getName() == currentUser.getName()){
+        if (listTransaction[i].getStatus() == "borrowed" &&
+            listTransaction[i].getUser().getName() == currentUser.getName()) {
+
             string duedate = listTransaction[i].getDuedate();
             dates = split(duedate,  '-');
             struct tm currDate = {0,0,0,curr_tm->tm_mday,curr_tm->tm_mon,curr_tm->tm_year};
@@ -995,8 +996,7 @@ void LibrarySystem::compareReturnDates(time_t now){
             time_t curr_date = mktime(&currDate);
             time_t due_date = mktime(&dueDate);
             if ( curr_date != (time_t)(-1) && due_date != (time_t)(-1) ) {
-                int difference = std::difftime(curr_date, due_date) / (60 * 60 * 24);
-                cout << difference << endl;
+                int difference = difftime(curr_date, due_date) / (60 * 60 * 24);
                 if (difference == -1) {
 
                     cout << "You have one day left to return " << listTransaction[i].getBook().getName() << endl;
@@ -1046,7 +1046,7 @@ bool LibrarySystem::addTransaction(int bookPosition) {
 //    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
 
     time_t now = time(0);
-    tm* curr_tm;
+    tm *curr_tm;
     curr_tm = localtime(&now);
 
     string returnDate = calculateReturnDate(now);
@@ -1082,9 +1082,9 @@ bool LibrarySystem::addTransaction(int bookPosition) {
                                                                                               "Book : " +
                          listBook[bookPosition].getName() + "\n"
                                                             "Return date : " + t.getDuedate() + "\n"
-                                                            "\n\n"
-                                                            "----------------------------------------------------\n"
-                                                            "                      Thank You\n";
+                                                                                                "\n\n"
+                                                                                                "----------------------------------------------------\n"
+                                                                                                "                      Thank You\n";
         file << receipt;
     }
 
@@ -1094,7 +1094,9 @@ bool LibrarySystem::addTransaction(int bookPosition) {
 }
 
 // function overloading to add transaction
-bool LibrarySystem::addTransaction(string username, int bookId, string status, string date, string duedate, string review, int rating) {
+bool
+LibrarySystem::addTransaction(string username, int bookId, string status, string date, string duedate, string review,
+                              int rating) {
 
     time_t now = time(0);
     tm *ltm = localtime(&now);
