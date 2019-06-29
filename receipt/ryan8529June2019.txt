@@ -2,9 +2,9 @@
 =                    HR Library                    =
 ====================================================
 
-Borrow Date : 26 June 2019
-User : hengky
-Book : The Visual MBA
+Borrow Date : 29 June 2019
+User : ryan
+Book : Great Indian Novel The
 Return date : 
 
 
