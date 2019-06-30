@@ -8,14 +8,15 @@ User::User(){
 
 }
 
-User::User(string n, string u, string p, string r){
+User::User(string n, string u, string p, string r, int level, int booklim, int reqExp, int exp){
     this->name = n;
     this->username = u;
     this->password = p;
     this->role = r;
-    this->level = 1;
-    this->booklim = 2;
-    this->reqExp = 3;
+    this->level = level;
+    this->booklim = booklim;
+    this->reqExp = reqExp;
+    this->exp = exp;
 }
 
 void User::setName(string name) {
@@ -62,11 +63,27 @@ void User::setBooklim(int limit) {
     this->booklim = limit;
 }
 
+int User::getExp() {
+    return this->exp;
+}
+
+void User::setExp(int exp) {
+    this->exp = exp;
+}
+
+int User::getReqExp() {
+    return this->reqExp;
+}
+
+void User::setreqExp(int reqExp) {
+    this->reqExp = reqExp;
+}
+
 int User::getBooklim() {
     return this->booklim;
 }
 void User::addExp() {
-    this->exp++;
+    this->exp += 1;
 
 }
 

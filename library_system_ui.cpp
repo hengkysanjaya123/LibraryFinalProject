@@ -142,7 +142,7 @@ void LibrarySystemUI::run() {
 
     vector<vector<string>> dataUser = readFile("user.csv");
     for (auto i : dataUser) {
-        ls.addUser(User(i[0], i[1], i[2], i[3]));
+        ls.addUser(User(i[0], i[1], i[2], i[3],stoi(i[4]),stoi(i[5]),stoi(i[6]),stoi(i[7])));
     }
 //    ls.addUser(User("test", "test", "test", "A"));
 //    ls.addUser(User("coba", "coba", "coba", "U"));
@@ -228,7 +228,7 @@ void LibrarySystemUI::run() {
                 }
             }
 
-            ls.addUser(User(name, username, password, "U"));
+            ls.addUser(User(name, username, password, "U",1,2,3,0));
 
             ls.WriteWithColor("Register success", COLOR_SUCCESS_MESSAGE);
         }
@@ -331,7 +331,7 @@ void LibrarySystemUI::userPage(User currentUser) {
             }
             if (ls.returnBook(bookId)) {
                 ls.WriteWithColor("Return book success", COLOR_SUCCESS_MESSAGE);
-                currentUser.addExp();
+
             } else {
                 ls.WriteWithColor("Sorry, You dont borrow this book", COLOR_WARNING_MESSAGE);
             }
@@ -752,7 +752,7 @@ void LibrarySystemUI::userPage(User currentUser) {
                         cout << "Role [L = Library, A = Admin]>>";
                         getline(cin, role);
 
-                        ls.addUser(User(name, username, password, role));
+                        ls.addUser(User(name, username, password, role,1,2,3,0));
                     }
                         // update user
                     else if (suboption_user == "2") {

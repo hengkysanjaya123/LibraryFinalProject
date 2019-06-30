@@ -19,12 +19,13 @@ private:
 
     int level;
     int booklim;
-    int exp;
     int reqExp;
+    int exp;
+
 
 public:
     User();
-    User(string n, string u, string p, string r);
+    User(string n, string u, string p, string r, int level, int booklim, int reqExp, int exp);
 
     void setName(string name);
     string getName();
@@ -43,6 +44,12 @@ public:
 
     void setBooklim(int limit);
     int getBooklim();
+
+    void setExp(int exp);
+    int getExp();
+
+    void setreqExp(int reqExp);
+    int getReqExp();
 
     void addExp();
     void levelCheck();

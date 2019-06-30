@@ -133,8 +133,10 @@ vector<string> LibrarySystem::getUsersinFormat() {
 
     for (int i = 0; i < listUser.size(); i++) {
         stringstream ss;
+        cout << listUser[i].getExp() << endl;
         ss << listUser[i].getName() << "," << listUser[i].getUsername() << "," << listUser[i].getPassword() << ","
-           << listUser[i].getRole() << "\n";
+           << listUser[i].getRole() << "," << listUser[i].getLevel() << "," << listUser[i].getBooklim() << ","
+           << listUser[i].getReqExp() << "," << listUser[i].getExp() << "\n";
         result.push_back(ss.str());
     }
 
@@ -1060,7 +1062,7 @@ bool LibrarySystem::addTransaction(int bookPosition) {
     //char date_string[100];
     //strftime(date_string, 50, "%d %B %Y", curr_tm);
     string date_string = "";
-    date_string = date_string + to_string(curr_tm->tm_mday) + "-" + to_string(curr_tm->tm_mon) + "-" + to_string(curr_tm->tm_year);
+    date_string = date_string + to_string(curr_tm->tm_mday) + "-" + to_string(curr_tm->tm_mon+1) + "-" + to_string(curr_tm->tm_year+1900);
 
     Transaction t(currentUser, listBook[bookPosition], "borrowed", date_string, returnDate, "", 0);
     listTransaction.push_back(t);
@@ -1148,8 +1150,14 @@ bool LibrarySystem::returnBook(int bookId) {
             cin >> rating;
             listTransaction[i].setRating(rating);
 
-            currentUser.addExp();
-            currentUser.levelCheck();
+            for (int i = 0; i <listUser.size(); i++){
+
+                if (listUser[i].getUsername() == currentUser.getUsername()){
+
+                    listUser[i].addExp();
+                    listUser[i].levelCheck();
+                }
+            }
 
             cout << "Thank you" << endl;
 
