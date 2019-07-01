@@ -133,7 +133,6 @@ vector<string> LibrarySystem::getUsersinFormat() {
 
     for (int i = 0; i < listUser.size(); i++) {
         stringstream ss;
-        cout << listUser[i].getExp() << endl;
         ss << listUser[i].getName() << "," << listUser[i].getUsername() << "," << listUser[i].getPassword() << ","
            << listUser[i].getRole() << "," << listUser[i].getLevel() << "," << listUser[i].getBooklim() << ","
            << listUser[i].getReqExp() << "," << listUser[i].getExp() << "\n";
@@ -984,7 +983,7 @@ void LibrarySystem::compareReturnDates(time_t now) {
 
     vector<string> dates;
 
-    cout << "Current Date Time : " << curr_tm->tm_mday << " " << curr_tm->tm_mon << " " << curr_tm->tm_year;
+    cout << "Current Date Time : " << curr_tm->tm_mday << " " << curr_tm->tm_mon+1 << " " << curr_tm->tm_year+1900;
     for (int i = 0; i < listTransaction.size(); i++) {
 
         if (listTransaction[i].getStatus() == "borrowed" &&
@@ -1127,6 +1126,7 @@ LibrarySystem::addTransaction(string username, int bookId, string status, string
 bool LibrarySystem::returnBook(int bookId) {
 
     int i = 0;
+    bool valInp = false;
     for (Transaction t : listTransaction) {
         if (t.getUser().getUsername() == currentUser.getUsername() && t.getBook().getId() == bookId &&
             t.getStatus() == "borrowed") {
@@ -1134,21 +1134,54 @@ bool LibrarySystem::returnBook(int bookId) {
             listTransaction[i].setStatus("returned");
 
             string choice;
-            cout << "Would you like to give your review of this book ? (Y/N)" << endl;
-            cin >> choice;
             string review = "";
-            if (choice == "Y" || choice == "y") {
-                cout << "Enter your review >>" << endl;
-                cin.ignore();
-                getline(cin, review);
-            }
+            while (valInp == false) {
+                cout << "Would you like to give your review of this book ? (Y/N)" << endl;
+                cin >> choice;
 
+
+                if (choice == "Y" || choice == "y") {
+                    cout << "Enter your review >>" << endl;
+                    cin.ignore();
+                    getline(cin, review);
+                    valInp = true;
+                }
+                else if (choice == "N" || choice == "n"){
+                    valInp = true;
+
+                }
+                else{
+                    WriteWithColor("Invalid Input",COLOR_WARNING_MESSAGE);
+
+                }
+            }
             listTransaction[i].setReview(review);
 
-            int rating;
-            cout << "Enter rating (1-5) >>" << endl;
-            cin >> rating;
-            listTransaction[i].setRating(rating);
+            string rating;
+            valInp = false;
+            while (valInp == false) {
+                start:
+                cout << "Enter rating (1-5) >>" << endl;
+                cin >> rating;
+
+                for (int i = 0; i < rating.length(); i++) {
+
+                    if (!isdigit(rating[i])) {
+                        WriteWithColor("Please input a number", COLOR_WARNING_MESSAGE);
+                        goto start;
+                    }
+                }
+
+                if (stoi(rating) > 5 || stoi(rating) < 0){
+
+                    WriteWithColor("Please input a valid number",COLOR_WARNING_MESSAGE);
+                }
+
+                else{
+                    valInp = true;
+                }
+            }
+            listTransaction[i].setRating(stoi(rating));
 
             for (int i = 0; i <listUser.size(); i++){
 
