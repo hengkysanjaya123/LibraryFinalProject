@@ -228,7 +228,6 @@ bool LibrarySystem::searchBook() {
     }
     cin.ignore();
     getline(cin, key);
-//    cin >> key;
     key = toLower(key);
     int keyLength = key.size();
 
@@ -856,7 +855,6 @@ void LibrarySystem::viewHighestRatedBooks() {
         }
 
         listBook[i].setRating(rating);
-//        b.setRating(rating);
         i++;
     }
 
@@ -941,6 +939,7 @@ vector<string> LibrarySystem::getTransactionsinFormat() {
     return result;
 }
 
+// function to calculate the return date
 string LibrarySystem::calculateReturnDate(time_t now) {
 
     tm *curr_tm;
@@ -954,6 +953,7 @@ string LibrarySystem::calculateReturnDate(time_t now) {
 
     day += 21;
 
+    // case of leap year
     if ((day > 28 && month == 2) && (year % 4 != 0)) {
 
         month = month + 1;
@@ -962,6 +962,7 @@ string LibrarySystem::calculateReturnDate(time_t now) {
 
         month = month + 1;
         day = day - 29;
+        // case of months with 31 days
     } else if (day > 31 &&
                (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)) {
 
@@ -973,6 +974,7 @@ string LibrarySystem::calculateReturnDate(time_t now) {
             month = month + 1;
             day = day - 31;
         }
+        // case of days with 30 days
     } else if (day > 30 && (month == 4 || month == 6 || month == 9 || month == 11)) {
 
         month = month + 1;
@@ -985,6 +987,7 @@ string LibrarySystem::calculateReturnDate(time_t now) {
 
 }
 
+//function to calculate difference bewteen the current day and the due dates
 void LibrarySystem::compareReturnDates(time_t now) {
 
     tm *curr_tm;
@@ -1031,6 +1034,7 @@ void LibrarySystem::compareReturnDates(time_t now) {
 
 }
 
+//function to split the string into
 vector<string> LibrarySystem::split(string text, char delimiter) {
     int length = text.length();
     vector<string> result;
@@ -1054,8 +1058,6 @@ vector<string> LibrarySystem::split(string text, char delimiter) {
 
 // function to add transaction
 bool LibrarySystem::addTransaction(int bookPosition) {
-//    auto now = std::chrono::system_clock::now();
-//    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
 
     time_t now = time(0);
     tm *curr_tm;
@@ -1069,8 +1071,6 @@ bool LibrarySystem::addTransaction(int bookPosition) {
         }
     }
 
-    //char date_string[100];
-    //strftime(date_string, 50, "%d %B %Y", curr_tm);
     string date_string = "";
     date_string = date_string + to_string(curr_tm->tm_mday) + "-" + to_string(curr_tm->tm_mon + 1) + "-" +
                   to_string(curr_tm->tm_year + 1900);
@@ -1107,8 +1107,7 @@ bool LibrarySystem::addTransaction(int bookPosition) {
 }
 
 // function overloading to add transaction
-bool
-LibrarySystem::addTransaction(string username, int bookId, string status, string date, string duedate, string review,
+bool LibrarySystem::addTransaction(string username, int bookId, string status, string date, string duedate, string review,
                               int rating) {
 
     time_t now = time(0);
@@ -1282,35 +1281,4 @@ void LibrarySystem::viewAllTransactions() {
         ResetTextColor();
     }
 }
-
-//		list<User>* getListUser(){
-//			return &(this->listUser);
-//		}
-
-//		template<class T>
-//		void add(T obj, list<T>& list){
-//			list.push_back(obj);
-//		}
-
-//		template<class T>
-//		void remove(T obj, list<T>& list){
-//			for(int i = 0;i < list.size();i++){
-//				if(list[i] == obj){
-//					list.remove(list[i]);
-//					break;
-//				}
-//			}
-//		}
-
-//		template<class T>
-//		void update(T beforeObj, list<T> list, T afterObj){
-//			for(int i = 0;i < list.size();i++){
-//				if(list[i] == beforeObj){
-//					list[i] = afterObj;
-//					break;
-//				}
-//			}
-//		}
-
-
 

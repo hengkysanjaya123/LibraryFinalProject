@@ -336,41 +336,7 @@ void LibrarySystemUI::userPage(User currentUser) {
                 ls.WriteWithColor("Sorry, You dont borrow this book", COLOR_WARNING_MESSAGE);
             }
         }
-            // view all books
-//        else if (option == 3) {
-//
-//            time_t theTime = time(NULL);
-//            struct tm *currTime = localtime(&theTime);
-//
-//            day = to_string(currTime->tm_mday);
-//            month = to_string(currTime->tm_mon + 1);
-//            year = to_string(currTime->tm_year + 1900);
-//
-//            date = year + "-" + month + "-" + day;
-//
-//            ls.WriteWithColor("View By:\n"
-//                              "1. Rating         \n"
-//                              "2. Amount Borrowed\n"
-//                              ">>", COLOR_OPTIONS);
-//
-//            cin >> topBookoption;
-//
-//            ls.WriteWithColor("Time Span: \n"
-//                              "1. This Month \n"
-//                              "2. This Year  \n"
-//                              "3. All Time   \n"
-//                              ">>", COLOR_OPTIONS);
-//
-//            cin >> timeSpan;
-//
-//            if (topBookoption == 1) {
-//                ls.displayTopRatedBooks(date, timeSpan);
-//            } else if (topBookoption == 2) {
-//                ls.displayTopBorrowedBooks(date, timeSpan);
-//            }
-//
-//
-//        }
+
         else if (option == "3") {
             cout << "-- View all books --" << endl;
             ls.displayBooks();
@@ -489,12 +455,9 @@ void LibrarySystemUI::userPage(User currentUser) {
                                 }
                             }
 
-//                        cout << "position" << pos << endl;
                             Category c = ls.getCategory(pos);
-//                        cout << "category name" << c.getName() << endl;
 
                             Book b = Book(b_name, b_author, b_stock, c);
-//                        cout << "category name2 " << b.getCategory().getName() << endl;
                             ls.addBook(b);
 
                             ls.WriteWithColor("~ Book added successfully ~", COLOR_SUCCESS_MESSAGE);
