@@ -450,12 +450,14 @@ void LibrarySystemUI::userPage(User currentUser) {
                             int b_stock;
 
                             cout << "book's name >>";
-                            cin >> b_name;
+                            cin.ignore();
+                            getline(cin, b_name);
 
                             cout << "book's author >>";
-                            cin >> b_author;
+                            getline(cin, b_author);
 
                             cout << "book's stock >>";
+                            cin.ignore();
                             cin >> b_stock;
 
                             int pos;
@@ -520,12 +522,14 @@ void LibrarySystemUI::userPage(User currentUser) {
                                 int b_stock;
 
                                 cout << "book's name >>";
-                                cin >> b_name;
+                                cin.ignore();
+                                getline(cin, b_name);
 
                                 cout << "book's author >>";
-                                cin >> b_author;
+                                getline(cin, b_author);
 
                                 cout << "book's stock >>";
+                                cin.ignore();
                                 cin >> b_stock;
 
                                 int pos;

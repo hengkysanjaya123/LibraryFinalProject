@@ -983,7 +983,7 @@ void LibrarySystem::compareReturnDates(time_t now) {
 
     vector<string> dates;
 
-    cout << "Current Date Time : " << curr_tm->tm_mday << " " << curr_tm->tm_mon+1 << " " << curr_tm->tm_year+1900;
+    cout << "Current Date Time : " << curr_tm->tm_mday << " " << curr_tm->tm_mon+1 << " " << curr_tm->tm_year+1900 << endl;
     for (int i = 0; i < listTransaction.size(); i++) {
 
         if (listTransaction[i].getStatus() == "borrowed" &&
