@@ -528,7 +528,6 @@ void LibrarySystemUI::userPage(User currentUser) {
                                 getline(cin, b_author);
 
                                 cout << "book's stock >>";
-                                cin.ignore();
                                 cin >> b_stock;
 
                                 int pos;
@@ -642,17 +641,28 @@ void LibrarySystemUI::userPage(User currentUser) {
                         else if (suboption_category == "2") {
                             cout << "-- Update category --" << endl;
                             bool re = ls.searchCategory();
-
+                            bool valInp = false;
                             if (re == false) {
                                 cout << "There is no data found" << endl;
                                 continue;
                             }
+                            string categoryId;
+                            while (valInp == false) {
+                                start:
+                                cout << "Please input category's Id >>";
 
-                            cout << "Please input category's Id >>";
-                            int categoryId;
+                                for (int i = 0 ; i < categoryId.length(); i++){
+
+                                    if (!isdigit(categoryId[i])){
+                                        ls.WriteWithColor("Please Input a number",COLOR_WARNING_MESSAGE);
+                                        goto start;
+                                    }
+                                }
+                                valInp = true;
+                            }
                             cin >> categoryId;
 
-                            int pos = ls.searchCategory(categoryId);
+                            int pos = ls.searchCategory(stoi(categoryId));
                             if (pos != -1) {
                                 string c_name;
 
