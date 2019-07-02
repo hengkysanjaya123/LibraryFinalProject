@@ -288,17 +288,27 @@ bool LibrarySystem::searchBook() {
         int n_data = 0;
         for (int i : listFound) {
             int nBorrowed = 0;
+            int nRating = 0, totalRating = 0;
             for (Transaction t : listTransaction) {
                 if (t.getBook().getId() == listBook[i].getId() && t.getStatus() == "borrowed") {
                     nBorrowed += 1;
                 }
+
+                if (t.getBook().getId() == listBook[i].getId() && t.getRating() != 0) {
+                    totalRating += t.getRating();
+                    nRating++;
+                }
             }
             int stock = listBook[i].getStock() - nBorrowed;
+            float rating = 0;
+            if (nRating != 0) {
+                rating = (float) totalRating / nRating;
+            }
 
-            printf("| %-5d | %-40s | %-25s | %-10d | %-10s | %-6d |\n", listBook[i].getId(),
+            printf("| %-5d | %-40s | %-25s | %-10d | %-10s | %-6.2f |\n", listBook[i].getId(),
                    listBook[i].getName().c_str(),
                    listBook[i].getAuthor().c_str(), stock, listBook[i].getCategory().getName().c_str(),
-                   listBook[i].getRating());
+                   rating);
 
             index++;
             n_data++;
@@ -983,20 +993,21 @@ void LibrarySystem::compareReturnDates(time_t now) {
 
     vector<string> dates;
 
-    cout << "Current Date Time : " << curr_tm->tm_mday << " " << curr_tm->tm_mon+1 << " " << curr_tm->tm_year+1900 << endl;
+    cout << "Current Date Time : " << curr_tm->tm_mday << " " << curr_tm->tm_mon + 1 << " " << curr_tm->tm_year + 1900
+         << endl;
     for (int i = 0; i < listTransaction.size(); i++) {
 
         if (listTransaction[i].getStatus() == "borrowed" &&
             listTransaction[i].getUser().getName() == currentUser.getName()) {
 
             string duedate = listTransaction[i].getDuedate();
-            dates = split(duedate,  '-');
-            struct tm currDate = {0,0,0,curr_tm->tm_mday,curr_tm->tm_mon,curr_tm->tm_year};
-            struct tm dueDate = {0,0,0,stoi(dates[0]),stoi(dates[1])-1,stoi(dates[2])-1900};
+            dates = split(duedate, '-');
+            struct tm currDate = {0, 0, 0, curr_tm->tm_mday, curr_tm->tm_mon, curr_tm->tm_year};
+            struct tm dueDate = {0, 0, 0, stoi(dates[0]), stoi(dates[1]) - 1, stoi(dates[2]) - 1900};
 
             time_t curr_date = mktime(&currDate);
             time_t due_date = mktime(&dueDate);
-            if ( curr_date != (time_t)(-1) && due_date != (time_t)(-1) ) {
+            if (curr_date != (time_t) (-1) && due_date != (time_t) (-1)) {
                 int difference = difftime(curr_date, due_date) / (60 * 60 * 24);
                 if (difference == -1) {
 
@@ -1061,7 +1072,8 @@ bool LibrarySystem::addTransaction(int bookPosition) {
     //char date_string[100];
     //strftime(date_string, 50, "%d %B %Y", curr_tm);
     string date_string = "";
-    date_string = date_string + to_string(curr_tm->tm_mday) + "-" + to_string(curr_tm->tm_mon+1) + "-" + to_string(curr_tm->tm_year+1900);
+    date_string = date_string + to_string(curr_tm->tm_mday) + "-" + to_string(curr_tm->tm_mon + 1) + "-" +
+                  to_string(curr_tm->tm_year + 1900);
 
     Transaction t(currentUser, listBook[bookPosition], "borrowed", date_string, returnDate, "", 0);
     listTransaction.push_back(t);
@@ -1145,13 +1157,11 @@ bool LibrarySystem::returnBook(int bookId) {
                     cin.ignore();
                     getline(cin, review);
                     valInp = true;
-                }
-                else if (choice == "N" || choice == "n"){
+                } else if (choice == "N" || choice == "n") {
                     valInp = true;
 
-                }
-                else{
-                    WriteWithColor("Invalid Input",COLOR_WARNING_MESSAGE);
+                } else {
+                    WriteWithColor("Invalid Input", COLOR_WARNING_MESSAGE);
 
                 }
             }
@@ -1172,20 +1182,18 @@ bool LibrarySystem::returnBook(int bookId) {
                     }
                 }
 
-                if (stoi(rating) > 5 || stoi(rating) < 0){
+                if (stoi(rating) > 5 || stoi(rating) < 0) {
 
-                    WriteWithColor("Please input a valid number",COLOR_WARNING_MESSAGE);
-                }
-
-                else{
+                    WriteWithColor("Please input a valid number", COLOR_WARNING_MESSAGE);
+                } else {
                     valInp = true;
                 }
             }
             listTransaction[i].setRating(stoi(rating));
 
-            for (int i = 0; i <listUser.size(); i++){
+            for (int i = 0; i < listUser.size(); i++) {
 
-                if (listUser[i].getUsername() == currentUser.getUsername()){
+                if (listUser[i].getUsername() == currentUser.getUsername()) {
 
                     listUser[i].addExp();
                     listUser[i].levelCheck();

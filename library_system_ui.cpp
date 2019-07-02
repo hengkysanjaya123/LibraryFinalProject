@@ -457,7 +457,6 @@ void LibrarySystemUI::userPage(User currentUser) {
                             getline(cin, b_author);
 
                             cout << "book's stock >>";
-                            cin.ignore();
                             cin >> b_stock;
 
                             int pos;
