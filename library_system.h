@@ -127,39 +127,6 @@ public:
     void viewAllTransactions();
 
     void testing(int a);
-
-
-
-
-
-    //		list<User>* getListUser(){
-    //			return &(this->listUser);
-    //		}
-
-    //		template<class T>
-    //		void add(T obj, list<T>& list){
-    //			list.push_back(obj);
-    //		}
-
-    //		template<class T>
-    //		void remove(T obj, list<T>& list){
-    //			for(int i = 0;i < list.size();i++){
-    //				if(list[i] == obj){
-    //					list.remove(list[i]);
-    //					break;
-    //				}
-    //			}
-    //		}
-
-    //		template<class T>
-    //		void update(T beforeObj, list<T> list, T afterObj){
-    //			for(int i = 0;i < list.size();i++){
-    //				if(list[i] == beforeObj){
-    //					list[i] = afterObj;
-    //					break;
-    //				}
-    //			}
-    //		}
 };
 
 
